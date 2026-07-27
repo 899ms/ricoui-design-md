@@ -41,9 +41,10 @@ or a formal SLA service.
 <p align="center">
 
   <img src="./docs/screenshot/en-editor.jpg" alt="RICOUI DESIGN editor in English" width="49%">
-    <img src="./docs/screenshot/en-brand.jpg" alt="RICOUI DESIGN Brand reference detail in English" width="49%">
+  <img src="./docs/screenshot/en-brand.jpg" alt="RICOUI DESIGN Brand reference detail in English" width="49%">
 </p>
 <p align="center">
+  <img src="./docs/screenshot/index-dark.jpg" alt="RICOUI DESIGN Brand reference detail in English" width="49%">
   <img src="./docs/screenshot/en-brands.jpg" alt="RICOUI DESIGN Brand reference library in English" width="49%">
 </p>
 
