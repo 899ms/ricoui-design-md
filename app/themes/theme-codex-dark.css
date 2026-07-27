@@ -1,0 +1,68 @@
+[data-theme="codex-dark"],
+.dark {
+  color-scheme: dark;
+
+  --background: #171717;
+  --foreground: #ececec;
+  --card: #1e1e1e;
+  --card-foreground: #ececec;
+  --popover: #1e1e1e;
+  --popover-foreground: #ececec;
+  --primary: #a8c4f0;
+  --primary-foreground: #111111;
+  --secondary: #262626;
+  --secondary-foreground: #d6d6d6;
+  --muted: #222222;
+  --muted-foreground: #a0a0a0;
+  --accent: rgba(168, 196, 240, 0.10);
+  --accent-foreground: #c4d6f4;
+  --destructive: #e86868;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.07);
+  --ring: rgba(168, 196, 240, 0.30);
+  --chart-1: #a8c4f0;
+  --chart-2: #80d4b0;
+  --chart-3: #d4a870;
+  --chart-4: #b8a8d0;
+  --chart-5: #c8c0b8;
+  --radius: 0.5rem;
+
+  --sidebar: rgba(22, 22, 22, 0.82);
+  --sidebar-foreground: #ececec;
+  --sidebar-primary: #a8c4f0;
+  --sidebar-primary-foreground: #111111;
+  --sidebar-accent: rgba(255, 255, 255, 0.06);
+  --sidebar-accent-foreground: #ececec;
+  --sidebar-border: rgba(255, 255, 255, 0.07);
+  --sidebar-ring: rgba(168, 196, 240, 0.22);
+
+  --shadow-sm:
+    0 1px 2px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  --shadow-md: 0 18px 44px rgba(0, 0, 0, 0.26), 0 2px 10px rgba(0, 0, 0, 0.20);
+  --shadow-lg: 0 34px 80px rgba(0, 0, 0, 0.34), 0 14px 32px rgba(0, 0, 0, 0.28);
+  --shadow-btn:
+    0 1px 1px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  --glow: rgba(168, 196, 240, 0.14);
+  --glow-strong: rgba(168, 196, 240, 0.28);
+
+  --surface-glass: rgba(20, 20, 20, 0.78);
+  --surface-raised: rgba(30, 30, 30, 0.92);
+  --surface-subtle: rgba(255, 255, 255, 0.04);
+  --surface-highlight: rgba(255, 255, 255, 0.06);
+  --grain: rgba(255, 255, 255, 0.025);
+
+  --body-sheen: rgba(255, 255, 255, 0.018);
+  --ambient-primary: rgba(168, 196, 240, 0.035);
+  --ambient-secondary: rgba(128, 212, 176, 0.018);
+  --app-bg-start: rgba(255, 255, 255, 0.022);
+  --app-bg-end: rgba(23, 23, 23, 0.94);
+  --chrome-shadow: 0 1px 28px rgba(0, 0, 0, 0.18);
+  --work-surface-base: #191919;
+  --editor-canvas-top: #1b1b1b;
+  --editor-canvas-base: #171717;
+  --editor-grid-line: rgba(255, 255, 255, 0.03);
+  --editor-paper-glaze-start: rgba(255, 255, 255, 0.028);
+  --editor-paper-glaze-end: rgba(255, 255, 255, 0.008);
+  --editor-paper-base: rgba(26, 26, 26, 0.94);
+  --editor-paper-inset: rgba(255, 255, 255, 0.04);
+}

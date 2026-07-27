@@ -1,0 +1,7 @@
+"use client"
+
+import { GuidePage } from "./components/guide-page"
+
+export default function Page() {
+  return <GuidePage />
+}

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta �?Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --white:#ffffff;
+  --off-white:#f0f2f5;
+  --light-gray:#e4e6eb;
+  --medium-gray:#bec3c9;
+  --gray-text:#65676b;
+  --dark-text:#1c1e21;
+  --facebook-blue:#0668e1;
+  --blue-hover:#0557c7;
+  --blue-pressed:#044ba8;
+  --blue-light:#e7f3ff;
+  --green:#42b72a;
+  --red:#fa3e3e;
+  --yellow:#f7b928;
+  --messenger-blue:#0084ff;
+
+  --r-sm:4px;--r-md:6px;--r-lg:8px;--r-xl:12px;
+  --r-full:50%;--r-pill:9999px;
+}
+
+::selection{background:rgba(6,104,225,.2);color:var(--dark-text)}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter','Segoe UI',Helvetica,Arial,sans-serif;
+  background:var(--white);color:var(--dark-text);
+  font-size:15px;line-height:1.33;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+
+.page{max-width:960px;margin:0 auto;padding:0 32px 120px}
+
+/* ── NAV ── */
+.nav{
+  display:flex;justify-content:space-between;align-items:center;
+  height:56px;padding:0 16px;position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--light-gray);
+  margin:0 -32px;
+}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-wordmark{
+  font-size:20px;font-weight:700;letter-spacing:-.02px;
+  color:var(--facebook-blue);text-decoration:none;
+}
+.nav-tag{
+  font-size:11px;font-weight:600;color:var(--facebook-blue);
+  background:var(--blue-light);padding:3px 10px;border-radius:var(--r-pill);
+  letter-spacing:.02px;
+}
+.nav-url{font-size:12px;font-weight:500;color:var(--slate);text-decoration:none;padding:4px 10px;border-radius:var(--r-md);transition:color .2s}.nav-url:hover{color:var(--obsidian)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-link{
+  font-size:13px;font-weight:500;color:var(--gray-text);text-decoration:none;
+  padding:6px 12px;border-radius:var(--r-md);transition:all .2s;letter-spacing:.015px;
+}
+.nav-link:hover{color:var(--dark-text);background:var(--off-white)}
+.nav-link--active{color:var(--facebook-blue);font-weight:600}
+
+/* ── SECTIONS ── */
+.section{
+  padding:64px 0 0;
+  border-top:1px solid var(--light-gray);
+  margin-top:56px;
+}
+.section:first-of-type{border-top:none;margin-top:40px}
+.section-header{margin-bottom:32px}
+.section-label{
+  font-size:11px;font-weight:600;letter-spacing:.06px;
+  text-transform:uppercase;color:var(--facebook-blue);margin-bottom:8px;
+}
+.section-title{
+  font-size:28px;font-weight:700;letter-spacing:-.02px;line-height:1.2;
+  color:var(--dark-text);
+}
+.section-desc{
+  font-size:15px;line-height:1.4;color:var(--gray-text);
+  margin-top:8px;max-width:560px;
+}
+
+/* ── HERO ── */
+.hero{
+  padding:64px 0 40px;
+  border-bottom:1px solid var(--light-gray);
+  margin:0 -32px;padding-left:32px;padding-right:32px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(6,104,225,.08),transparent 70%);
+  border-radius:50%;filter:blur(80px);
+  right:-80px;top:-120px;pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(66,183,42,.06),transparent 70%);
+  border-radius:50%;filter:blur(60px);
+  left:20%;bottom:-80px;pointer-events:none;
+}
+.hero-label{
+  font-size:11px;font-weight:600;letter-spacing:.08px;
+  text-transform:uppercase;color:var(--green);margin-bottom:12px;
+}
+.hero-title{
+  font-size:clamp(32px,5vw,48px);font-weight:700;line-height:1.1;
+  letter-spacing:-.02em;color:var(--dark-text);
+}
+.hero-title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--facebook-blue),var(--messenger-blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-subtitle{
+  font-size:16px;line-height:1.4;color:var(--gray-text);
+  margin-top:16px;max-width:480px;
+}
+.hero-tags{display:flex;gap:8px;margin-top:24px;flex-wrap:wrap}
+.hero-tag{
+  font-size:11px;font-weight:500;color:var(--gray-text);
+  background:var(--off-white);padding:5px 12px;border-radius:var(--r-pill);
+  border:1px solid var(--light-gray);letter-spacing:.015px;
+}
+.hero-actions{display:flex;gap:12px;margin-top:24px}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:14px;font-weight:600;line-height:1;
+  letter-spacing:0;padding:8px 28px;border-radius:var(--r-md);
+  cursor:pointer;text-decoration:none;white-space:nowrap;
+  transition:all .15s;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--facebook-blue);color:var(--white);border:1px solid transparent}
+.btn-primary:hover{background:var(--blue-hover)}
+.btn-secondary{background:var(--white);color:var(--dark-text);border:1px solid var(--light-gray)}
+.btn-secondary:hover{background:var(--off-white);border-color:var(--medium-gray)}
+.btn-ghost{background:transparent;color:var(--facebook-blue);border:1px solid transparent}
+.btn-ghost:hover{background:var(--blue-light)}
+
+/* ── COLOR TOKENS ── */
+.color-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;
+}
+.color-token{
+  background:var(--white);border:1px solid var(--light-gray);
+  border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s;
+}
+.color-token:hover{border-color:var(--medium-gray)}
+.color-swatch{width:100%;height:72px}
+.color-info{padding:12px 14px}
+.color-name{font-size:13px;font-weight:600;color:var(--dark-text)}
+.color-hex{
+  font-size:12px;font-weight:500;color:var(--gray-text);margin-top:2px;
+  font-variant-numeric:tabular-nums;
+}
+.color-role{font-size:11px;color:var(--medium-gray);margin-top:4px;line-height:1.4}
+
+/* ── GRADIENT TOKENS ── */
+.gradient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.gradient-token{
+  border-radius:var(--r-lg);padding:20px;border:1px solid var(--light-gray);
+  min-height:100px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.gradient-name{font-size:12px;font-weight:500;color:var(--gray-text);letter-spacing:.015px;margin-bottom:4px}
+.gradient-desc{font-size:12px;color:var(--medium-gray);line-height:1.4}
+
+/* ── TYPE SCALE ── */
+.type-table{
+  display:flex;flex-direction:column;border:1px solid var(--light-gray);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.type-row{
+  display:grid;grid-template-columns:100px 1fr 200px;align-items:baseline;
+  padding:14px 20px;border-bottom:1px solid var(--light-gray);
+}
+.type-row:last-child{border-bottom:none}
+.type-row:hover{background:var(--off-white)}
+.type-meta{
+  font-size:10px;font-weight:600;color:var(--facebook-blue);
+  letter-spacing:.06px;text-transform:uppercase;
+}
+.type-sample{color:var(--dark-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.type-specs{
+  font-size:11px;color:var(--gray-text);text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── SPACING ── */
+.spacing-bars{display:flex;align-items:flex-end;gap:20px;height:120px}
+.spacing-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.spacing-bar{
+  width:100%;border-radius:var(--r-sm);
+  background:linear-gradient(180deg,var(--facebook-blue),var(--messenger-blue));
+  opacity:.3;transition:opacity .3s;
+}
+.spacing-col:hover .spacing-bar{opacity:.6}
+.spacing-val{font-size:11px;font-weight:600;color:var(--dark-text);letter-spacing:.015px}
+.spacing-name{font-size:10px;font-weight:500;color:var(--gray-text);letter-spacing:.015px}
+
+/* ── SHAPES ── */
+.shapes-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end}
+.shape-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.shape-box{
+  width:72px;height:72px;background:var(--off-white);
+  border:1.5px solid var(--light-gray);transition:all .3s cubic-bezier(.22,1,.36,1);
+}
+.shape-box:hover{border-color:var(--facebook-blue);transform:scale(1.06)}
+.shape-label{font-size:11px;font-weight:500;color:var(--gray-text);white-space:nowrap}
+.shape-value{
+  font-size:10px;font-weight:400;color:var(--medium-gray);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── DEPTH ── */
+.depth-row{
+  display:flex;align-items:center;gap:16px;padding:16px 0;
+  border-bottom:1px solid var(--light-gray);
+}
+.depth-row:last-child{border-bottom:none}
+.depth-swatch{
+  width:56px;height:56px;border-radius:var(--r-md);flex-shrink:0;
+}
+.depth-info{flex:1}
+.depth-name{font-size:14px;font-weight:600;color:var(--dark-text)}
+.depth-desc{font-size:12px;color:var(--gray-text);margin-top:2px}
+.depth-value{
+  font-size:12px;font-weight:500;color:var(--medium-gray);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── SURFACES ── */
+.surface-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.surface-item{
+  border-radius:var(--r-lg);padding:24px 16px;
+  text-align:center;border:1px solid var(--light-gray);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;min-height:100px;transition:transform .3s;
+}
+.surface-item:hover{transform:scale(1.02)}
+.surface-name{font-size:14px;font-weight:600;color:var(--dark-text)}
+.surface-val{
+  font-size:11px;font-weight:500;color:var(--gray-text);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── COMPONENTS ── */
+.component-card{
+  background:var(--white);border:1px solid var(--light-gray);
+  border-radius:var(--r-lg);padding:28px;margin-bottom:16px;
+  transition:border-color .2s;
+}
+.component-card:hover{border-color:var(--medium-gray)}
+.component-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.component-name{font-size:15px;font-weight:600;color:var(--dark-text)}
+.component-role{font-size:12px;color:var(--gray-text);margin-top:4px}
+.component-class{
+  font-size:11px;font-weight:600;color:var(--facebook-blue);
+  background:var(--blue-light);padding:3px 10px;border-radius:var(--r-pill);
+  font-family:'SFMono-Regular',Consolas,monospace;
+}
+.component-preview{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  padding:20px;background:var(--off-white);border-radius:var(--r-md);
+  border:1px solid var(--light-gray);
+}
+.component-desc{
+  font-size:12px;color:var(--gray-text);line-height:1.5;
+  margin-top:12px;max-width:480px;
+}
+
+/* ── DO/DON'T ── */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.guide-card{
+  border-radius:var(--r-lg);padding:24px;
+  border:1px solid var(--light-gray);
+}
+.guide-card--do{background:rgba(66,183,42,.04);border-color:rgba(66,183,42,.15)}
+.guide-card--dont{background:rgba(250,62,62,.04);border-color:rgba(250,62,62,.12)}
+.guide-label{font-size:11px;font-weight:600;letter-spacing:.06px;text-transform:uppercase;margin-bottom:14px}
+.guide-card--do .guide-label{color:var(--green)}
+.guide-card--dont .guide-label{color:var(--red)}
+.guide-list{
+  list-style:none;display:flex;flex-direction:column;gap:10px;
+}
+.guide-list li{
+  font-size:13px;line-height:1.4;padding-left:20px;position:relative;
+  color:var(--dark-text);
+}
+.guide-card--do .guide-list li::before{
+  content:'\2713';position:absolute;left:0;color:var(--green);font-weight:700;font-size:12px;
+}
+.guide-card--dont .guide-list li::before{
+  content:'\2717';position:absolute;left:0;color:var(--red);font-weight:700;font-size:12px;
+}
+
+/* ── FOOTER ── */
+.footer{
+  margin-top:80px;padding:24px 0;
+  border-top:1px solid var(--light-gray);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-left{font-size:14px;font-weight:500;color:var(--gray-text);opacity:.6}
+.footer-right{display:flex;gap:20px}
+.footer-link{
+  font-size:12px;font-weight:500;color:var(--gray-text);text-decoration:none;
+  transition:color .2s;
+}
+.footer-link:hover{color:var(--facebook-blue)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .page{padding:0 20px 80px}
+  .hero{margin:0 -20px;padding-left:20px;padding-right:20px;padding-top:40px}
+  .nav{margin:0 -20px}
+  .section-title{font-size:22px}
+  .type-row{grid-template-columns:70px 1fr;gap:8px}
+  .type-specs{display:none}
+  .guide-grid{grid-template-columns:1fr}
+  .color-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .hero-title{font-size:28px}
+}
+
+/* ── ENTRANCE ANIMATION ── */
+.section,.hero{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+.section.visible,.hero.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="#" class="nav-wordmark">Meta</a>
+      <span class="nav-tag">Design System</span>
+      <a href="https://www.meta.com" class="nav-url" target="_blank" rel="noopener">https://www.meta.com</a>
+    </div>
+    <div class="nav-right">
+      <a href="#colors" class="nav-link nav-link--active">Colors</a>
+      <a href="#typography" class="nav-link">Type</a>
+      <a href="#spacing" class="nav-link">Spacing</a>
+      <a href="#components" class="nav-link">Components</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Design System</div>
+    <h1 class="hero-title">Build for<br>the connected<br><em>world.</em></h1>
+    <p class="hero-subtitle">A clean social canvas with the signature Facebook Blue as the primary interactive color. Approachable, accessible, and built for connection.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">14 color tokens</span>
+      <span class="hero-tag">9 type steps</span>
+      <span class="hero-tag">4px grid</span>
+      <span class="hero-tag">4 surface levels</span>
+    </div>
+    <div class="hero-actions">
+      <a href="DESIGN.md" class="btn btn-primary" download>Download Spec</a>
+      <a href="theme.css" class="btn btn-secondary" download>theme.css</a>
+      <a href="tokens.json" class="btn btn-secondary" download>tokens.json</a>
+      <a href="variables.css" class="btn btn-secondary" download>variables.css</a>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <section class="section" id="colors">
+    <div class="section-header">
+      <div class="section-label">Foundation</div>
+      <h2 class="section-title">Color Tokens</h2>
+      <p class="section-desc">Clean light neutrals with Facebook Blue as the primary interactive accent. 14 tokens across surfaces, text, interaction, and status colors.</p>
+    </div>
+    <div class="color-grid">
+      <div class="color-token">
+        <div class="color-swatch" style="background:#ffffff;border-bottom:1px solid var(--light-gray)"></div>
+        <div class="color-info"><div class="color-name">White</div><div class="color-hex">#ffffff</div><div class="color-role">Primary page background</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#f0f2f5"></div>
+        <div class="color-info"><div class="color-name">Off-White</div><div class="color-hex">#f0f2f5</div><div class="color-role">Secondary surfaces, inputs</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#e4e6eb"></div>
+        <div class="color-info"><div class="color-name">Light Gray</div><div class="color-hex">#e4e6eb</div><div class="color-role">Borders, dividers</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#bec3c9"></div>
+        <div class="color-info"><div class="color-name">Medium Gray</div><div class="color-hex">#bec3c9</div><div class="color-role">Placeholders, muted icons</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#65676b"></div>
+        <div class="color-info"><div class="color-name">Gray Text</div><div class="color-hex">#65676b</div><div class="color-role">Secondary text, captions</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#1c1e21"></div>
+        <div class="color-info"><div class="color-name">Dark Text</div><div class="color-hex">#1c1e21</div><div class="color-role">Primary text, headings</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#0668e1"></div>
+        <div class="color-info"><div class="color-name">Facebook Blue</div><div class="color-hex">#0668e1</div><div class="color-role">Primary actions, links</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#0557c7"></div>
+        <div class="color-info"><div class="color-name">Blue Hover</div><div class="color-hex">#0557c7</div><div class="color-role">Hover state for blue elements</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#044ba8"></div>
+        <div class="color-info"><div class="color-name">Blue Pressed</div><div class="color-hex">#044ba8</div><div class="color-role">Pressed state for blue elements</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#e7f3ff"></div>
+        <div class="color-info"><div class="color-name">Blue Light</div><div class="color-hex">#e7f3ff</div><div class="color-role">Selected states, info banners</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#42b72a"></div>
+        <div class="color-info"><div class="color-name">Green</div><div class="color-hex">#42b72a</div><div class="color-role">Success, positive actions</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#fa3e3e"></div>
+        <div class="color-info"><div class="color-name">Red</div><div class="color-hex">#fa3e3e</div><div class="color-role">Error, destructive actions</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#f7b928"></div>
+        <div class="color-info"><div class="color-name">Yellow</div><div class="color-hex">#f7b928</div><div class="color-role">Warning, caution indicators</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#0084ff"></div>
+        <div class="color-info"><div class="color-name">Messenger Blue</div><div class="color-hex">#0084ff</div><div class="color-role">Messenger accents, chat</div></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:var(--dark-text);margin:32px 0 16px;letter-spacing:-.2px">Gradients</h3>
+    <div class="gradient-grid">
+      <div class="gradient-token" style="background:linear-gradient(135deg,rgba(6,104,225,.08) 0%,rgba(0,132,255,.06) 100%),var(--off-white)">
+        <div class="gradient-name">gradient-blue</div>
+        <div class="gradient-desc">Hero sections, gradient buttons, brand highlights</div>
+      </div>
+      <div class="gradient-token" style="background:linear-gradient(135deg,rgba(66,183,42,.08) 0%,rgba(91,216,67,.06) 100%),var(--off-white)">
+        <div class="gradient-name">gradient-green</div>
+        <div class="gradient-desc">Success celebrations, signup flows, positive states</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section" id="typography">
+    <div class="section-header">
+      <div class="section-label">Typography</div>
+      <h2 class="section-title">Type Scale</h2>
+      <p class="section-desc">Facebook Sans as primary typeface (Inter substitute). Clean geometric letterforms optimized for readability across all screen sizes.</p>
+    </div>
+    <div class="type-table">
+      <div class="type-row">
+        <span class="type-meta">Display</span>
+        <span class="type-sample" style="font-size:28px;font-weight:700;line-height:1.2;letter-spacing:-.02em">Build for everyone</span>
+        <span class="type-specs">32px / 1.20 / -0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Heading-lg</span>
+        <span class="type-sample" style="font-size:24px;font-weight:700;line-height:1.2;letter-spacing:-.02px">Connect with friends</span>
+        <span class="type-specs">28px / 1.20 / -0.02px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Heading</span>
+        <span class="type-sample" style="font-size:20px;font-weight:700;line-height:1.2;letter-spacing:-.02px">Section heading</span>
+        <span class="type-specs">24px / 1.20 / -0.02px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Heading-sm</span>
+        <span class="type-sample" style="font-size:17px;font-weight:700;line-height:1.25;letter-spacing:-.02px">Subsection heading</span>
+        <span class="type-specs">20px / 1.25 / -0.02px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Subheading</span>
+        <span class="type-sample" style="font-size:15px;font-weight:600;line-height:1.25;letter-spacing:-.02px">Card title or label</span>
+        <span class="type-specs">17px / 1.25 / -0.02px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Body</span>
+        <span class="type-sample" style="font-size:15px;font-weight:400;line-height:1.33">Default body text for readable content</span>
+        <span class="type-specs">15px / 1.33 / �?/span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Body-sm</span>
+        <span class="type-sample" style="font-size:13px;font-weight:400;line-height:1.38">Secondary text, timestamps, metadata</span>
+        <span class="type-specs">13px / 1.38 / �?/span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Caption</span>
+        <span class="type-sample" style="font-size:12px;font-weight:400;line-height:1.33">Helper text · Labels · Fine print</span>
+        <span class="type-specs">12px / 1.33 / �?/span>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;color:var(--dark-text);margin:32px 0 16px">Fonts</h3>
+    <div style="display:flex;flex-direction:column;border:1px solid var(--light-gray);border-radius:var(--r-lg);overflow:hidden">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--light-gray);display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:600;color:var(--facebook-blue);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">Primary</span>
+        <span style="font-size:16px;font-weight:600;color:var(--dark-text)">Facebook Sans</span>
+        <span style="font-size:11px;color:var(--gray-text)">400-700 · 12-32px</span>
+      </div>
+      <div style="padding:16px 20px;border-bottom:1px solid var(--light-gray);display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:600;color:var(--facebook-blue);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">System</span>
+        <span style="font-size:16px;font-weight:500;color:var(--dark-text)">Segoe UI</span>
+        <span style="font-size:11px;color:var(--gray-text)">System fallback · All sizes</span>
+      </div>
+      <div style="padding:16px 20px;border-bottom:1px solid var(--light-gray);display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:600;color:var(--facebook-blue);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">Mono</span>
+        <span style="font-size:16px;font-weight:500;color:var(--dark-text)">SF Mono</span>
+        <span style="font-size:11px;color:var(--gray-text)">400-500 · 12-14px · Code only</span>
+      </div>
+      <div style="padding:16px 20px;display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:600;color:var(--facebook-blue);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">Fallback</span>
+        <span style="font-size:16px;font-weight:500;color:var(--dark-text)">Inter</span>
+        <span style="font-size:11px;color:var(--gray-text)">Substitute for all above</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING & SHAPES -->
+  <section class="section" id="spacing">
+    <div class="section-header">
+      <div class="section-label">Layout</div>
+      <h2 class="section-title">Spacing & Shapes</h2>
+      <p class="section-desc">Base unit 4px. Comfortable density with social-friendly breathing room. 13-step spacing scale, 7 border radius values.</p>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;color:var(--dark-text);margin-bottom:16px">Spacing Scale (4px base)</h3>
+    <div class="spacing-bars">
+      <div class="spacing-col"><div class="spacing-bar" style="height:8px"></div><span class="spacing-val">4</span><span class="spacing-name">4px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:14px"></div><span class="spacing-val">8</span><span class="spacing-name">8px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:20px"></div><span class="spacing-val">12</span><span class="spacing-name">12px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:28px"></div><span class="spacing-val">16</span><span class="spacing-name">16px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:36px"></div><span class="spacing-val">24</span><span class="spacing-name">24px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:48px"></div><span class="spacing-val">32</span><span class="spacing-name">32px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:64px"></div><span class="spacing-val">48</span><span class="spacing-name">48px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:90px"></div><span class="spacing-val">96</span><span class="spacing-name">96px</span></div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;color:var(--dark-text);margin:32px 0 16px">Border Radius</h3>
+    <div class="shapes-row">
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:4px"></div>
+        <span class="shape-label">sm</span>
+        <span class="shape-value">4px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:6px"></div>
+        <span class="shape-label">default</span>
+        <span class="shape-value">6px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:8px"></div>
+        <span class="shape-label">cards</span>
+        <span class="shape-value">8px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:12px"></div>
+        <span class="shape-label">xl</span>
+        <span class="shape-value">12px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:16px"></div>
+        <span class="shape-label">2xl</span>
+        <span class="shape-value">16px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:50%"></div>
+        <span class="shape-label">avatar</span>
+        <span class="shape-value">50%</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:9999px"></div>
+        <span class="shape-label">pill</span>
+        <span class="shape-value">9999px</span>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;color:var(--dark-text);margin:32px 0 16px">Elevation</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-lg);background:var(--white);border:1px solid var(--light-gray)">
+        <span style="font-size:11px;font-weight:500;color:var(--gray-text);margin-bottom:4px">Flat</span>
+        <span style="font-size:10px;color:var(--medium-gray)">1px border</span>
+      </div>
+      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-lg);background:var(--white);box-shadow:0 1px 2px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.05)">
+        <span style="font-size:11px;font-weight:500;color:var(--gray-text);margin-bottom:4px">Elevated</span>
+        <span style="font-size:10px;color:var(--medium-gray)">Cards, dropdowns</span>
+      </div>
+      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-lg);background:var(--white);box-shadow:0 4px 12px rgba(0,0,0,.1),0 8px 24px rgba(0,0,0,.08)">
+        <span style="font-size:11px;font-weight:500;color:var(--gray-text);margin-bottom:4px">Floating</span>
+        <span style="font-size:10px;color:var(--medium-gray)">Modals, popovers</span>
+      </div>
+      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-lg);background:var(--white);box-shadow:0 0 0 2px var(--facebook-blue)">
+        <span style="font-size:11px;font-weight:500;color:var(--gray-text);margin-bottom:4px">Focus Ring</span>
+        <span style="font-size:10px;color:var(--medium-gray)">Active inputs</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPTH & SURFACES -->
+  <section class="section" id="depth">
+    <div class="section-header">
+      <div class="section-label">Elevation</div>
+      <h2 class="section-title">Depth & Surfaces</h2>
+      <p class="section-desc">Border-defined elevation over shadows. Clean white surfaces with subtle off-white differentiation. 4 distinct surface levels.</p>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;color:var(--dark-text);margin-bottom:12px">Depth Levels</h3>
+    <div style="margin-bottom:32px">
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#ffffff;border:1px solid var(--light-gray)"></div>
+        <div class="depth-info"><div class="depth-name">White</div><div class="depth-desc">Base page background, primary cards</div></div>
+        <div class="depth-value">Level 0</div>
+      </div>
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#f0f2f5;border:1px solid var(--light-gray)"></div>
+        <div class="depth-info"><div class="depth-name">Off-White</div><div class="depth-desc">Secondary sections, input backgrounds, page fills</div></div>
+        <div class="depth-value">Level 1</div>
+      </div>
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#e4e6eb;border:1px solid var(--light-gray)"></div>
+        <div class="depth-info"><div class="depth-name">Light Gray</div><div class="depth-desc">Borders, dividers, subtle elevation cues</div></div>
+        <div class="depth-value">Level 2</div>
+      </div>
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#ffffff;border:2px solid var(--light-gray);border-radius:8px"></div>
+        <div class="depth-info"><div class="depth-name">Card on White</div><div class="depth-desc">Elevated cards with border definition</div></div>
+        <div class="depth-value">Level 3</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;color:var(--dark-text);margin-bottom:12px">Surface System</h3>
+    <div class="surface-grid">
+      <div class="surface-item" style="background:#ffffff">
+        <span class="surface-name">White</span>
+        <span class="surface-val">#ffffff</span>
+      </div>
+      <div class="surface-item" style="background:#f0f2f5">
+        <span class="surface-name">Off-White</span>
+        <span class="surface-val">#f0f2f5</span>
+      </div>
+      <div class="surface-item" style="background:#e4e6eb">
+        <span class="surface-name">Light Gray</span>
+        <span class="surface-val">#e4e6eb</span>
+      </div>
+      <div class="surface-item" style="background:#ffffff;border-color:var(--light-gray);border-width:2px">
+        <span class="surface-name">Card</span>
+        <span class="surface-val">#ffffff + border</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section class="section" id="components">
+    <div class="section-header">
+      <div class="section-label">Components</div>
+      <h2 class="section-title">Button Variants</h2>
+      <p class="section-desc">Primary blue (Facebook Blue), secondary, and ghost variants for a clear interaction hierarchy across Meta's products.</p>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Primary Blue Button</div><div class="component-role">Main call to action �?highest visual weight</div></div>
+        <span class="component-class">.btn-primary</span>
+      </div>
+      <div class="component-preview">
+        <button class="btn btn-primary">Log In</button>
+        <button class="btn btn-primary" style="background:var(--blue-hover)">Hover state</button>
+      </div>
+      <div class="component-desc">Facebook Blue (#0668e1) background, White text, 6px radius. Hover darkens to #0557c7. Use exclusively for the single most important action.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Secondary Button</div><div class="component-role">Secondary actions, navigation</div></div>
+        <span class="component-class">.btn-secondary</span>
+      </div>
+      <div class="component-preview">
+        <button class="btn btn-secondary">Create new account</button>
+        <button class="btn btn-secondary" style="background:var(--off-white);border-color:var(--medium-gray)">Hover state</button>
+      </div>
+      <div class="component-desc">White background, Dark Text, 6px radius, Light Gray border. For less prominent actions that still need visual presence.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Ghost Button</div><div class="component-role">Tertiary actions, subtle interactions</div></div>
+        <span class="component-class">.btn-ghost</span>
+      </div>
+      <div class="component-preview">
+        <button class="btn btn-ghost">Forgot password?</button>
+        <button class="btn btn-ghost" style="background:var(--blue-light)">Hover state</button>
+      </div>
+      <div class="component-desc">Transparent background, Facebook Blue text, no border. For less prominent actions like "See more" or "Cancel."</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Text Link</div><div class="component-role">Inline links, navigation</div></div>
+        <span class="component-class">.text-link</span>
+      </div>
+      <div class="component-preview">
+        <a href="#" style="color:var(--facebook-blue);text-decoration:none;font-size:15px;font-weight:400">Sign up for Facebook</a>
+        <a href="#" style="color:var(--facebook-blue);text-decoration:underline;font-size:15px;font-weight:400">Hover with underline</a>
+      </div>
+      <div class="component-desc">Facebook Blue text, no underline by default, underline on hover. 15px body size. Used within text blocks.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Input Field</div><div class="component-role">User text input</div></div>
+        <span class="component-class">input</span>
+      </div>
+      <div class="component-preview">
+        <div style="display:flex;flex-direction:column;gap:12px;flex:1;max-width:360px">
+          <input type="text" placeholder="Email address or phone number" style="background:var(--off-white);border:1px solid var(--light-gray);border-radius:6px;padding:12px 16px;color:var(--dark-text);font-size:15px;font-family:inherit;outline:none">
+          <input type="text" value="Focused state" style="background:var(--off-white);border:1px solid var(--facebook-blue);border-radius:6px;padding:12px 16px;color:var(--dark-text);font-size:15px;font-family:inherit;outline:none">
+        </div>
+      </div>
+      <div class="component-desc">Off-White background, 6px radius. Focus state adds Facebook Blue border for clear activation feedback.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Avatar</div><div class="component-role">User identity, profile images</div></div>
+        <span class="component-class">.avatar</span>
+      </div>
+      <div class="component-preview">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--light-gray);border:1px solid var(--light-gray)"></div>
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--off-white);border:2px solid var(--light-gray)"></div>
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--light-gray);border:2px solid var(--light-gray)"></div>
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--off-white);border:2px solid var(--light-gray)"></div>
+      </div>
+      <div class="component-desc">Circular (50% radius), variable sizes (28px, 32px, 40px, 48px, 80px). Optional Light Gray border for separation.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Badge / Notification</div><div class="component-role">Status indicators, notification counts</div></div>
+        <span class="component-class">.badge</span>
+      </div>
+      <div class="component-preview">
+        <div style="position:relative;display:inline-flex">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--off-white);border:1px solid var(--light-gray)"></div>
+          <span style="position:absolute;top:-4px;right:-4px;background:var(--red);color:white;font-size:11px;font-weight:600;padding:2px 6px;border-radius:9999px;min-width:18px;text-align:center">3</span>
+        </div>
+        <div style="position:relative;display:inline-flex">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--off-white);border:1px solid var(--light-gray)"></div>
+          <span style="position:absolute;bottom:0;right:0;width:12px;height:12px;background:var(--green);border:2px solid white;border-radius:50%"></span>
+        </div>
+      </div>
+      <div class="component-desc">Red (#fa3e3e) background for counts, pill-shaped. Green (#42b72a) dot for online status. Position absolute on parent.</div>
+    </div>
+  </section>
+
+  <!-- DO'S & DON'TS -->
+  <section class="section" id="guidelines">
+    <div class="section-header">
+      <div class="section-label">Guidelines</div>
+      <h2 class="section-title">Do's & Don'ts</h2>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card guide-card--do">
+        <div class="guide-label">Do �?Embrace</div>
+        <ul class="guide-list">
+          <li>White (#ffffff) as primary background for all surfaces</li>
+          <li>Dark Text (#1c1e21) for all primary body and heading text</li>
+          <li>Facebook Blue (#0668e1) for primary CTAs and links only</li>
+          <li>Off-White (#f0f2f5) for secondary surfaces and inputs</li>
+          <li>6px radius for buttons, 8px for cards, 9999px for pills</li>
+          <li>4px-based spacing with 8px elementGap for social density</li>
+          <li>Border-defined elevation over heavy box shadows</li>
+        </ul>
+      </div>
+      <div class="guide-card guide-card--dont">
+        <div class="guide-label">Don't �?Avoid</div>
+        <ul class="guide-list">
+          <li>Facebook Blue for large background areas �?interactive only</li>
+          <li>Dark Text on dark backgrounds �?always check contrast</li>
+          <li>Hard sharp corners (0px) on cards or buttons</li>
+          <li>Overly saturated colors for body text</li>
+          <li>Dense packing without social-friendly breathing room</li>
+          <li>Font families outside Facebook Sans / system fallbacks</li>
+          <li>Monospace fonts for non-code content</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">Meta Design System</div>
+    <div class="footer-right">
+      <a href="#colors" class="footer-link">Colors</a>
+      <a href="#typography" class="footer-link">Typography</a>
+      <a href="#spacing" class="footer-link">Spacing</a>
+      <a href="#components" class="footer-link">Components</a>
+      <a href="DESIGN.md" class="footer-link" download>Download Spec</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const els = document.querySelectorAll('.section, .hero');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${i * 60}ms`;
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  els.forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

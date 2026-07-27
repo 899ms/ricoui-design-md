@@ -1,0 +1,40 @@
+/* Lovable design tokens */
+:root {
+  --color-color-1: #f7f4ed;
+  --color-color-2: #1c1c1c;
+  --color-off-white: #fcfbf8;
+  --color-charcoal-83: rgba(28,28,28,0.83);
+  --color-charcoal-82: rgba(28,28,28,0.82);
+  --color-muted-gray: #5f5f5d;
+  --color-charcoal-40: rgba(28,28,28,0.4);
+  --color-charcoal-4: rgba(28,28,28,0.04);
+  --color-charcoal-3: rgba(28,28,28,0.03);
+  --color-light-cream: #eceae4;
+  --color-ring-blue: #3b82f6;
+  --color-color-12: rgba(59,130,246,0.5);
+  --color-color-13: #ffffff;
+  --font-primary: Inter, system-ui, sans-serif;
+  --text-body: 16px;
+  --leading-body: 1.5;
+  --tracking-body: 0;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+  --spacing-128: 128px;
+  --radius-sm: 5px;
+  --radius-md: 9999px;
+  --radius-lg: 6px;
+  --radius-xl: 9px;
+  --radius-pill: 8px;
+  --radius-r6: 4px;
+  --radius-r7: 2px;
+}

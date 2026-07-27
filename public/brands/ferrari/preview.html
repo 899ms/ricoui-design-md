@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferrari — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Inter+Tight:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --nero-assoluto:#000000;
+  --carbon-black:#0a0a0a;
+  --dark-titanium:#141414;
+  --grigio-scuro:#1e1e1e;
+  --grigio-chiaro:#2a2a2a;
+  --bianco-avorio:#f5f5f0;
+  --argento:#cccccc;
+  --grigio-medio:#888888;
+  --grigio-tenue:#555555;
+  --rosso-corsa:#ff2800;
+  --rosso-scuro:#cc2000;
+  --rosso-chiaro:#ff4d33;
+  --oro-ferrari:#c8a961;
+  --giallo-modena:#ffe100;
+  --blu-elettrico:#0066cc;
+
+  --r-sharp:0px;--r-subtle:2px;--r-buttons:4px;--r-cards:8px;--r-input:4px;--r-pill:100px;
+}
+
+::selection{background:rgba(255,40,0,.25);color:var(--bianco-avorio)}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--nero-assoluto);color:var(--bianco-avorio);
+  font-size:16px;line-height:1.5;letter-spacing:.02em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+
+.page{max-width:960px;margin:0 auto;padding:0 32px 120px}
+
+/* NAV */
+.nav{
+  display:flex;justify-content:space-between;align-items:center;
+  height:64px;padding:0 16px;position:sticky;top:0;z-index:100;
+  background:rgba(0,0,0,.95);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--grigio-scuro);
+  margin:0 -32px;
+}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-wordmark{
+  font-size:18px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--rosso-corsa);text-decoration:none;
+}
+.nav-tag{
+  font-size:11px;font-weight:500;color:var(--grigio-medio);
+  background:var(--grigio-scuro);padding:3px 10px;border-radius:var(--r-pill);
+  border:1px solid var(--grigio-chiaro);letter-spacing:.04em;text-transform:uppercase;
+}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-link{
+  font-size:12px;font-weight:500;color:var(--grigio-medio);text-decoration:none;
+  padding:6px 12px;border-radius:var(--r-subtle);transition:all .2s;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.nav-link:hover{color:var(--bianco-avorio)}
+.nav-link--active{color:var(--bianco-avorio);border-bottom:2px solid var(--rosso-corsa)}
+.nav-url{
+  font-size:11px;font-weight:400;color:var(--grigio-medio);text-decoration:none;
+  padding:4px 10px;border-radius:9999px;transition:all .2s;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  letter-spacing:.02px;white-space:nowrap;
+}
+.nav-url:hover{color:var(--bianco-avorio);background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)}
+
+/* SECTIONS */
+.section{
+  padding:80px 0 0;
+  border-top:1px solid var(--grigio-scuro);
+  margin-top:64px;
+}
+.section:first-of-type{border-top:none;margin-top:48px}
+.section-header{margin-bottom:40px}
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--rosso-corsa);margin-bottom:8px;
+}
+.section-title{
+  font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1.15;
+  color:var(--bianco-avorio);
+}
+.section-desc{
+  font-size:15px;line-height:1.6;color:var(--grigio-medio);
+  margin-top:12px;max-width:560px;
+}
+
+/* HERO */
+.hero{
+  padding:80px 0 48px;
+  border-bottom:1px solid var(--grigio-scuro);
+  margin:0 -32px;padding-left:32px;padding-right:32px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  width:100%;height:3px;top:0;left:0;
+  background:var(--rosso-corsa);
+}
+.hero::after{
+  content:'';position:absolute;
+  width:600px;height:300px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(255,40,0,.12),transparent 60%);
+  pointer-events:none;left:50%;top:3px;transform:translateX(-50%);
+}
+.hero-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--rosso-corsa);margin-bottom:16px;
+}
+.hero-title{
+  font-size:clamp(48px,8vw,72px);font-weight:800;line-height:1;
+  letter-spacing:-.03em;color:var(--bianco-avorio);
+}
+.hero-title em{
+  font-style:normal;
+  color:var(--rosso-corsa);
+}
+.hero-subtitle{
+  font-size:17px;line-height:1.6;color:var(--argento);
+  margin-top:20px;max-width:480px;
+}
+.hero-tags{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
+.hero-tag{
+  font-size:11px;font-weight:500;color:var(--grigio-medio);
+  background:var(--grigio-scuro);padding:5px 12px;border-radius:var(--r-pill);
+  border:1px solid var(--grigio-chiaro);letter-spacing:.04em;text-transform:uppercase;
+}
+.hero-actions{display:flex;gap:12px;margin-top:28px}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:12px;font-weight:700;line-height:1;
+  letter-spacing:.08em;padding:12px 32px;border-radius:var(--r-buttons);
+  cursor:pointer;text-decoration:none;white-space:nowrap;text-transform:uppercase;
+  transition:all .15s;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--rosso-corsa);color:var(--bianco-avorio);border:1px solid transparent}
+.btn-primary:hover{background:var(--rosso-scuro)}
+.btn-secondary{background:transparent;color:var(--bianco-avorio);border:1px solid var(--grigio-scuro)}
+.btn-secondary:hover{border-color:var(--grigio-medio);background:var(--grigio-scuro)}
+.btn-ghost{background:transparent;color:var(--bianco-avorio);border:1px solid var(--argento)}
+.btn-ghost:hover{background:rgba(245,245,240,.05);border-color:var(--bianco-avorio)}
+
+/* COLOR TOKENS */
+.color-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;
+}
+.color-token{
+  background:var(--carbon-black);border:1px solid var(--grigio-scuro);
+  border-radius:var(--r-cards);overflow:hidden;transition:border-color .2s;
+}
+.color-token:hover{border-color:var(--grigio-chiaro)}
+.color-swatch{width:100%;height:80px}
+.color-info{padding:14px 16px}
+.color-name{font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--bianco-avorio)}
+.color-hex{
+  font-size:12px;font-weight:500;color:var(--grigio-medio);margin-top:2px;
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+.color-role{font-size:11px;color:var(--grigio-tenue);margin-top:6px;line-height:1.4}
+
+/* GRADIENT TOKENS */
+.gradient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.gradient-token{
+  border-radius:var(--r-cards);padding:24px;border:1px solid var(--grigio-scuro);
+  min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.gradient-name{font-size:12px;font-weight:500;color:var(--grigio-medio);letter-spacing:.04em;margin-bottom:4px}
+.gradient-desc{font-size:12px;color:var(--grigio-tenue);line-height:1.4}
+
+/* TYPE SCALE */
+.type-table{
+  display:flex;flex-direction:column;border:1px solid var(--grigio-scuro);
+  border-radius:var(--r-cards);overflow:hidden;
+}
+.type-row{
+  display:grid;grid-template-columns:100px 1fr 200px;align-items:baseline;
+  padding:16px 24px;border-bottom:1px solid var(--grigio-scuro);
+}
+.type-row:last-child{border-bottom:none}
+.type-row:hover{background:rgba(255,255,255,.02)}
+.type-meta{
+  font-size:10px;font-weight:700;color:var(--rosso-corsa);
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.type-sample{color:var(--bianco-avorio);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.type-specs{
+  font-size:11px;color:var(--grigio-medio);text-align:right;
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+
+/* SPACING */
+.spacing-bars{display:flex;align-items:flex-end;gap:20px;height:120px}
+.spacing-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.spacing-bar{
+  width:100%;border-radius:var(--r-subtle);
+  background:var(--rosso-corsa);opacity:.3;transition:opacity .3s;
+}
+.spacing-col:hover .spacing-bar{opacity:.6}
+.spacing-val{font-size:11px;font-weight:700;color:var(--bianco-avorio);letter-spacing:.04em}
+.spacing-name{font-size:10px;font-weight:500;color:var(--grigio-medio);letter-spacing:.04em}
+
+/* SHAPES */
+.shapes-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end}
+.shape-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.shape-box{
+  width:72px;height:72px;background:var(--carbon-black);
+  border:1.5px solid var(--grigio-scuro);transition:all .3s cubic-bezier(.22,1,.36,1);
+}
+.shape-box:hover{border-color:var(--rosso-corsa);transform:scale(1.06)}
+.shape-label{font-size:11px;font-weight:500;color:var(--grigio-medio);letter-spacing:.04em;white-space:nowrap;text-transform:uppercase}
+.shape-value{
+  font-size:10px;font-weight:400;color:var(--grigio-tenue);letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+}
+
+/* DEPTH */
+.depth-row{
+  display:flex;align-items:center;gap:20px;padding:20px 0;
+  border-bottom:1px solid var(--grigio-scuro);
+}
+.depth-row:last-child{border-bottom:none}
+.depth-swatch{
+  width:56px;height:56px;border-radius:var(--r-subtle);flex-shrink:0;
+}
+.depth-info{flex:1}
+.depth-name{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--bianco-avorio)}
+.depth-desc{font-size:12px;color:var(--grigio-medio);margin-top:2px;letter-spacing:.04em}
+.depth-value{
+  font-size:12px;font-weight:500;color:var(--grigio-tenue);
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+
+/* SURFACES */
+.surface-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.surface-item{
+  border-radius:var(--r-cards);padding:28px 20px;
+  text-align:center;border:1px solid var(--grigio-scuro);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;min-height:110px;transition:transform .3s;
+}
+.surface-item:hover{transform:scale(1.02)}
+.surface-name{font-size:14px;font-weight:700;letter-spacing:.02em}
+.surface-val{
+  font-size:11px;font-weight:500;color:var(--grigio-medio);
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+
+/* COMPONENTS */
+.component-card{
+  background:var(--carbon-black);border:1px solid var(--grigio-scuro);
+  border-radius:var(--r-cards);padding:32px;margin-bottom:20px;
+  transition:border-color .2s;
+}
+.component-card:hover{border-color:var(--grigio-chiaro)}
+.component-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.component-name{font-size:15px;font-weight:700;letter-spacing:.02em;color:var(--bianco-avorio)}
+.component-role{font-size:12px;color:var(--grigio-medio);margin-top:4px;letter-spacing:.04em}
+.component-class{
+  font-size:11px;font-weight:500;color:var(--rosso-corsa);
+  background:rgba(255,40,0,.08);padding:3px 10px;border-radius:var(--r-pill);
+  border:1px solid rgba(255,40,0,.12);letter-spacing:.04em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;
+}
+.component-preview{
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  padding:20px;background:var(--nero-assoluto);border-radius:var(--r-buttons);
+  border:1px solid var(--grigio-scuro);
+}
+.component-desc{
+  font-size:12px;color:var(--grigio-tenue);line-height:1.5;
+  margin-top:12px;max-width:480px;
+}
+
+/* DO/DON'T */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guide-card{
+  border-radius:var(--r-cards);padding:28px;
+  border:1px solid var(--grigio-scuro);
+}
+.guide-card--do{background:rgba(255,40,0,.03);border-color:rgba(255,40,0,.12)}
+.guide-card--dont{background:rgba(248,81,73,.03);border-color:rgba(248,81,73,.12)}
+.guide-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.guide-card--do .guide-label{color:var(--rosso-corsa)}
+.guide-card--dont .guide-label{color:#f85149}
+.guide-list{
+  list-style:none;display:flex;flex-direction:column;gap:10px;
+}
+.guide-list li{
+  font-size:13px;line-height:1.5;padding-left:20px;position:relative;
+  color:var(--argento);
+}
+.guide-card--do .guide-list li::before{
+  content:'—';position:absolute;left:0;color:var(--rosso-corsa);font-weight:700;font-size:12px;
+}
+.guide-card--dont .guide-list li::before{
+  content:'✕';position:absolute;left:0;color:#f85149;font-weight:700;font-size:12px;
+}
+
+/* FOOTER */
+.footer{
+  margin-top:96px;padding:32px 0;
+  border-top:1px solid var(--grigio-scuro);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-left{font-size:14px;font-weight:700;color:var(--rosso-corsa);letter-spacing:.08em;text-transform:uppercase}
+.footer-right{display:flex;gap:20px}
+.footer-link{
+  font-size:11px;font-weight:500;color:var(--grigio-medio);text-decoration:none;
+  transition:color .2s;letter-spacing:.08em;text-transform:uppercase;
+}
+.footer-link:hover{color:var(--bianco-avorio)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .page{padding:0 20px 80px}
+  .hero{margin:0 -20px;padding-left:20px;padding-right:20px;padding-top:56px}
+  .nav{margin:0 -20px}
+  .section-title{font-size:24px}
+  .type-row{grid-template-columns:70px 1fr;gap:8px}
+  .type-specs{display:none}
+  .guide-grid{grid-template-columns:1fr}
+  .color-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .hero-title{font-size:36px}
+}
+
+/* ENTRANCE ANIMATION */
+.section,.hero{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.section.visible,.hero.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="#" class="nav-wordmark">Ferrari</a>
+      <span class="nav-tag">Design System</span>
+      <a href="https://www.ferrari.com" class="nav-url">https://www.ferrari.com</a>
+    </div>
+    <div class="nav-right">
+      <a href="#colors" class="nav-link nav-link--active">Colors</a>
+      <a href="#typography" class="nav-link">Type</a>
+      <a href="#spacing" class="nav-link">Spacing</a>
+      <a href="#components" class="nav-link">Components</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Design System</div>
+    <h1 class="hero-title">Power,<br>Precision,<br><em>Prestige.</em></h1>
+    <p class="hero-subtitle">Rosso Corsa on absolute black — the visual language of seven decades of racing dominance and Italian luxury craftsmanship.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">17 color tokens</span>
+      <span class="hero-tag">8 type steps</span>
+      <span class="hero-tag">4px grid</span>
+      <span class="hero-tag">3 surface levels</span>
+    </div>
+    <div class="hero-actions">
+      <a href="DESIGN.md" class="btn btn-primary" download>Download Spec</a>
+      <a href="theme.css" class="btn btn-secondary" download>theme.css</a>
+      <a href="tokens.json" class="btn btn-secondary" download>tokens.json</a>
+      <a href="variables.css" class="btn btn-secondary" download>variables.css</a>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <section class="section" id="colors">
+    <div class="section-header">
+      <div class="section-label">Foundation</div>
+      <h2 class="section-title">Color Tokens</h2>
+      <p class="section-desc">A palette of absolute blacks with the iconic Rosso Corsa as the singular accent. 17 tokens across surfaces, text, interaction, and premium metallic accents.</p>
+    </div>
+    <div class="color-grid">
+      <div class="color-token">
+        <div class="color-swatch" style="background:#000000"></div>
+        <div class="color-info"><div class="color-name">Nero Assoluto</div><div class="color-hex">#000000</div><div class="color-role">Primary page background</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#0a0a0a"></div>
+        <div class="color-info"><div class="color-name">Carbon Black</div><div class="color-hex">#0a0a0a</div><div class="color-role">Elevated surfaces, cards</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#141414"></div>
+        <div class="color-info"><div class="color-name">Dark Titanium</div><div class="color-hex">#141414</div><div class="color-role">Secondary sections</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#1e1e1e"></div>
+        <div class="color-info"><div class="color-name">Grigio Scuro</div><div class="color-hex">#1e1e1e</div><div class="color-role">Borders, dividers</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#2a2a2a"></div>
+        <div class="color-info"><div class="color-name">Grigio Chiaro</div><div class="color-hex">#2a2a2a</div><div class="color-role">Inactive states</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#f5f5f0"></div>
+        <div class="color-info"><div class="color-name">Bianco Avorio</div><div class="color-hex">#f5f5f0</div><div class="color-role">Primary text, icons</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#cccccc"></div>
+        <div class="color-info"><div class="color-name">Argento</div><div class="color-hex">#cccccc</div><div class="color-role">Secondary text</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#888888"></div>
+        <div class="color-info"><div class="color-name">Grigio Medio</div><div class="color-hex">#888888</div><div class="color-role">Placeholders, labels</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#555555"></div>
+        <div class="color-info"><div class="color-name">Grigio Tenue</div><div class="color-hex">#555555</div><div class="color-role">Helper text, captions</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#ff2800"></div>
+        <div class="color-info"><div class="color-name">Rosso Corsa</div><div class="color-hex">#ff2800</div><div class="color-role">Primary accent, CTAs</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#cc2000"></div>
+        <div class="color-info"><div class="color-name">Rosso Scuro</div><div class="color-hex">#cc2000</div><div class="color-role">Hover state</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#ff4d33"></div>
+        <div class="color-info"><div class="color-name">Rosso Chiaro</div><div class="color-hex">#ff4d33</div><div class="color-role">Highlight accents</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#c8a961"></div>
+        <div class="color-info"><div class="color-name">Oro Ferrari</div><div class="color-hex">#c8a961</div><div class="color-role">Premium accents</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#ffe100"></div>
+        <div class="color-info"><div class="color-name">Giallo Modena</div><div class="color-hex">#ffe100</div><div class="color-role">Featured highlights</div></div>
+      </div>
+      <div class="color-token">
+        <div class="color-swatch" style="background:#0066cc"></div>
+        <div class="color-info"><div class="color-name">Blu Elettrico</div><div class="color-hex">#0066cc</div><div class="color-role">Link text, info accents</div></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;color:var(--bianco-avorio);margin:40px 0 20px;letter-spacing:.02em">Gradients & Textures</h3>
+    <div class="gradient-grid">
+      <div class="gradient-token" style="background:radial-gradient(ellipse at 50% 0%,rgba(255,40,0,.12),transparent 60%),var(--carbon-black)">
+        <div class="gradient-name">rosso-glow</div>
+        <div class="gradient-desc">Ambient red glow for hero backgrounds</div>
+      </div>
+      <div class="gradient-token" style="background:repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0px,rgba(255,255,255,.02) 1px,transparent 1px,transparent 3px),var(--carbon-black)">
+        <div class="gradient-name">carbon-fiber</div>
+        <div class="gradient-desc">Textured surface pattern for premium cards</div>
+      </div>
+      <div class="gradient-token" style="background:linear-gradient(135deg,rgba(200,169,97,.06),transparent 40%),var(--carbon-black)">
+        <div class="gradient-name">oro-shimmer</div>
+        <div class="gradient-desc">Subtle gold shimmer for heritage sections</div>
+      </div>
+      <div class="gradient-token" style="background:linear-gradient(180deg,var(--nero-assoluto) 0%,var(--dark-titanium) 100%)">
+        <div class="gradient-name">depth-fade</div>
+        <div class="gradient-desc">Vertical depth transition between surfaces</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section" id="typography">
+    <div class="section-header">
+      <div class="section-label">Typography</div>
+      <h2 class="section-title">Type Scale</h2>
+      <p class="section-desc">Futura as primary typeface (Inter substitute). Geometric precision with bold weights and generous uppercase letter-spacing for a commanding presence.</p>
+    </div>
+    <div class="type-table">
+      <div class="type-row">
+        <span class="type-meta">Display</span>
+        <span class="type-sample" style="font-size:28px;font-weight:800;line-height:1;letter-spacing:-.03em">POWER</span>
+        <span class="type-specs">72px / 1.0 / −0.03em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Heading-lg</span>
+        <span class="type-sample" style="font-size:24px;font-weight:800;line-height:1.1;letter-spacing:-.02em">PRECISION</span>
+        <span class="type-specs">48px / 1.1 / −0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Heading</span>
+        <span class="type-sample" style="font-size:18px;font-weight:700;line-height:1.2;letter-spacing:0">Section Title</span>
+        <span class="type-specs">32px / 1.2 / 0em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Heading-sm</span>
+        <span class="type-sample" style="font-size:16px;font-weight:700;line-height:1.3;letter-spacing:.02em">Subsection</span>
+        <span class="type-specs">24px / 1.3 / 0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Body</span>
+        <span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.5;letter-spacing:.02em">Default body text for readable content</span>
+        <span class="type-specs">16px / 1.5 / 0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Body-sm</span>
+        <span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.5;letter-spacing:.02em">Technical specs, secondary data</span>
+        <span class="type-specs">14px / 1.5 / 0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Caption</span>
+        <span class="type-sample" style="font-size:12px;font-weight:500;line-height:1.5;letter-spacing:.04em;text-transform:uppercase">META INFO · FOOTER · LABELS</span>
+        <span class="type-specs">12px / 1.5 / 0.04em</span>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--bianco-avorio);margin:40px 0 20px;letter-spacing:.02em">Fonts</h3>
+    <div style="display:flex;flex-direction:column;border:1px solid var(--grigio-scuro);border-radius:var(--r-cards);overflow:hidden">
+      <div style="padding:20px 24px;border-bottom:1px solid var(--grigio-scuro);display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:700;color:var(--rosso-corsa);letter-spacing:.12em;text-transform:uppercase;flex:0 0 60px">Primary</span>
+        <span style="font-size:16px;font-weight:800;color:var(--bianco-avorio);letter-spacing:.08em;text-transform:uppercase">Futura</span>
+        <span style="font-size:11px;color:var(--grigio-medio);letter-spacing:.04em">400–800 · 12–72px</span>
+      </div>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--grigio-scuro);display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:700;color:var(--rosso-corsa);letter-spacing:.12em;text-transform:uppercase;flex:0 0 60px">Condensed</span>
+        <span style="font-size:16px;font-weight:700;color:var(--bianco-avorio);letter-spacing:.02em">Futura Condensed</span>
+        <span style="font-size:11px;color:var(--grigio-medio);letter-spacing:.04em">500–700 · 14–24px · Specs</span>
+      </div>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--grigio-scuro);display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:700;color:var(--rosso-corsa);letter-spacing:.12em;text-transform:uppercase;flex:0 0 60px">Mono</span>
+        <span style="font-size:16px;font-weight:700;color:var(--bianco-avorio);letter-spacing:.02em">JetBrains Mono</span>
+        <span style="font-size:11px;color:var(--grigio-medio);letter-spacing:.04em">400, 700 · 14–16px · Data</span>
+      </div>
+      <div style="padding:20px 24px;display:flex;align-items:baseline;gap:16px">
+        <span style="font-size:10px;font-weight:700;color:var(--rosso-corsa);letter-spacing:.12em;text-transform:uppercase;flex:0 0 60px">Fallback</span>
+        <span style="font-size:16px;font-weight:500;color:var(--bianco-avorio);letter-spacing:.02em">Inter</span>
+        <span style="font-size:11px;color:var(--grigio-medio);letter-spacing:.04em">Substitute for all above</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING & SHAPES -->
+  <section class="section" id="spacing">
+    <div class="section-header">
+      <div class="section-label">Layout</div>
+      <h2 class="section-title">Spacing & Shapes</h2>
+      <p class="section-desc">Base unit 4px. Commanding density with generous breathing room. 13-step spacing scale, 6 border radius values favoring sharp, angular geometry.</p>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--bianco-avorio);margin-bottom:20px;letter-spacing:.02em">Spacing Scale (4px base)</h3>
+    <div class="spacing-bars">
+      <div class="spacing-col"><div class="spacing-bar" style="height:8px"></div><span class="spacing-val">4</span><span class="spacing-name">4px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:14px"></div><span class="spacing-val">8</span><span class="spacing-name">8px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:20px"></div><span class="spacing-val">12</span><span class="spacing-name">12px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:28px"></div><span class="spacing-val">16</span><span class="spacing-name">16px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:36px"></div><span class="spacing-val">24</span><span class="spacing-name">24px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:48px"></div><span class="spacing-val">32</span><span class="spacing-name">32px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:64px"></div><span class="spacing-val">48</span><span class="spacing-name">48px</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:90px"></div><span class="spacing-val">96</span><span class="spacing-name">96px</span></div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--bianco-avorio);margin:40px 0 20px;letter-spacing:.02em">Border Radius</h3>
+    <div class="shapes-row">
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:0px"></div>
+        <span class="shape-label">sharp</span>
+        <span class="shape-value">0px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:2px"></div>
+        <span class="shape-label">subtle</span>
+        <span class="shape-value">2px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:4px"></div>
+        <span class="shape-label">buttons</span>
+        <span class="shape-value">4px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:8px"></div>
+        <span class="shape-label">cards</span>
+        <span class="shape-value">8px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:4px"></div>
+        <span class="shape-label">input</span>
+        <span class="shape-value">4px</span>
+      </div>
+      <div class="shape-item">
+        <div class="shape-box" style="border-radius:100px"></div>
+        <span class="shape-label">pill</span>
+        <span class="shape-value">100px</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPTH & SURFACES -->
+  <section class="section" id="depth">
+    <div class="section-header">
+      <div class="section-label">Elevation</div>
+      <h2 class="section-title">Depth & Surfaces</h2>
+      <p class="section-desc">Shadows and borders over translucency. Sharp, architectural elevation. 3 distinct surface levels in the darkest possible range.</p>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--bianco-avorio);margin-bottom:16px;letter-spacing:.02em">Depth Levels</h3>
+    <div style="margin-bottom:40px">
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#000000;border:1px solid var(--grigio-scuro)"></div>
+        <div class="depth-info"><div class="depth-name">Nero Assoluto</div><div class="depth-desc">Base page background — the canvas</div></div>
+        <div class="depth-value">Level 0</div>
+      </div>
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#141414;border:1px solid var(--grigio-scuro)"></div>
+        <div class="depth-info"><div class="depth-name">Dark Titanium</div><div class="depth-desc">Secondary sections, content areas</div></div>
+        <div class="depth-value">Level 1</div>
+      </div>
+      <div class="depth-row">
+        <div class="depth-swatch" style="background:#0a0a0a;border:1px solid var(--grigio-scuro)"></div>
+        <div class="depth-info"><div class="depth-name">Carbon Black</div><div class="depth-desc">Elevated panels, cards, deepest surfaces</div></div>
+        <div class="depth-value">Level 2</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--bianco-avorio);margin-bottom:16px;letter-spacing:.02em">Surface System</h3>
+    <div class="surface-grid">
+      <div class="surface-item" style="background:#000000">
+        <span class="surface-name">Nero Assoluto</span>
+        <span class="surface-val">#000000</span>
+      </div>
+      <div class="surface-item" style="background:#141414">
+        <span class="surface-name">Dark Titanium</span>
+        <span class="surface-val">#141414</span>
+      </div>
+      <div class="surface-item" style="background:#0a0a0a">
+        <span class="surface-name">Carbon Black</span>
+        <span class="surface-val">#0a0a0a</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section class="section" id="components">
+    <div class="section-header">
+      <div class="section-label">Components</div>
+      <h2 class="section-title">Button Variants</h2>
+      <p class="section-desc">Rosso Corsa primary CTA, outlined ghost, and secondary variants. Angular geometry with uppercase bold typography for maximum impact.</p>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Primary CTA Button</div><div class="component-role">Main call to action — highest visual weight</div></div>
+        <span class="component-class">.btn-primary</span>
+      </div>
+      <div class="component-preview">
+        <button class="btn btn-primary">Explore Models</button>
+        <button class="btn btn-primary" style="background:var(--rosso-scuro)">Hover State</button>
+      </div>
+      <div class="component-desc">Rosso Corsa (#ff2800) background, Bianco Avorio text, 4px radius, uppercase, 0.08em letter-spacing. Use exclusively for the single most important action.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Ghost Button</div><div class="component-role">Secondary actions, navigation</div></div>
+        <span class="component-class">.btn-ghost</span>
+      </div>
+      <div class="component-preview">
+        <button class="btn btn-ghost">Configure</button>
+        <button class="btn btn-ghost" style="background:rgba(245,245,240,.05)">Hover State</button>
+      </div>
+      <div class="component-desc">Bianco Avorio text, Argento border, 4px radius. Clear interactive target without competing with primary red.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Secondary Button</div><div class="component-role">Tertiary actions, navigation</div></div>
+        <span class="component-class">.btn-secondary</span>
+      </div>
+      <div class="component-preview">
+        <button class="btn btn-secondary">Learn More</button>
+        <button class="btn btn-secondary" style="border-color:var(--grigio-medio);background:var(--grigio-scuro)">Hover State</button>
+      </div>
+      <div class="component-desc">Bianco Avorio text, Grigio Scuro border. For less prominent actions that still need visual presence.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Navigation Link</div><div class="component-role">Top-level site navigation</div></div>
+        <span class="component-class">.nav-link</span>
+      </div>
+      <div class="component-preview">
+        <a href="#" style="color:var(--bianco-avorio);text-decoration:none;font-size:12px;font-weight:500;padding:8px;letter-spacing:.08em;text-transform:uppercase">Models</a>
+        <a href="#" style="color:var(--bianco-avorio);text-decoration:none;font-size:12px;font-weight:500;padding:8px;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid var(--rosso-corsa)">Racing</a>
+        <a href="#" style="color:var(--bianco-avorio);text-decoration:none;font-size:12px;font-weight:500;padding:8px;letter-spacing:.08em;text-transform:uppercase">GT</a>
+      </div>
+      <div class="component-desc">Bianco Avorio text, Futura 500, uppercase, 0.08em letter-spacing. Hover underline slides in from left, 2px, Rosso Corsa.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Spec Card</div><div class="component-role">Technical specifications</div></div>
+        <span class="component-class">.spec-card</span>
+      </div>
+      <div class="component-preview" style="gap:32px">
+        <div style="text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--grigio-medio);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">Power</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--rosso-corsa)">710 CV</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--grigio-medio);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">0-100</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--bianco-avorio)">2.9s</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--grigio-medio);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">Top Speed</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--bianco-avorio)">340 km/h</div>
+        </div>
+      </div>
+      <div class="component-desc">Carbon Black background, 8px radius, 24px padding. Labels in uppercase Futura 700 at 10px. Values in Mono at 24px, primary in Rosso Corsa.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header">
+        <div><div class="component-name">Badge / Tag</div><div class="component-role">Status indicators, categories</div></div>
+        <span class="component-class">.badge</span>
+      </div>
+      <div class="component-preview">
+        <span style="background:var(--rosso-corsa);color:var(--bianco-avorio);font-size:10px;font-weight:700;padding:4px 12px;border-radius:var(--r-pill);letter-spacing:.12em;text-transform:uppercase">New</span>
+        <span style="background:var(--grigio-scuro);color:var(--grigio-medio);font-size:10px;font-weight:500;padding:4px 12px;border-radius:var(--r-pill);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--grigio-chiaro)">V12</span>
+        <span style="background:var(--grigio-scuro);color:var(--grigio-medio);font-size:10px;font-weight:500;padding:4px 12px;border-radius:var(--r-pill);letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--grigio-chiaro)">Hybrid</span>
+      </div>
+      <div class="component-desc">Rosso Corsa for featured/new, Grigio Chiaro for secondary. 100px pill radius, uppercase Futura 500 at 10px.</div>
+    </div>
+  </section>
+
+  <!-- DO'S & DON'TS -->
+  <section class="section" id="guidelines">
+    <div class="section-header">
+      <div class="section-label">Guidelines</div>
+      <h2 class="section-title">Do's & Don'ts</h2>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card guide-card--do">
+        <div class="guide-label">Do — Embrace</div>
+        <ul class="guide-list">
+          <li>Nero Assoluto (#000000) as primary canvas</li>
+          <li>Rosso Corsa exclusively for CTAs and accents</li>
+          <li>Uppercase Futura with 0.08em+ letter-spacing</li>
+          <li>Carbon fiber texture for premium surfaces</li>
+          <li>Sharp, minimal radii (2-4px maximum)</li>
+          <li>32px+ section gaps for commanding presence</li>
+          <li>Oro Ferrari for heritage and luxury moments</li>
+        </ul>
+      </div>
+      <div class="guide-card guide-card--dont">
+        <div class="guide-label">Don't — Avoid</div>
+        <ul class="guide-list">
+          <li>Rosso Corsa for text or large backgrounds</li>
+          <li>Rounded corners above 8px (pill only for tags)</li>
+          <li>More than two typeface weights per composition</li>
+          <li>White text on Rosso Corsa — use warm white</li>
+          <li>Busy gradients or decorative glows</li>
+          <li>Playful colors or saturated secondaries</li>
+          <li>Compressed spacing below 4px grid</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">Ferrari Design System</div>
+    <div class="footer-right">
+      <a href="#colors" class="footer-link">Colors</a>
+      <a href="#typography" class="footer-link">Typography</a>
+      <a href="#spacing" class="footer-link">Spacing</a>
+      <a href="#components" class="footer-link">Components</a>
+      <a href="DESIGN.md" class="footer-link" download>Download Spec</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const els = document.querySelectorAll('.section, .hero');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${i * 60}ms`;
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  els.forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>

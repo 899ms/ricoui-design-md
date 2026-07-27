@@ -1,0 +1,12 @@
+export const CANONICAL_DESIGN_MD_SPEC = `Canonical DESIGN.md grammar:
+- Start with a single H1 title, a short blockquote description, and **Theme:** light or dark.
+- Use these H2 sections when information exists: ## Tokens – Colors, ## Tokens – Typography, ## Tokens – Spacing & Shapes, ## Components, ## Do's and Don'ts, ## Imagery, ## Layout.
+- Colors use the four-column table: | Name | Value | Token | Role |. Keep values opaque, including {colors.x}, color-mix(), oklch(), and *-p3 values.
+- Every Value cell contains one executable source value, never a display conversion such as 1.25rem (20px), a range, placeholder, or truncated value. Negative numbers use the ASCII minus sign.
+- Every Token cell contains one CSS custom property name matching --name. Do not put arithmetic, prose, provenance, or metadata labels in Token cells.
+- Add ### Decorative / Gradient with the same four columns for gradients.
+- Typography uses H3 font-family blocks with a --font-* token plus Substitute, Weights, and Role bullets, followed by a five-column Type Scale table: Role, Size, Line Height, Letter Spacing, Token. Font metadata is not a table.
+- Spacing uses the exact heading ### Spacing Scale. Spacing, Border Radius, and Shadows use three-column Name, Value, Token tables. Keep **Density:** when present. A base unit does not authorize invented scale rows.
+- Layout uses four bold bullets: Section gap, Card padding, Element gap, Max content width.
+- Components use H3 names, a **Role:** line, and prose description. Do's and Don'ts use H3 Do and H3 Don't with bullet lists.
+- Output must contain only the canonical Markdown document, with no fenced code block, explanation, or preamble.`

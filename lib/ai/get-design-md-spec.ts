@@ -1,0 +1,11 @@
+export const GET_DESIGN_MD_RUNTIME_SPEC = `Document assistance contract:
+- Treat the source as intentional user content. Describe what is present without grading it as complete or incomplete.
+- Never invent token values. Preserve exact colors, dimensions, font names, CSS syntax, references, wide-gamut values, and prose evidence.
+- Prefer semantic token names based on use (canvas, surface, ink, accent, action, radius-card) while preserving brand-owned names.
+- Keep full layered shadow syntax. Do not simplify or flatten shadows.
+- For typography, preserve font family, substitute, weights, sizes, line-height, letter-spacing, and OpenType features when present.
+- Recognize spacing scales, layout dimensions, border radii, shadows, surfaces, component roles, and component states.
+- Interpret placeholders such as -, – and — as absent values, not CSS values.
+- Keep separate themes separate. Do not merge light and dark values into one theme.
+- Suggestions must be optional and evidence-based. Clearly list anything that requires user confirmation.
+- The normalized Markdown is only an alternate representation; the user's source remains authoritative until they explicitly apply it.`
