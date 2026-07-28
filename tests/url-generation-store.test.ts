@@ -23,7 +23,10 @@ vi.mock("@/lib/storage/workspace-persistence", () => ({
   saveUrlSourcePackage: mocks.saveUrlSourcePackage,
 }))
 
-import { useUrlGenerationStore } from "@/lib/store/url-generation-store"
+import {
+  getUrlGenerationAssistantAction,
+  useUrlGenerationStore,
+} from "@/lib/store/url-generation-store"
 
 const settings: AiSettings = {
   providerId: "deepseek",
@@ -222,7 +225,7 @@ describe("background URL generation", () => {
     })
   })
 
-  it("retries once and saves a blocked draft when token errors remain", async () => {
+  it("normalizes token names locally and retries only when unsafe values remain", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn(
@@ -271,13 +274,13 @@ describe("background URL generation", () => {
     expect(mocks.streamAiConvert).toHaveBeenLastCalledWith(
       expect.objectContaining({
         task: "generate-repair",
-        previousOutput: expect.stringContaining("--spacing * 5"),
-        diagnostics: expect.arrayContaining(["invalid-token-syntax"]),
+        previousOutput: expect.stringContaining("--spacing-5"),
+        diagnostics: expect.arrayContaining(["invalid-css-values"]),
       })
     )
     expect(mocks.createDocument).toHaveBeenCalledWith(
       expect.objectContaining({
-        content: expect.stringContaining("--spacing * 5"),
+        content: expect.stringContaining("--spacing-5"),
         generation: expect.objectContaining({
           status: "blocked",
           attempts: 2,
@@ -290,6 +293,141 @@ describe("background URL generation", () => {
       quality: "invalid",
       attempts: 2,
       documentId: "review-vercel",
+    })
+  })
+
+  it("uses one model request when only token names and document metadata need cleanup", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              content: "Notion homepage",
+              cssEvidence,
+            }),
+            { status: 200, headers: { "Content-Type": "application/json" } }
+          )
+      )
+    )
+
+    const advisoryDraft = validGeneratedMarkdown
+      .replace("--color-blue", "Blue token")
+      .replace("### Inter · `--font-sans`", "### Inter")
+      .replace("- **Role:** Interface text\n", "")
+      .replace("--text-body", "Body token")
+      .replace("**Role:** Primary action\n\n", "")
+
+    async function* textStream() {
+      yield advisoryDraft
+    }
+    mocks.streamAiConvert.mockResolvedValue({
+      textStream: textStream(),
+      finishReason: Promise.resolve("stop"),
+    })
+    mocks.createDocument.mockResolvedValue("draft-notion-normalized")
+
+    await useUrlGenerationStore.getState().start({
+      url: "https://www.notion.com/",
+      settings,
+      locale: "zh-CN",
+    })
+
+    expect(mocks.streamAiConvert).toHaveBeenCalledTimes(1)
+    expect(mocks.createDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        content: expect.stringContaining("--font-inter"),
+        generation: expect.objectContaining({
+          status: "warning",
+          attempts: 1,
+        }),
+      })
+    )
+    expect(useUrlGenerationStore.getState().job).toMatchObject({
+      quality: "review",
+      attempts: 1,
+      derivedReady: true,
+      derivedIssueCount: 0,
+      requiresRepair: false,
+    })
+  })
+
+  it("normalizes an oversized Micro radius in the single generation request", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ content: "Micro homepage" }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          })
+      )
+    )
+    async function* textStream() {
+      yield validGeneratedMarkdown
+        .replace("# Notion", "# Brand")
+        .replace(
+          "| Small | 4px | --radius-sm |",
+          "| Full | 3.40282e38px | --radius-full |"
+        )
+    }
+    mocks.streamAiConvert.mockResolvedValue({
+      textStream: textStream(),
+      finishReason: Promise.resolve("stop"),
+    })
+    mocks.createDocument.mockResolvedValue("draft-micro")
+
+    await useUrlGenerationStore.getState().start({
+      url: "https://micro.so/",
+      settings,
+      locale: "zh-CN",
+    })
+
+    expect(mocks.streamAiConvert).toHaveBeenCalledTimes(1)
+    expect(mocks.createDocument).toHaveBeenCalledWith(
+      expect.objectContaining({
+        content: expect.stringMatching(
+          /# Micro .* Style Reference[\s\S]*\| Full \| 9999px \| `?--radius-full`? \|/
+        ),
+      })
+    )
+  })
+
+  it("routes blocking and advisory results to different assistant actions", () => {
+    const baseJob = {
+      id: "generated-micro",
+      url: "https://micro.so/",
+      hostname: "micro.so",
+      status: "done" as const,
+      phase: "saving" as const,
+      attempts: 1 as const,
+      startedAt: Date.now(),
+      generatedCharacters: 100,
+      issues: ["missing-imagery" as const],
+    }
+
+    expect(
+      getUrlGenerationAssistantAction({
+        ...baseJob,
+        quality: "review",
+        advisoryIssues: ["missing-imagery"],
+        derivedReady: true,
+      })
+    ).toEqual({
+      kind: "complete-advisories",
+      issues: ["missing-imagery"],
+    })
+    expect(
+      getUrlGenerationAssistantAction({
+        ...baseJob,
+        quality: "invalid",
+        issues: ["invalid-css-values"],
+        blockingIssues: ["invalid-css-values"],
+        derivedReady: false,
+      })
+    ).toEqual({
+      kind: "repair-derived",
+      issues: ["invalid-css-values"],
     })
   })
 

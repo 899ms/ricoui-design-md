@@ -3,6 +3,7 @@
 import {
   Fragment,
   useEffect,
+  useEffectEvent,
   useMemo,
   useRef,
   useState,
@@ -81,11 +82,15 @@ export function AiAssistantChat({
   markdown,
   onApply,
   initialInstruction,
+  autoSubmitInitialInstruction = false,
+  onAutoSubmitInitialInstruction,
 }: {
   documentId: string
   markdown: string
   onApply: (markdown: string) => void
   initialInstruction?: string
+  autoSubmitInitialInstruction?: boolean
+  onAutoSubmitInitialInstruction?: () => void
 }) {
   const t = useTranslations("AiWorkspace")
   const issueCopy = useTranslations("UrlGeneration.issue")
@@ -104,6 +109,7 @@ export function AiAssistantChat({
   const setProposal = useAiRepairChatStore((state) => state.setProposal)
   const clearThread = useAiRepairChatStore((state) => state.clearThread)
   const controllerRef = useRef<AbortController | null>(null)
+  const autoSubmittedRef = useRef(false)
   const endRef = useRef<HTMLDivElement | null>(null)
   const [instruction, setInstruction] = useState(initialInstruction ?? "")
   const [running, setRunning] = useState(false)
@@ -350,6 +356,24 @@ export function AiAssistantChat({
       setRunning(false)
     }
   }
+
+  const autoSubmitInstruction = useEffectEvent((value: string) => {
+    onAutoSubmitInitialInstruction?.()
+    void send(value)
+  })
+
+  useEffect(() => {
+    if (
+      !hydrated ||
+      !autoSubmitInitialInstruction ||
+      !initialInstruction?.trim() ||
+      autoSubmittedRef.current
+    ) {
+      return
+    }
+    autoSubmittedRef.current = true
+    autoSubmitInstruction(initialInstruction)
+  }, [autoSubmitInitialInstruction, hydrated, initialInstruction])
 
   const applyProposal = () => {
     if (!proposal || staleProposal) return
@@ -628,7 +652,7 @@ export function AiAssistantChat({
               void send()
             }
           }}
-          className="min-h-20 w-full resize-none bg-transparent px-1 text-sm leading-6 outline-none placeholder:text-muted-foreground"
+          className="min-h-20 w-full resize-none bg-transparent px-1 text-xs  outline-none placeholder:text-muted-foreground"
         />
         <div className="mt-2 flex items-center justify-between gap-3 border-t border-border/60 pt-2">
           <span className="text-[10px] text-muted-foreground">
@@ -647,7 +671,6 @@ export function AiAssistantChat({
     </div>
   )
 }
-
 function CapabilityComparison({
   before,
   after,

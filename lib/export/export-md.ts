@@ -178,7 +178,11 @@ function renderFontFamilySection(
 
   if (!font) return ""
 
-  const lines = [normalizedHeadingText(section, font.name, 3).trimEnd()]
+  const headingText =
+    font.token && !section.headingText?.includes(font.token)
+      ? `${font.name} — \`${font.token}\``
+      : section.headingText?.trim() || font.name
+  const lines = [formatHeading(3, headingText).trimEnd()]
 
   if (font.substitute) {
     lines.push(`- **Substitute:** ${font.substitute}`)

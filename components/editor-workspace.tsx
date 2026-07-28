@@ -31,12 +31,16 @@ import {
   type AiWorkspaceMode,
 } from "@/components/ai-document-workspace"
 import { useAiFeatureEnabled } from "@/hooks/use-ai-feature-enabled"
-import { useUrlGenerationStore } from "@/lib/store/url-generation-store"
+import {
+  useUrlGenerationStore,
+  type UrlGenerationAssistantAction,
+} from "@/lib/store/url-generation-store"
 import { getMarkdownDocumentCapability } from "@/lib/document-capability"
 
 export function EditorWorkspace() {
   const t = useTranslations("Editor")
   const aiT = useTranslations("AiWorkspace")
+  const issueT = useTranslations("UrlGeneration.issue")
   const tokens = useDesignStore((state) => state.tokens)
   const documents = useDesignStore((state) => state.documents)
   const activeDocumentId = useDesignStore((state) => state.activeDocumentId)
@@ -62,15 +66,16 @@ export function EditorWorkspace() {
   >(null)
   const [aiRequestId, setAiRequestId] = useState(0)
   const [aiAssistantInstruction, setAiAssistantInstruction] = useState("")
+  const [aiAssistantAutoSubmit, setAiAssistantAutoSubmit] = useState(false)
   const aiEnabled = useAiFeatureEnabled()
-  const urlGenerationJobId = useUrlGenerationStore((state) => state.job?.id)
+  const urlGenerationJob = useUrlGenerationStore((state) => state.job)
+  const urlGenerationJobId = urlGenerationJob?.id
   const urlGenerationWorkspaceOpen = Boolean(
     urlGenerationJobId && hiddenUrlGenerationJobId !== urlGenerationJobId
   )
   const effectiveAiWorkspaceOpen = aiWorkspaceOpen || urlGenerationWorkspaceOpen
-  const effectiveAiWorkspaceMode = urlGenerationJobId
-    ? "standardize"
-    : aiWorkspaceMode
+  const effectiveAiWorkspaceMode =
+    urlGenerationJob?.status === "running" ? "standardize" : aiWorkspaceMode
   const cssVarsRef = useCssVariables<HTMLDivElement>()
   const { undo, redo, canUndo, canRedo } = useUndoRedo()
   const documentCapability = useMemo(
@@ -80,11 +85,13 @@ export function EditorWorkspace() {
 
   const openAiWorkspace = (
     mode: AiWorkspaceMode,
-    assistantInstruction = ""
+    assistantInstruction = "",
+    assistantAutoSubmit = false
   ) => {
     setHiddenUrlGenerationJobId(null)
     setAiWorkspaceMode(mode)
     setAiAssistantInstruction(assistantInstruction)
+    setAiAssistantAutoSubmit(assistantAutoSubmit)
     setAiWorkspaceOpen(true)
     setAiRequestId((requestId) => requestId + 1)
   }
@@ -92,7 +99,22 @@ export function EditorWorkspace() {
   const showAiWorkspace = () => {
     setHiddenUrlGenerationJobId(null)
     setAiWorkspaceMode(DEFAULT_AI_WORKSPACE_MODE)
+    setAiAssistantAutoSubmit(false)
     setAiWorkspaceOpen(true)
+  }
+
+  const openGeneratedDraftAssistant = (
+    action: UrlGenerationAssistantAction
+  ) => {
+    const instruction =
+      action.kind === "repair-derived"
+        ? aiT("assistantSuggestion1")
+        : aiT("assistantCompleteAdvisories", {
+            issues: action.issues
+              .map((issue) => `- ${issueT(issue)}`)
+              .join("\n"),
+          })
+    openAiWorkspace("assistant", instruction, true)
   }
 
   const workspaceSidebarCollapsed = useUiPreferences(
@@ -231,7 +253,12 @@ export function EditorWorkspace() {
             mode={effectiveAiWorkspaceMode}
             requestId={aiRequestId}
             assistantInstruction={aiAssistantInstruction}
+            assistantAutoSubmit={aiAssistantAutoSubmit}
+            onAssistantAutoSubmitConsumed={() =>
+              setAiAssistantAutoSubmit(false)
+            }
             onModeChange={setAiWorkspaceMode}
+            onOpenGeneratedDraftAssistant={openGeneratedDraftAssistant}
             onClose={() => {
               setAiWorkspaceOpen(false)
               setHiddenUrlGenerationJobId(urlGenerationJobId ?? null)

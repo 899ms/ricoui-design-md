@@ -10,6 +10,7 @@ import {
   type GeneratedDesignIssue,
   type GeneratedDesignQuality,
 } from "@/lib/ai/validate-generated-design"
+import { normalizeGeneratedDesignTokens } from "@/lib/ai/normalize-generated-design"
 import type { Locale } from "@/lib/i18n/config"
 import { useDesignStore } from "@/lib/store/design-store"
 import { getDocumentRevision } from "@/lib/document-revision"
@@ -45,8 +46,50 @@ export interface UrlGenerationJob {
   pendingMarkdown?: string
   quality?: GeneratedDesignQuality
   issues: GeneratedDesignIssue[]
+  advisoryIssues?: GeneratedDesignIssue[]
+  blockingIssues?: GeneratedDesignIssue[]
+  derivedReady?: boolean
+  derivedIssueCount?: number
+  requiresRepair?: boolean
   error?: string
   presentation?: "expanded" | "collapsed"
+}
+
+export type UrlGenerationAssistantActionKind =
+  | "repair-derived"
+  | "complete-advisories"
+
+export interface UrlGenerationAssistantAction {
+  kind: UrlGenerationAssistantActionKind
+  issues: GeneratedDesignIssue[]
+}
+
+export function getUrlGenerationAssistantAction(
+  job: UrlGenerationJob
+): UrlGenerationAssistantAction | null {
+  if (
+    job.status === "invalid" ||
+    (job.status === "done" &&
+      (job.quality === "invalid" || job.derivedReady === false))
+  ) {
+    return {
+      kind: "repair-derived",
+      issues:
+        job.blockingIssues?.length && job.blockingIssues.length > 0
+          ? job.blockingIssues
+          : job.issues,
+    }
+  }
+
+  if (job.status === "done" && job.quality === "review") {
+    const issues =
+      job.advisoryIssues?.length && job.advisoryIssues.length > 0
+        ? job.advisoryIssues
+        : job.issues
+    return issues.length > 0 ? { kind: "complete-advisories", issues } : null
+  }
+
+  return null
 }
 
 interface StartUrlGenerationInput {
@@ -206,7 +249,9 @@ export const useUrlGenerationStore = create<UrlGenerationStore>((set, get) => ({
       updateCurrentJob(set, jobId, { phase: "generating" })
       let attempts: 1 | 2 = 1
       let generated = await collectMarkdown("generate")
-      let attributedMarkdown = ensureSourceWebsite(generated.markdown, url)
+      let attributedMarkdown = normalizeGeneratedDesignTokens(
+        ensureSourceWebsite(generated.markdown, url)
+      ).markdown
 
       updateCurrentJob(set, jobId, {
         phase: "validating",
@@ -217,19 +262,23 @@ export const useUrlGenerationStore = create<UrlGenerationStore>((set, get) => ({
         cssEvidence: page.cssEvidence,
       })
 
-      // Automatically repair every actionable machine finding. Evidence-only
-      // notes are intentionally excluded: compact CSS is not a verbatim
-      // allowlist and there is nothing concrete for the model to rewrite.
-      const repairIssues = validation.issues.filter(
-        (issue) => issue !== "unverified-values"
-      )
-      if (repairIssues.length > 0) {
+      // Only a truncated response or a failed deterministic artifact compile
+      // earns another model request. Documentation completeness is advisory,
+      // and malformed token identifiers were already repaired locally.
+      if (validation.requiresRepair) {
         attempts = 2
         updateCurrentJob(set, jobId, {
           phase: "repairing",
           attempts,
           generatedCharacters: 0,
-          issues: repairIssues,
+          issues:
+            validation.blockingIssues.length > 0
+              ? validation.blockingIssues
+              : validation.issues,
+          blockingIssues: validation.blockingIssues,
+          derivedReady: validation.derived.ready,
+          derivedIssueCount: validation.derived.issueCount,
+          requiresRepair: true,
         })
         const firstDraft = attributedMarkdown
         const firstValidation = validation
@@ -239,7 +288,9 @@ export const useUrlGenerationStore = create<UrlGenerationStore>((set, get) => ({
             firstDraft,
             getGeneratedDesignRepairDiagnostics(firstDraft, firstValidation)
           )
-          attributedMarkdown = ensureSourceWebsite(generated.markdown, url)
+          attributedMarkdown = normalizeGeneratedDesignTokens(
+            ensureSourceWebsite(generated.markdown, url)
+          ).markdown
           validation = validateGeneratedDesign(attributedMarkdown, {
             finishReason: generated.finishReason,
             cssEvidence: page.cssEvidence,
@@ -293,6 +344,11 @@ export const useUrlGenerationStore = create<UrlGenerationStore>((set, get) => ({
         documentId,
         quality: validation.quality,
         issues: actionableIssues,
+        advisoryIssues: validation.advisoryIssues,
+        blockingIssues: validation.blockingIssues,
+        derivedReady: validation.derived.ready,
+        derivedIssueCount: validation.derived.issueCount,
+        requiresRepair: validation.requiresRepair,
         attempts,
       })
     } catch (cause) {

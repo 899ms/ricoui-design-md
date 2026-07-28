@@ -33,23 +33,52 @@ import {
 } from "@/components/design-file-tabs"
 import { toast } from "@/lib/store/toast"
 import { exportToZip } from "@/lib/export/export-zip"
+import { compileDesignArtifacts } from "@/lib/export/compile-design-artifacts"
 import { downloadBlob } from "@/lib/download"
 import { cn, slugify } from "@/lib/utils"
 import type { ParseResult } from "@/lib/types/tokens"
 import type { Locale } from "@/lib/i18n/config"
+import { getDocumentRevision } from "@/lib/document-revision"
 import { UrlGenerationProgress } from "@/components/url-generation-progress"
-import { useUrlGenerationStore } from "@/lib/store/url-generation-store"
+import {
+  useUrlGenerationStore,
+  type UrlGenerationAssistantAction,
+} from "@/lib/store/url-generation-store"
 
 export type AiWorkspaceMode = "standardize" | "assistant"
 type AiRunnableMode = "standardize"
 export const DEFAULT_AI_WORKSPACE_MODE: AiWorkspaceMode = "standardize"
+
+export type StandardizeApplyState = "ready" | "applied" | "stale" | "invalid"
+
+export function resolveStandardizeApplyState({
+  hasResult,
+  reportValid,
+  sourceRevision,
+  currentRevision,
+  candidateRevision,
+}: {
+  hasResult: boolean
+  reportValid: boolean
+  sourceRevision: string | null
+  currentRevision: string
+  candidateRevision: string | null
+}): StandardizeApplyState {
+  if (!hasResult || !reportValid || !candidateRevision) return "invalid"
+  if (candidateRevision === currentRevision) return "applied"
+  if (sourceRevision && sourceRevision !== currentRevision) return "stale"
+  return "ready"
+}
 
 interface AiDocumentWorkspaceProps {
   open: boolean
   mode: AiWorkspaceMode
   requestId: number
   assistantInstruction?: string
+  assistantAutoSubmit?: boolean
+  onAssistantAutoSubmitConsumed?: () => void
   onModeChange: (mode: AiWorkspaceMode) => void
+  onOpenGeneratedDraftAssistant?: (action: UrlGenerationAssistantAction) => void
   onClose: () => void
 }
 
@@ -103,7 +132,10 @@ export function AiDocumentWorkspace({
   mode,
   requestId,
   assistantInstruction,
+  assistantAutoSubmit = false,
+  onAssistantAutoSubmitConsumed,
   onModeChange,
+  onOpenGeneratedDraftAssistant,
   onClose,
 }: AiDocumentWorkspaceProps) {
   const t = useTranslations("AiWorkspace")
@@ -124,6 +156,10 @@ export function AiDocumentWorkspace({
   const profileMenuRef = useRef<HTMLDivElement | null>(null)
   const handledRequestRef = useRef(requestId)
   const [standardized, setStandardized] = useState("")
+  const [standardizeSource, setStandardizeSource] = useState("")
+  const [standardizeSourceRevision, setStandardizeSourceRevision] = useState<
+    string | null
+  >(null)
   const [report, setReport] = useState<ConvertedCompletenessReport | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [running, setRunning] = useState<AiRunnableMode | null>(null)
@@ -261,6 +297,8 @@ export function AiDocumentWorkspace({
         startedAt,
       })
       setStandardized("")
+      setStandardizeSource(rawMarkdown)
+      setStandardizeSourceRevision(getDocumentRevision(rawMarkdown))
       setReport(null)
       setAiTask({
         status: "streaming",
@@ -406,14 +444,28 @@ export function AiDocumentWorkspace({
   }
 
   const applyStandardized = () => {
-    if (!standardized.trim() || !report?.valid) return
+    if (standardizeApplyState !== "ready") return
     updateRawMarkdown(standardized)
-    toast(t("applied"), "success")
-    onClose()
+    toast(
+      standardizedCompilation.ok ? t("applied") : t("appliedWithLimits"),
+      standardizedCompilation.ok ? "success" : "warning"
+    )
   }
 
   const visibleMetrics =
     mode === "standardize" && runMetrics?.task === mode ? runMetrics : null
+  const currentRevision = getDocumentRevision(rawMarkdown)
+  const candidateRevision = standardized.trim()
+    ? getDocumentRevision(standardized)
+    : null
+  const standardizedCompilation = compileDesignArtifacts(standardized)
+  const standardizeApplyState = resolveStandardizeApplyState({
+    hasResult: Boolean(standardized.trim()),
+    reportValid: report?.valid === true,
+    sourceRevision: standardizeSourceRevision,
+    currentRevision,
+    candidateRevision,
+  })
 
   return (
     <div
@@ -531,19 +583,22 @@ export function AiDocumentWorkspace({
                 markdown={rawMarkdown}
                 onApply={updateRawMarkdown}
                 initialInstruction={assistantInstruction}
+                autoSubmitInitialInstruction={assistantAutoSubmit}
+                onAutoSubmitInitialInstruction={onAssistantAutoSubmitConsumed}
               />
             ) : null
           ) : urlGenerationJob ? (
             <UrlGenerationProgress
-              onOpenAiAssistant={() => onModeChange("assistant")}
+              onOpenAiAssistant={onOpenGeneratedDraftAssistant}
             />
           ) : (
             <StandardizeContent
-              source={rawMarkdown}
+              source={standardizeSource || rawMarkdown}
               result={standardized}
               report={report}
               running={running === "standardize"}
               metrics={visibleMetrics}
+              applyState={standardizeApplyState}
               onRun={() => requestTask("standardize")}
             />
           )}
@@ -571,10 +626,14 @@ export function AiDocumentWorkspace({
                   <Button
                     size="sm"
                     onClick={applyStandardized}
-                    disabled={!standardized.trim() || !report?.valid}
+                    disabled={standardizeApplyState !== "ready"}
                   >
                     <Check className="h-3.5 w-3.5" />
-                    {t("apply")}
+                    {standardizeApplyState === "applied"
+                      ? t("appliedButton")
+                      : standardizeApplyState === "stale"
+                        ? t("staleCandidate")
+                        : t("apply")}
                   </Button>
                 </>
               )}
@@ -742,6 +801,7 @@ function StandardizeContent({
   report,
   running,
   metrics,
+  applyState,
   onRun,
 }: {
   source: string
@@ -749,6 +809,7 @@ function StandardizeContent({
   report: ConvertedCompletenessReport | null
   running: boolean
   metrics: AiRunMetrics | null
+  applyState: StandardizeApplyState
   onRun: () => void
 }) {
   const t = useTranslations("AiWorkspace")
@@ -791,6 +852,16 @@ function StandardizeContent({
 
       <RunPhaseStatus metrics={metrics} />
 
+      {applyState === "applied" && !running ? (
+        <p className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-900 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-200">
+          {t("appliedCandidateHelp")}
+        </p>
+      ) : applyState === "stale" && !running ? (
+        <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-200">
+          {t("staleCandidateHelp")}
+        </p>
+      ) : null}
+
       {report && !report.valid && !running && (
         <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-200">
           {report.reasons.join("；")}
@@ -832,11 +903,26 @@ function StandardizeFiles({
     () => buildDesignFileSources({ tokens: result.tokens, markdown, prefix }),
     [markdown, prefix, result.tokens]
   )
+  const compilation = useMemo(
+    () => compileDesignArtifacts(markdown),
+    [markdown]
+  )
+  const availableCount = fileSources.filter((file) => !file.disabled).length
+  const issueCount = compilation.ok ? 0 : Math.max(compilation.issues.length, 1)
   return (
     <div className="flex min-h-0 flex-col gap-2">
-      <p className="text-[11px] text-muted-foreground">
-        {t("filesHint", { count: fileSources.length })}
-      </p>
+      {compilation.ok ? (
+        <p className="text-[11px] text-muted-foreground">
+          {t("filesHint", { count: availableCount })}
+        </p>
+      ) : (
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-4 text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-200">
+          <p className="font-medium">
+            {t("filesLimitedHint", { count: issueCount })}
+          </p>
+          <p className="mt-0.5 opacity-80">{t("filesLimitedHelp")}</p>
+        </div>
+      )}
       <DesignFileTabs
         fileSources={fileSources}
         onDownloadAll={() =>

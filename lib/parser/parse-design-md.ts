@@ -171,6 +171,19 @@ function bulletValue(items: string[], key: string): string {
   return ""
 }
 
+function splitLabeledParagraph(value: string, key: string) {
+  const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  const match = new RegExp(
+    `^${escapedKey}:\\s*([^\\r\\n]*)(?:\\r?\\n+([\\s\\S]*))?$`,
+    "i"
+  ).exec(value)
+  if (!match) return null
+  return {
+    value: match[1].trim(),
+    remainder: match[2]?.trim() ?? "",
+  }
+}
+
 function parsePreamble(tokens: Token[]) {
   let name = ""
   let description = ""
@@ -468,11 +481,31 @@ function parseComponents(tokens: Token[]): {
       .filter((token: Token) => token.type === "paragraph")
       .map((token: Token) => clean(token.text || ""))
     const items = listItems(section.tokens)
-    const role = bulletValue([...paragraphs, ...items], "Role")
-    const bodyParagraphs = paragraphs.filter(
-      (paragraph) => !/^role\s*:/i.test(paragraph)
-    )
-    const bodyItems = items.filter((item) => !/^role\s*:/i.test(item))
+    let role = ""
+    const bodyParagraphs: string[] = []
+    const bodyItems: string[] = []
+
+    for (const paragraph of paragraphs) {
+      const labeled = splitLabeledParagraph(paragraph, "Role")
+      if (!labeled) {
+        bodyParagraphs.push(paragraph)
+        continue
+      }
+      if (!role) role = labeled.value
+      if (labeled.remainder) bodyParagraphs.push(labeled.remainder)
+    }
+
+    for (const item of items) {
+      const labeled = splitLabeledParagraph(item, "Role")
+      if (!labeled) {
+        bodyItems.push(item)
+        continue
+      }
+      if (!role) role = labeled.value
+      if (labeled.remainder) bodyItems.push(labeled.remainder)
+    }
+
+    if (!role) role = bulletValue([...paragraphs, ...items], "Role")
     const body = [
       ...bodyParagraphs,
       ...bodyItems.map((item) => `- ${item}`),

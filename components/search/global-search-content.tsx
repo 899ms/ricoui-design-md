@@ -245,8 +245,8 @@ function GenerateUrlAction({
 
   const handleGenerate = () => {
     if (generationRunning) {
-      onGenerateStarted?.()
       router.push("/editor")
+      onGenerateStarted?.()
       return
     }
     if (!settings.apiKey) {
@@ -256,8 +256,8 @@ function GenerateUrlAction({
     if (!aiEnabled) return
     const url = normalizeUrlInput(query)
     void start({ url, settings, locale })
-    onGenerateStarted?.()
     router.push("/editor")
+    onGenerateStarted?.()
   }
 
   if (!aiEnabled) return null

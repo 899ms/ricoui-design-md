@@ -8,6 +8,7 @@ import {
   stripProvenance,
 } from "@/lib/validation/token-syntax"
 import { getTokenExportReadiness } from "@/lib/validation/export-readiness"
+import { compileDesignArtifacts } from "@/lib/export/compile-design-artifacts"
 
 export type GeneratedDesignIssue =
   | "truncated-output"
@@ -34,12 +35,20 @@ export type GeneratedDesignIssue =
   | "unverified-values"
   | "unresolved-references"
   | "unsupported-assumptions"
+  | "parse-error"
 
 export type GeneratedDesignQuality = "ready" | "review" | "invalid"
 
 export interface GeneratedDesignValidation {
   quality: GeneratedDesignQuality
   issues: GeneratedDesignIssue[]
+  advisoryIssues: GeneratedDesignIssue[]
+  blockingIssues: GeneratedDesignIssue[]
+  derived: {
+    ready: boolean
+    issueCount: number
+  }
+  requiresRepair: boolean
 }
 
 export interface GeneratedDesignValidationOptions {
@@ -55,32 +64,9 @@ interface EvidenceCandidate {
 const UNSUPPORTED_PROVENANCE_PATTERN =
   /\((?:assumed|known|inferred|estimated)\)|\b(?:calculated|derived)\s+from\b/i
 const THEME_DECLARATION_PATTERN =
-  /^\*\*Theme:\*\*\s*(?:light|dark)(?:\s+[^\r\n]+)?\s*$/im
+  /^\*\*Theme:\*\*[ \t]*(?:light|dark)(?:[ \t]+[^\r\n]+)?[ \t]*$/im
 
-const BLOCKING_ISSUES = new Set<GeneratedDesignIssue>([
-  "truncated-output",
-  "missing-h1",
-  "missing-description",
-  "missing-theme",
-  "missing-colors",
-  "missing-fonts",
-  "missing-type-scale",
-  "noncanonical-headings",
-  "invalid-components",
-  "invalid-token-syntax",
-  "invalid-css-values",
-  "placeholder-values",
-  "unresolved-references",
-  "unsupported-assumptions",
-])
-
-// These findings can limit deterministic derived exports, but the Markdown
-// itself remains readable, editable, and useful. Keep them in the saved
-// diagnostics without turning an otherwise usable generated document into a
-// warning or blocked draft. Export readiness performs its own stricter check
-// at the point where tokens.json/CSS are requested.
-const ADVISORY_ISSUES = new Set<GeneratedDesignIssue>([
-  "invalid-font-blocks",
+const INFORMATIONAL_ISSUES = new Set<GeneratedDesignIssue>([
   "unverified-values",
 ])
 
@@ -170,26 +156,55 @@ export function ensureSourceWebsite(markdown: string, url: string) {
   const sourceLine = `**Source website:** [${url}](${url})`
   const disclaimer =
     "Use the live official website to compare and validate this extracted snapshot. The current source website remains authoritative."
+  const brandName = (() => {
+    try {
+      const hostname = new URL(url).hostname.replace(/^www\./i, "")
+      const label = hostname.split(".")[0].replace(/[-_]+/g, " ").trim()
+      return label.replace(/\b[a-z]/g, (letter) => letter.toUpperCase())
+    } catch {
+      return "Website"
+    }
+  })()
+  const normalizedTitle = markdown.replace(
+    /^#\s+(?:Brand|Website|Untitled)\s+[—–-]\s+Style Reference\s*$/im,
+    `# ${brandName} — Style Reference`
+  )
   const sourcePattern = /^\*\*Source website:\*\*.*$/im
-  const sourceMatch = sourcePattern.exec(markdown)
+  const sourceMatch = sourcePattern.exec(normalizedTitle)
+  let attributed: string
   if (sourceMatch && sourceMatch.index !== undefined) {
     const sourceEnd = sourceMatch.index + sourceMatch[0].length
-    const normalized = `${markdown.slice(0, sourceMatch.index)}${sourceLine}${markdown.slice(sourceEnd)}`
-    if (/current source website remains authoritative/i.test(normalized)) {
-      return normalized.trim()
+    attributed = `${normalizedTitle.slice(0, sourceMatch.index)}${sourceLine}${normalizedTitle.slice(sourceEnd)}`
+  } else {
+    const sourceNote = `${sourceLine}\n\n${disclaimer}`
+    const themeMatch = THEME_DECLARATION_PATTERN.exec(normalizedTitle)
+    if (!themeMatch || themeMatch.index === undefined) {
+      attributed = `${normalizedTitle.trim()}\n\n${sourceNote}`
+    } else {
+      const insertAt = themeMatch.index + themeMatch[0].length
+      attributed = `${normalizedTitle.slice(0, insertAt)}\n\n${sourceNote}${normalizedTitle.slice(insertAt)}`
     }
-    const insertAt = sourceMatch.index + sourceLine.length
-    return `${normalized.slice(0, insertAt)}\n\n${disclaimer}${normalized.slice(insertAt)}`.trim()
   }
 
-  const sourceNote = `${sourceLine}\n\n${disclaimer}`
-  const themeMatch = THEME_DECLARATION_PATTERN.exec(markdown)
-  if (!themeMatch || themeMatch.index === undefined) {
-    return `${markdown.trim()}\n\n${sourceNote}`
-  }
+  const lines = attributed.split(/\r?\n/)
+  const sourceIndex = lines.findIndex((line) =>
+    /^\*\*Source website:\*\*/i.test(line.trim())
+  )
+  if (sourceIndex === -1) return attributed.trim()
 
-  const insertAt = themeMatch.index + themeMatch[0].length
-  return `${markdown.slice(0, insertAt)}\n\n${sourceNote}${markdown.slice(insertAt)}`.trim()
+  const authorityPattern =
+    /^(?:(?:Use|Check|Compare)\b.*\b(?:live|official|source)\b.*\bauthoritative\b|The\b.*\b(?:live|source|website)\b.*\bauthoritative\b)/i
+  let cursor = sourceIndex + 1
+  while (cursor < lines.length && !lines[cursor].trim()) cursor += 1
+  while (cursor < lines.length && authorityPattern.test(lines[cursor].trim())) {
+    cursor += 1
+    while (cursor < lines.length && !lines[cursor].trim()) cursor += 1
+  }
+  lines.splice(sourceIndex + 1, cursor - sourceIndex - 1, "", disclaimer, "")
+  return lines
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
 }
 
 export function validateGeneratedDesign(
@@ -342,6 +357,7 @@ export function validateGeneratedDesign(
       }
     }
   } catch {
+    issues.add("parse-error")
     issues.add("missing-colors")
     issues.add("missing-fonts")
     issues.add("missing-type-scale")
@@ -353,14 +369,44 @@ export function validateGeneratedDesign(
   if (!/^##\s+Layout\s*$/im.test(trimmed)) issues.add("missing-layout")
   if (containsIncompleteValue(trimmed)) issues.add("unsupported-assumptions")
 
+  const compilation = compileDesignArtifacts(trimmed)
+  if (!compilation.ok && compilation.reason === "parse-error") {
+    issues.add("parse-error")
+  }
+
   const issueList = Array.from(issues)
+  const derivedReady = compilation.ok
+  const requiresRepair = issues.has("truncated-output") || !derivedReady
+  const blockingIssues: GeneratedDesignIssue[] = requiresRepair
+    ? issueList.filter(
+        (issue) =>
+          issue === "truncated-output" ||
+          issue === "parse-error" ||
+          issue === "invalid-token-syntax" ||
+          issue === "invalid-css-values" ||
+          issue === "placeholder-values" ||
+          issue === "unresolved-references"
+      )
+    : []
+  const advisoryIssues = issueList.filter(
+    (issue) =>
+      !blockingIssues.includes(issue) && !INFORMATIONAL_ISSUES.has(issue)
+  )
+
   return {
-    quality: issueList.some((issue) => BLOCKING_ISSUES.has(issue))
+    quality: requiresRepair
       ? "invalid"
-      : issueList.some((issue) => !ADVISORY_ISSUES.has(issue))
+      : advisoryIssues.length > 0
         ? "review"
         : "ready",
     issues: issueList,
+    advisoryIssues,
+    blockingIssues,
+    derived: {
+      ready: derivedReady,
+      issueCount: compilation.ok ? 0 : Math.max(compilation.issues.length, 1),
+    },
+    requiresRepair,
   }
 }
 
@@ -373,7 +419,7 @@ export function getGeneratedDesignRepairDiagnostics(
   markdown: string,
   validation: GeneratedDesignValidation
 ) {
-  const diagnostics: string[] = [...validation.issues]
+  const diagnostics: string[] = [...validation.blockingIssues]
 
   try {
     const { tokens } = parseDesignMd(markdown)

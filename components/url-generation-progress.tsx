@@ -18,7 +18,9 @@ import {
 } from "lucide-react"
 import { useDesignStore } from "@/lib/store/design-store"
 import {
+  getUrlGenerationAssistantAction,
   useUrlGenerationStore,
+  type UrlGenerationAssistantAction,
   type UrlGenerationPhase,
 } from "@/lib/store/url-generation-store"
 import { cn } from "@/lib/utils"
@@ -56,7 +58,7 @@ const PHASE_PROGRESS: Record<UrlGenerationPhase, number> = {
 export function UrlGenerationProgress({
   onOpenAiAssistant,
 }: {
-  onOpenAiAssistant?: () => void
+  onOpenAiAssistant?: (action: UrlGenerationAssistantAction) => void
 }) {
   const t = useTranslations("UrlGeneration")
   const locale = useLocale()
@@ -87,20 +89,33 @@ export function UrlGenerationProgress({
     Math.round(((job.completedAt ?? now) - job.startedAt) / 1000)
   )
   const number = new Intl.NumberFormat(locale)
-  const needsAttention =
+  const needsRepair =
     job.status === "invalid" ||
-    (job.status === "done" && job.quality !== "ready")
+    (job.status === "done" &&
+      (job.quality === "invalid" || job.derivedReady === false))
+  const assistantAction = getUrlGenerationAssistantAction(job)
+  const displayedIssues =
+    job.quality === "invalid" && job.blockingIssues?.length
+      ? job.blockingIssues
+      : job.quality === "review" && job.advisoryIssues?.length
+        ? job.advisoryIssues
+        : job.issues
 
   const openDocument = () => {
     if (!job.documentId) return
     switchDocument(job.documentId)
     setActiveView("document")
+    dismiss()
     router.push("/editor")
   }
 
   const openAiAssistant = () => {
-    openDocument()
-    onOpenAiAssistant?.()
+    if (!job.documentId) return
+    switchDocument(job.documentId)
+    setActiveView("document")
+    dismiss()
+    router.push("/editor")
+    if (assistantAction) onOpenAiAssistant?.(assistantAction)
   }
 
   const detail =
@@ -110,7 +125,7 @@ export function UrlGenerationProgress({
         ? t("cancelledDetail", { seconds: elapsedSeconds })
         : job.status === "invalid"
           ? t("invalidDetail", {
-              count: job.issues.length,
+              count: displayedIssues.length,
               seconds: elapsedSeconds,
             })
           : job.status === "done"
@@ -118,11 +133,11 @@ export function UrlGenerationProgress({
               ? t("readyDetail", { seconds: elapsedSeconds })
               : job.quality === "invalid"
                 ? t("invalidSavedDetail", {
-                    count: job.issues.length,
+                    count: displayedIssues.length,
                     seconds: elapsedSeconds,
                   })
                 : t("reviewDetail", {
-                    count: job.issues.length,
+                    count: displayedIssues.length,
                     seconds: elapsedSeconds,
                   })
             : job.phase === "generating" && job.generatedCharacters > 0
@@ -155,7 +170,7 @@ export function UrlGenerationProgress({
   const StatusIcon =
     job.status === "running"
       ? Loader2
-      : job.status === "done" && job.quality === "ready"
+      : job.status === "done" && job.quality !== "invalid"
         ? Check
         : job.status === "cancelled"
           ? X
@@ -174,7 +189,7 @@ export function UrlGenerationProgress({
             "grid size-9 shrink-0 place-items-center rounded-lg border",
             job.status === "error"
               ? "border-destructive/25 bg-destructive/8 text-destructive"
-              : needsAttention
+              : needsRepair
                 ? "border-amber-500/25 bg-amber-500/8 text-amber-700 dark:text-amber-300"
                 : job.status === "done"
                   ? "border-emerald-500/25 bg-emerald-500/8 text-emerald-700 dark:text-emerald-300"
@@ -247,24 +262,28 @@ export function UrlGenerationProgress({
 
       {(job.status === "done" || job.status === "invalid") &&
       job.quality !== "ready" &&
-      job.issues.length > 0 ? (
+      displayedIssues.length > 0 ? (
         <div className="mt-5 border-t border-border/60 pt-4">
           <p className="text-[10px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">
-            {t("reviewItems")}
+            {job.quality === "review" ? t("advisoryItems") : t("reviewItems")}
           </p>
           <ul className="mt-2 space-y-2">
-            {job.issues.slice(0, 4).map((issue) => (
+            {displayedIssues.slice(0, 4).map((issue) => (
               <li
                 key={issue}
                 className="flex items-start gap-2 text-xs leading-5 text-foreground/80"
               >
-                <AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-amber-600" />
+                {job.quality === "review" ? (
+                  <WandSparkles className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                ) : (
+                  <AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-amber-600" />
+                )}
                 <span>{t(`issue.${issue}`)}</span>
               </li>
             ))}
-            {job.issues.length > 4 ? (
+            {displayedIssues.length > 4 ? (
               <li className="pl-5.5 text-xs text-muted-foreground">
-                {t("moreIssues", { count: job.issues.length - 4 })}
+                {t("moreIssues", { count: displayedIssues.length - 4 })}
               </li>
             ) : null}
           </ul>
@@ -288,10 +307,12 @@ export function UrlGenerationProgress({
             {t("openDraft")}
           </Button>
         ) : null}
-        {needsAttention && job.documentId && onOpenAiAssistant ? (
+        {assistantAction && job.documentId && onOpenAiAssistant ? (
           <Button variant="outline" size="sm" onClick={openAiAssistant}>
             <MessageSquareText data-icon="inline-start" />
-            {t("reviewWithAi")}
+            {assistantAction.kind === "repair-derived"
+              ? t("repairWithAi")
+              : t("completeWithAi")}
           </Button>
         ) : null}
         {(job.status === "error" ||

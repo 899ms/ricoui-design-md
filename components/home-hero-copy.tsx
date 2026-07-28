@@ -66,7 +66,7 @@ export function HomeHeroCopy() {
       <h1 className="mt-5 max-w-3xl text-4xl leading-[1.05] font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
         {copy.title}
       </h1>
-      <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+      <p className="mt-4 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">
         {copy.description}
       </p>
 

@@ -195,12 +195,12 @@ Decision rules:
 4. Do not expose uncertainty inside canonical cells. Never emit unknown, N/A, placeholders, (known), (assumed), (inferred), estimated, calculated, or truncated values. Do not mechanically multiply a base unit into a large spacing scale.
 5. Ignore one-off computed-instance artifacts such as fractional responsive measurements or a specific CTA width unless they repeat or are explicitly named. Normalize the result into reusable semantic roles rather than treating every page element as a global token.
 6. Preserve the exact website URL in a **Source website:** Markdown link directly after **Theme:**, followed by one sentence stating that the live website remains authoritative.
-7. Use a concise but sufficiently complete semantic system. Include colors, font families, a practical type scale, spacing and radii, reusable components, layout, imagery, and concrete Do/Don't guidance. Shadows are optional when the visual language is flat.
-8. A Value cell contains exactly one executable CSS value. Write either 1.25rem or 20px, never 1.25rem (20px). Use ASCII minus signs. A gradient must contain a complete CSS gradient function. A var() reference must resolve to a Token row in this document without a cycle.
+7. Use a concise, evidence-backed semantic system. Include the token groups supported by the captured source. Components, layout, imagery, and Do/Don't guidance are optional when the source does not provide meaningful evidence; do not invent filler merely to satisfy a checklist.
+8. A Value cell contains exactly one executable CSS value. Write either 1.25rem or 20px, never 1.25rem (20px). Use ASCII minus signs and never use scientific notation or floating-point-limit sentinels for CSS lengths. Use 9999px for a Pill or Full radius. A gradient must contain a complete CSS gradient function. A var() reference must resolve to a Token row in this document without a cycle.
 9. A Token cell contains exactly one CSS custom property such as --spacing-4. Arithmetic expressions, metadata labels, provenance suffixes, and multiple tokens are invalid.
 10. Typography uses a readable font-family H3 containing one --font-* token, followed by Substitute, Weights, and Role bullets, then a separate ### Type Scale table. Spacing uses ### Spacing Scale.
 11. Components use an H3, an unbulleted **Role:** paragraph, and concrete specification prose. Reusable navigation, buttons, cards, inputs, dialogs, and menus are components; product features and marketing sections are layout examples.
-12. Write canonical headings and supporting prose in English while preserving brand names, product names, source token names, and quoted content. The H1 must follow \`# Brand — Style Reference\`.
+12. Write canonical headings and supporting prose in English while preserving brand names, product names, source token names, and quoted content. The H1 must use the detected website brand name in \`# {actual brand name} — Style Reference\`; never output the literal placeholder \`Brand\`, \`Website\`, or \`Untitled\`.
 13. Return only the complete canonical Markdown document, with no fenced wrapper or commentary.
 
 Invalid spacing row (never output):

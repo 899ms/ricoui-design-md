@@ -6,6 +6,7 @@ import {
 } from "@/lib/ai/validate-generated-design"
 import { parseDesignMd } from "@/lib/parser/parse-design-md"
 import { compileDesignArtifacts } from "@/lib/export/compile-design-artifacts"
+import { normalizeGeneratedDesignTokens } from "@/lib/ai/normalize-generated-design"
 
 const canonicalDocument = `# Example — Style Reference
 > A compact reference for the Example website.
@@ -79,9 +80,13 @@ describe("website DESIGN.md validation", () => {
   it("accepts a complete canonical website reference", () => {
     expect(
       validateGeneratedDesign(canonicalDocument, { finishReason: "stop" })
-    ).toEqual({
+    ).toMatchObject({
       quality: "ready",
       issues: [],
+      advisoryIssues: [],
+      blockingIssues: [],
+      derived: { ready: true, issueCount: 0 },
+      requiresRepair: false,
     })
   })
 
@@ -139,6 +144,23 @@ describe("website DESIGN.md validation", () => {
     )
     expect(validation.quality).toBe("ready")
     expect(compilation.ok).toBe(true)
+  })
+
+  it("keeps a component description when Role and prose share one paragraph", () => {
+    const markdown = canonicalDocument.replace(
+      "**Role:** Primary action\n\nUses the observed ink color",
+      "**Role:** Primary action\nUses the observed ink color"
+    )
+    const parsed = parseDesignMd(markdown)
+    const validation = validateGeneratedDesign(markdown, {
+      finishReason: "stop",
+    })
+
+    expect(parsed.tokens.components[0]).toMatchObject({
+      role: "Primary action",
+      description: expect.stringContaining("Uses the observed ink color"),
+    })
+    expect(validation.issues).not.toContain("invalid-components")
   })
 
   it("marks the structural problems found in a generated draft for review", () => {
@@ -341,6 +363,109 @@ max-width: 1200px`,
     )
   })
 
+  it("normalizes generated token names while preserving prose and source attribution", () => {
+    const generated = ensureSourceWebsite(
+      canonicalDocument
+        .replace("--color-ink", "Ink token")
+        .replace("### Inter · `--font-sans`", "### Inter")
+        .replace("- **Role:** Interface text (observed)\n", "")
+        .replace("--text-body", "Body token")
+        .replace("--spacing-4", "Spacing 4")
+        .replace(
+          "**Role:** Primary action\n\nUses the observed ink color",
+          "Uses the observed ink color"
+        )
+        .concat("\n\n## Source Notes\n\nKeep this custom section."),
+      "https://example.com/"
+    )
+
+    const normalized = normalizeGeneratedDesignTokens(generated)
+    const validation = validateGeneratedDesign(normalized.markdown, {
+      finishReason: "stop",
+    })
+    const compilation = compileDesignArtifacts(normalized.markdown)
+
+    expect(normalized.normalizedCount).toBe(4)
+    expect(normalized.markdown).toContain("--color-ink")
+    expect(normalized.markdown).toContain("--font-inter")
+    expect(normalized.markdown).toContain("--text-body")
+    expect(normalized.markdown).toContain("--spacing-4")
+    expect(normalized.markdown).toContain("## Source Notes")
+    expect(normalized.markdown).toContain("**Source website:**")
+    expect(validation.issues).toEqual(
+      expect.arrayContaining(["invalid-font-blocks", "invalid-components"])
+    )
+    expect(validation.quality).toBe("review")
+    expect(validation.requiresRepair).toBe(false)
+    expect(compilation.ok).toBe(true)
+  })
+
+  it("generates stable unique names for duplicate malformed token rows", () => {
+    const duplicateRows = canonicalDocument.replace(
+      "| Ink | #111111 | --color-ink | Primary text (observed) |",
+      `| Primary | #111111 | invalid | Text |
+| Primary | #222222 | invalid | Border |`
+    )
+
+    const normalized = normalizeGeneratedDesignTokens(duplicateRows)
+
+    expect(normalized.markdown).toContain("--color-primary")
+    expect(normalized.markdown).toContain("--color-primary-2")
+    expect(compileDesignArtifacts(normalized.markdown).ok).toBe(true)
+  })
+
+  it("normalizes the Micro full-radius sentinel without changing valid tokens", () => {
+    const micro = canonicalDocument
+      .replace("# Example", "# Brand")
+      .replace("https://example.com/", "https://micro.so/")
+      .replace(
+        "| Small | 4px | --radius-sm |",
+        "| Full | 3.40282e38px | --radius-full |"
+      )
+      .replace(
+        "**Role:** Primary action\n\nUses the observed ink color",
+        "**Role:** Primary action\nUses the observed ink color"
+      )
+      .replace(
+        "The current source website remains authoritative.",
+        "The current source website remains authoritative.\nThe live website remains authoritative."
+      )
+    const attributed = ensureSourceWebsite(micro, "https://micro.so/")
+    const normalized = normalizeGeneratedDesignTokens(attributed)
+    const parsed = parseDesignMd(normalized.markdown)
+
+    expect(normalized.normalizedTokenCount).toBe(0)
+    expect(normalized.normalizedValueCount).toBe(1)
+    expect(normalized.markdown).toContain("# Micro — Style Reference")
+    expect(normalized.markdown).toMatch(
+      /\| Full \| 9999px \| `?--radius-full`? \|/
+    )
+    expect(normalized.markdown.match(/remains authoritative\./g)).toHaveLength(
+      1
+    )
+    expect(parsed.tokens.components[0].description).toContain(
+      "Uses the observed ink color"
+    )
+    expect(compileDesignArtifacts(normalized.markdown).ok).toBe(true)
+  })
+
+  it("accepts Refero-style unwrapped token cells and compact component prose", () => {
+    const refero = canonicalDocument
+      .replace(/`(--[^`]+)`/g, "$1")
+      .replace(
+        "**Role:** Primary action\n\nUses the observed ink color",
+        "**Role:** Primary action\nUses the observed ink color"
+      )
+    const parsed = parseDesignMd(refero)
+
+    expect(parsed.tokens.colors[0].token).toBe("--color-ink")
+    expect(parsed.tokens.components[0]).toMatchObject({
+      role: "Primary action",
+      description: expect.stringContaining("Uses the observed ink color"),
+    })
+    expect(compileDesignArtifacts(refero).ok).toBe(true)
+  })
+
   it("gives the correction model exact invalid token paths and values", () => {
     const markdown = canonicalDocument.replace("--spacing-4", "spacing * 4")
     const validation = validateGeneratedDesign(markdown, {
@@ -373,6 +498,17 @@ max-width: 1200px`,
     )
     expect(normalizedAgain).toBe(attributed)
     expect(normalizedAgain.match(/\*\*Source website:\*\*/g)).toHaveLength(1)
+  })
+
+  it("replaces only a generic generated title with the hostname brand", () => {
+    const generic = ensureSourceWebsite(
+      canonicalDocument.replace("# Example", "# Brand"),
+      "https://www.micro.so/"
+    )
+    const named = ensureSourceWebsite(canonicalDocument, "https://micro.so/")
+
+    expect(generic).toContain("# Micro — Style Reference")
+    expect(named).toContain("# Example — Style Reference")
   })
 
   it("replaces a model-provided source URL with the requested URL", () => {

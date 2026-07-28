@@ -3,6 +3,7 @@ import {
   clampAiWorkspaceWidth,
   DEFAULT_AI_WORKSPACE_MODE,
   hasResizeExceededThreshold,
+  resolveStandardizeApplyState,
 } from "@/components/ai-document-workspace"
 import { AI_PROVIDERS, createProviderProfile } from "@/lib/ai/providers"
 import { migrateAiSettings } from "@/lib/store/ai-settings-store"
@@ -79,5 +80,34 @@ describe("AI workspace width", () => {
 
   it("opens on generation by default", () => {
     expect(DEFAULT_AI_WORKSPACE_MODE).toBe("standardize")
+  })
+})
+
+describe("AI standardization apply state", () => {
+  const base = {
+    hasResult: true,
+    reportValid: true,
+    sourceRevision: "source",
+    currentRevision: "source",
+    candidateRevision: "candidate",
+  }
+
+  it("distinguishes ready, applied, stale, and invalid candidates", () => {
+    expect(resolveStandardizeApplyState(base)).toBe("ready")
+    expect(
+      resolveStandardizeApplyState({
+        ...base,
+        currentRevision: "candidate",
+      })
+    ).toBe("applied")
+    expect(
+      resolveStandardizeApplyState({
+        ...base,
+        currentRevision: "newer-source",
+      })
+    ).toBe("stale")
+    expect(resolveStandardizeApplyState({ ...base, reportValid: false })).toBe(
+      "invalid"
+    )
   })
 })
