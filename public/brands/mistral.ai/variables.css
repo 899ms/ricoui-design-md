@@ -1,105 +1,53 @@
-/* Mistral-AI design tokens */
 :root {
-  --color-primary: #fa520f;
-  --color-primary-deep: #cc3a05;
-  --color-on-primary: #ffffff;
-  --color-sunshine-300: #ffd06a;
-  --color-sunshine-500: #ffb83e;
-  --color-sunshine-700: #ffa110;
-  --color-sunshine-800: #ff8105;
-  --color-sunshine-900: #ff8a00;
-  --color-yellow-saturated: #ffd900;
-  --color-cream: #fff8e0;
-  --color-cream-light: #fffaeb;
-  --color-cream-deeper: #fff0c2;
-  --color-beige-deep: #e6d5a8;
-  --color-block-5: #ffe295;
-  --color-block-6: #ffd900;
-  --color-block-7: #ff8105;
-  --color-ink: #1f1f1f;
-  --color-ink-tint: #3d3d3d;
-  --color-charcoal: #2c2c2c;
-  --color-slate: #4a4a4a;
-  --color-steel: #6a6a6a;
-  --color-stone: #8a8a8a;
-  --color-muted: #a8a8a8;
-  --color-hairline: #e5e5e5;
-  --color-hairline-soft: #ededed;
-  --color-hairline-strong: #c7c7c7;
-  --color-canvas: #ffffff;
-  --color-surface: #fafafa;
-  --color-surface-cream: #fff8e0;
-  --color-surface-cream-soft: #fffaeb;
-  --color-surface-code: #1c1c1e;
-  --color-on-dark: #ffffff;
-  --color-on-dark-muted: #a8a8a8;
-  --color-on-cream: #1f1f1f;
-  --color-footer-cream: #fff8e0;
-  --color-link: #fa520f;
-  --font-primary: 'PP Editorial Old', system-ui, sans-serif;
-  --font-family-2: 'Inter', system-ui, sans-serif;
-  --font-family-3: 'JetBrains Mono', system-ui, sans-serif;
-  --text-hero-display: 84px;
-  --leading-hero-display: 1.05;
-  --tracking-hero-display: -1.5px;
-  --text-display-lg: 64px;
-  --leading-display-lg: 1.1;
-  --tracking-display-lg: -1px;
-  --text-heading-1: 52px;
-  --leading-heading-1: 1.15;
-  --tracking-heading-1: -0.5px;
-  --text-heading-2: 36px;
-  --leading-heading-2: 1.2;
-  --tracking-heading-2: -0.5px;
-  --text-heading-3: 28px;
-  --leading-heading-3: 1.25;
-  --text-heading-4: 22px;
-  --leading-heading-4: 1.3;
-  --text-heading-5: 18px;
-  --leading-heading-5: 1.4;
-  --text-subtitle: 18px;
-  --leading-subtitle: 1.5;
-  --text-body-md: 16px;
-  --leading-body-md: 1.55;
-  --text-body-md-medium: 16px;
-  --leading-body-md-medium: 1.55;
-  --text-body-sm: 14px;
-  --leading-body-sm: 1.5;
-  --text-body-sm-medium: 14px;
-  --leading-body-sm-medium: 1.5;
-  --text-caption: 13px;
-  --leading-caption: 1.4;
-  --text-caption-bold: 13px;
-  --leading-caption-bold: 1.4;
-  --text-micro: 12px;
-  --leading-micro: 1.4;
-  --text-micro-uppercase: 11px;
-  --leading-micro-uppercase: 1.4;
-  --tracking-micro-uppercase: 1px;
-  --text-button-md: 14px;
-  --leading-button-md: 1.3;
-  --text-stat-display: 56px;
-  --leading-stat-display: 1.1;
-  --tracking-stat-display: -1px;
-  --text-code-md: 14px;
-  --leading-code-md: 1.5;
-  --spacing-xxs: 4px;
-  --spacing-xs: 8px;
-  --spacing-sm: 12px;
-  --spacing-md: 16px;
-  --spacing-lg: 20px;
-  --spacing-xl: 24px;
-  --spacing-xxl: 32px;
-  --spacing-xxxl: 40px;
-  --spacing-section-sm: 48px;
-  --spacing-section: 64px;
-  --spacing-section-lg: 96px;
-  --spacing-hero: 120px;
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-xxl: 20px;
-  --radius-full: 9999px;
+  /* Colors */
+  --mistral-parchment: #fffaeb;
+  --mistral-card: #ffffff;
+  --mistral-ink: #1f1f1f;
+  --mistral-carbon: #000000;
+  --mistral-graphite: #3c3c3c;
+  --mistral-ember: #fa520f;
+  --mistral-butter: #fff0c2;
+  --mistral-honeycomb: #ecdaa2;
+
+  /* Typography */
+  --mistral-font-sans: Arial, Helvetica, Inter, system-ui, sans-serif;
+  --mistral-weight: 400;
+  --mistral-tracking: -0.025em;
+  --mistral-text-caption: 14px;
+  --mistral-text-body-sm: 16px;
+  --mistral-text-body: 24px;
+  --mistral-text-subheading: 32px;
+  --mistral-text-heading-sm: 38px;
+  --mistral-text-heading: 48px;
+  --mistral-text-heading-lg: 56px;
+  --mistral-text-display: 82px;
+
+  /* Spacing and layout */
+  --mistral-space-4: 4px;
+  --mistral-space-8: 8px;
+  --mistral-space-12: 12px;
+  --mistral-space-16: 16px;
+  --mistral-space-20: 20px;
+  --mistral-space-24: 24px;
+  --mistral-space-32: 32px;
+  --mistral-space-36: 36px;
+  --mistral-space-40: 40px;
+  --mistral-space-48: 48px;
+  --mistral-space-64: 64px;
+  --mistral-space-72: 72px;
+  --mistral-space-80: 80px;
+  --mistral-space-100: 100px;
+  --mistral-page-max: 1200px;
+  --mistral-section-gap: 80px;
+
+  /* Shape and depth */
+  --mistral-radius-button: 6px;
+  --mistral-radius-input: 8px;
+  --mistral-radius-card: 12px;
+  --mistral-radius-pill: 9999px;
+  --mistral-shadow-xl:
+    rgba(127, 99, 21, 0.12) -8px 16px 39px 0px,
+    rgba(127, 99, 21, 0.1) -33px 64px 72px 0px,
+    rgba(127, 99, 21, 0.06) -73px 144px 97px 0px,
+    rgba(127, 99, 21, 0.02) -130px 256px 115px 0px;
 }

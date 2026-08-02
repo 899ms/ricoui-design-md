@@ -1,139 +1,95 @@
-# Lovable — Style Reference
-> Lovable's website radiates warmth through restraint. The entire page sits on a creamy, parchment-toned background (`#f7f4ed`) that immediately separates it from the cold-white conventions of most developer tool sites. This isn't minimalism for minimalism's sake — it's a deliberate choice to feel approachable, almost analog, like a well-crafted notebook. The near-black text (`#1c1c1c`) against this warm cream creates a contrast ratio that's easy on the eyes while maintaining sharp readability.
+# Lovable — Design System
 
-**Theme:** light
+> **Theme:** light
+> **Reference:** warm parchment canvas behind a single prismatic horizon
 
-**Source website:** [https://lovable.dev/](https://lovable.dev/)  
-Use the live official website to compare and validate this extracted snapshot. The current source website remains authoritative.
+Lovable is quiet everywhere except for one broad, prismatic hero horizon. Warm off-whites replace clinical grays; charcoal rather than black carries the interface; and Camera Plain Variable keeps display and body in the same compact voice. The gradient is an environmental brand moment, never an application control. Softly rounded surfaces create the component language, while most depth comes from inset strokes; the chat prompt is the deliberate single elevated exception.
 
-## Tokens — Colors
+## Colors
 
-| Name | Value | Token | Role |
-|---|---|---|---|
-| color 1 | `#f7f4ed` | `--color-color-1` | color 1 role extracted from the source design |
-| color 2 | `#1c1c1c` | `--color-color-2` | color 2 role extracted from the source design |
-| off white | `#fcfbf8` | `--color-off-white` | off white role extracted from the source design |
-| charcoal 83 | `rgba(28,28,28,0.83)` | `--color-charcoal-83` | charcoal 83 role extracted from the source design |
-| charcoal 82 | `rgba(28,28,28,0.82)` | `--color-charcoal-82` | charcoal 82 role extracted from the source design |
-| muted gray | `#5f5f5d` | `--color-muted-gray` | muted gray role extracted from the source design |
-| charcoal 40 | `rgba(28,28,28,0.4)` | `--color-charcoal-40` | charcoal 40 role extracted from the source design |
-| charcoal 4 | `rgba(28,28,28,0.04)` | `--color-charcoal-4` | charcoal 4 role extracted from the source design |
-| charcoal 3 | `rgba(28,28,28,0.03)` | `--color-charcoal-3` | charcoal 3 role extracted from the source design |
-| light cream | `#eceae4` | `--color-light-cream` | light cream role extracted from the source design |
-| ring blue | `#3b82f6` | `--color-ring-blue` | ring blue role extracted from the source design |
-| color 12 | `rgba(59,130,246,0.5)` | `--color-color-12` | color 12 role extracted from the source design |
-| color 13 | `#ffffff` | `--color-color-13` | color 13 role extracted from the source design |
+| Token                     | Value                                                                                                                                                                                                                                   | Usage                                   |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| `--lovable-parchment`     | `#fcfbf8`                                                                                                                                                                                                                               | Page canvas                             |
+| `--lovable-warm-sand`     | `#f7f4ed`                                                                                                                                                                                                                               | Cards and secondary surfaces            |
+| `--lovable-linen-border`  | `#eceae4`                                                                                                                                                                                                                               | Borders and separators                  |
+| `--lovable-stone`         | `#d4d3d0`                                                                                                                                                                                                                               | Disabled borders and secondary dividers |
+| `--lovable-dim-gray`      | `#5f5f5d`                                                                                                                                                                                                                               | Supporting copy and placeholders        |
+| `--lovable-charcoal`      | `#1c1c1c`                                                                                                                                                                                                                               | Primary text and dark controls          |
+| `--lovable-ink`           | `#030303`                                                                                                                                                                                                                               | Highest-emphasis text                   |
+| `--lovable-indigo-accent` | `#3451b2`                                                                                                                                                                                                                               | Inline links and focus rings            |
+| `--lovable-hero-gradient` | `linear-gradient(90deg, rgb(28, 28, 28) 0%, rgb(28, 28, 28) 33.33%, rgb(130, 188, 255) 40%, rgb(36, 131, 255) 45%, rgb(255, 102, 244) 50%, rgb(255, 48, 41) 55%, rgb(254, 123, 2) 60%, rgba(0, 0, 0, 0) 66.67%, rgba(0, 0, 0, 0) 100%)` | Full-width hero only                    |
 
-## Tokens — Typography
+## Typography
 
-### Inter, system-ui, sans-serif · `--font-primary`
-- **Substitute:** Inter, system-ui, sans-serif
-- **Weights:** 400
-- **Sizes:** 16px
-- **Line height:** 1.5
-- **Letter spacing:** 0
-- **Role:** Brand typography family observed across the documented type scale.
+Camera Plain Variable is the sole family. Use `Inter Variable` or `DM Sans` only as a fallback. Set `font-feature-settings: "liga" 0`; default tracking is `-0.025em`.
 
-### Type Scale
+| Role       | Size / line-height / tracking | Weight |
+| ---------- | ----------------------------- | ------ |
+| caption    | `14px / 1.5 / -0.35px`        | 400    |
+| body       | `16px / 1.5 / -0.4px`         | 400    |
+| subheading | `18px / 1.38 / -0.45px`       | 400    |
+| heading-sm | `20px / 1.25 / -0.5px`        | 480    |
+| heading    | `36px / 1.1 / -0.9px`         | 480    |
+| heading-lg | `48px / 1.1 / -1.2px`         | 480    |
+| display    | `60px / 1 / -1.5px`           | 480    |
 
-| Role | Size | Line Height | Letter Spacing | Token |
-|---|---|---|---|---|
-| body | 16px | 1.5 | 0 | `--text-body` |
+## Layout, spacing and shape
 
-## Tokens — Spacing & Shapes
+The centered page is `1280px` wide at most. Major sections use `64–80px` separation; card padding is `20–24px`; tight groups use `6–8px`.
 
-**Density:** comfortable
+| Scale | `4` | `6` | `8` | `10` | `12` | `16` | `20` | `24` | `32` | `40` | `48` | `56` | `73` | `80` | `144` | `160` |
+| ----- | --- | --- | --- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----- | ----- |
+| Value | 4px | 6px | 8px | 10px | 12px | 16px | 20px | 24px | 32px | 40px | 48px | 56px | 73px | 80px | 144px | 160px |
 
-### Spacing Scale
+| Element            | Radius  |
+| ------------------ | ------- |
+| Cards              | 16–24px |
+| Images             | 12px    |
+| Inputs             | 8px     |
+| Containers         | 16px    |
+| Buttons and badges | 9999px  |
 
-| Name | Value | Token |
-|---|---|---|
-| 4 | 4px | `--spacing-4` |
-| 8 | 8px | `--spacing-8` |
-| 12 | 12px | `--spacing-12` |
-| 16 | 16px | `--spacing-16` |
-| 20 | 20px | `--spacing-20` |
-| 24 | 24px | `--spacing-24` |
-| 32 | 32px | `--spacing-32` |
-| 40 | 40px | `--spacing-40` |
-| 48 | 48px | `--spacing-48` |
-| 64 | 64px | `--spacing-64` |
-| 80 | 80px | `--spacing-80` |
-| 96 | 96px | `--spacing-96` |
-| 128 | 128px | `--spacing-128` |
+## Elevation
 
-### Border Radius
-
-| Name | Value | Token |
-|---|---|---|
-| sm | 5px | `--radius-sm` |
-| md | 9999px | `--radius-md` |
-| lg | 6px | `--radius-lg` |
-| xl | 9px | `--radius-xl` |
-| pill | 8px | `--radius-pill` |
-| r6 | 4px | `--radius-r6` |
-| r7 | 2px | `--radius-r7` |
-
-### Layout
-
-- **Section gap:** 64px
-- **Card padding:** 24px
-- **Element gap:** 16px
-- **Max content width:** 1200px
+| Token                       | Value                                                                                                              | Usage                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------- |
+| `--lovable-shadow-subtle`   | `oklch(0 0 0 / 0.25) 0px 0px 0px 0.5px inset`                                                                      | Inset edge            |
+| `--lovable-shadow-subtle-2` | `oklab(0 0 0 / 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px` | Chat prompt elevation |
+| `--lovable-shadow-subtle-3` | `oklch(0 0 0 / 0.16) 0px 0px 0px 0.5px inset`                                                                      | Subtle contained edge |
 
 ## Components
 
-### buttons
-**Role:** buttons component
+### Navigation
 
-- **description:** `Buttons treatment documented in the source analysis.`
+The sticky nav is roughly `48px` tall. It uses transparent or `rgba(255,255,255,.8)` with `blur(4px)` when scrolled and a `1px` linen bottom rule. Ghost links are 15px / 400 charcoal, with `4px 0 4px 6px` padding and only a subtle text-color hover.
 
-### cards containers
-**Role:** cards containers component
+### Pills
 
-- **description:** `Cards & Containers treatment documented in the source analysis.`
+The outlined secondary pill has a transparent surface, charcoal text, `1px` linen border, and `6px 10px` padding. The primary pill is `rgba(0,0,0,.88)` with parchment text. A hero overlay pill uses `rgba(255,255,255,.8)` without a border. All are fully pill-shaped.
 
-### inputs forms
-**Role:** inputs forms component
+### Chat prompt
 
-- **description:** `Inputs & Forms treatment documented in the source analysis.`
+The prompt is Warm Sand with `24px` radius and `24px 20px` padding. Placeholder text is 16px Dim Gray. Use `--lovable-shadow-subtle` and `--lovable-shadow-subtle-2`; this is the only component that receives a drop shadow. Its small circular send control repeats the hero gradient.
 
-### navigation
-**Role:** navigation component
+### Template and warm-surface cards
 
-- **description:** `Navigation treatment documented in the source analysis.`
+Template cards have no outer chrome: a 12px thumbnail, then 16px/480 charcoal title and 14px Dim Gray description with 8px rhythm. Warm-surface cards are Warm Sand, 24px radius, `24px 20px` padding, and have neither border nor shadow.
 
-### links
-**Role:** links component
-
-- **description:** `Links treatment documented in the source analysis.`
-
-### image treatment
-**Role:** image treatment component
-
-- **description:** `Image Treatment treatment documented in the source analysis.`
-
-### distinctive components
-**Role:** distinctive components component
-
-- **description:** `Distinctive Components treatment documented in the source analysis.`
-
-## Do's and Don'ts
+## Rules
 
 ### Do
 
-- Use the documented primary token for the brand's primary interaction treatment.
-- Keep page surfaces anchored to the documented canvas token.
-- Preserve every typography style's documented size, line height, and letter spacing.
-- Compare major implementation decisions against [the live Lovable website](https://lovable.dev/).
+- Reserve the prismatic gradient for the full-width hero and its send control.
+- Use `#eceae4` for every visible rule and border.
+- Keep Camera Plain Variable at `-0.025em` with ligatures disabled.
+- Use weight 480 for headings and 400 for body copy.
+- Keep controls pill-shaped; keep images softly rounded.
+- Reserve drop elevation for the chat prompt.
 
-### Don't
+### Avoid
 
-- Do not introduce colors outside the documented color token set.
-- Do not replace the documented text token with an arbitrary neutral.
-- Do not flatten documented component states or spacing relationships.
-- Do not treat this extracted snapshot as newer than the live source website.
-
-## Layout
-
-Use the documented spacing scale and component geometry as the implementation baseline. Validate responsive composition and current page rhythm against [the live source](https://lovable.dev/).
+- Cool grays such as `#e5e7eb` or `#6b7280`.
+- Colored CTA backgrounds or gradient text.
+- A second type family.
+- Sharp interactive corners.
+- Drop shadows on ordinary cards and feature surfaces.

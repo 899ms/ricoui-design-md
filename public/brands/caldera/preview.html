@@ -1,229 +1,1171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="design-source" content="https://caldera.xyz/">
-  <title>Caldera — Design System Preview</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box}
-    :root{
-      --canvas:#e2e2df;--surface:#f7f6f2;--surface-2:#070607;
-      --ink:#070607;--muted:#555552;--accent:#fc5000;--accent-2:#524ae9;
-      --border:#b9b9b4;--on-accent:#ffffff;
-      --display:'DM Sans', sans-serif;--body:'DM Sans', sans-serif;
-      --radius:12px;
-      --section-space:clamp(72px,10vw,132px);
-    }
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
-    ::selection{background:var(--accent);color:var(--on-accent)}
-    a{color:inherit}
-    button,input{font:inherit}
-    code{font:500 11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
-    .page-shell{min-height:100vh;overflow:hidden;background:var(--canvas)}
-    .wrap{width:min(1120px,calc(100% - 48px));margin-inline:auto}
-    .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;min-height:68px;padding:0 max(24px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--canvas) 88%,transparent);backdrop-filter:blur(18px)}
-    .brand-lockup{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 18px/1 var(--display);letter-spacing:-.02em}
-    .brand-lockup i{width:11px;height:11px;background:var(--accent);border-radius:50%;box-shadow:16px 0 0 var(--accent-2)}
-    .nav-links{display:flex;align-items:center;gap:4px}.nav-links a{padding:8px 10px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:600}.nav-links a:hover{color:var(--ink)}
-    .source-link{border:1px solid var(--border);border-radius:999px!important;margin-left:8px;color:var(--ink)!important}
-    .hero{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.75fr);gap:clamp(40px,7vw,96px);align-items:center;min-height:calc(100vh - 68px);padding-block:clamp(72px,10vw,132px);border-bottom:1px solid var(--border)}
-    .hero-copy{position:relative;z-index:2}.eyebrow{margin:0 0 18px;color:var(--accent);font:700 11px/1.2 ui-monospace,SFMono-Regular,monospace;letter-spacing:.16em;text-transform:uppercase}
-    .hero h1{max-width:790px;margin:0;font:600 clamp(58px,9.4vw,132px)/.86 var(--display);letter-spacing:-.055em;text-wrap:balance}
-    .hero-summary{max-width:680px;margin:30px 0 0;color:var(--muted);font-size:clamp(16px,1.6vw,19px);line-height:1.65}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
-    .button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border:1px solid var(--border);border-radius:999px;cursor:pointer;text-decoration:none;font-weight:700;transition:transform .18s,background .18s,color .18s,border-color .18s}
-    .button:active{transform:translateY(2px)}.button-primary{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}.button-primary:hover{filter:brightness(1.08);transform:translateY(-2px)}
-    .button-secondary{background:transparent;color:var(--ink)}.button-secondary:hover,.button-quiet:hover{border-color:var(--accent);color:var(--accent)}.button-quiet{border-color:transparent;background:transparent;color:var(--muted)}
-    .hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}.hero-stats span{padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font:600 11px/1.2 ui-monospace,SFMono-Regular,monospace}
-    .hero-art{position:relative;min-height:480px;border:1px solid var(--border);border-radius:calc(var(--radius) * 1.5);overflow:hidden;background:var(--surface);isolation:isolate}
-    .hero-art::before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle at 68% 30%,color-mix(in srgb,var(--accent) 70%,transparent),transparent 32%),radial-gradient(circle at 20% 80%,color-mix(in srgb,var(--accent-2) 45%,transparent),transparent 38%);filter:blur(16px);opacity:.68}
-    .art-grid{position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--border) 70%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--border) 70%,transparent) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
-    .art-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:28px}.art-content small{font:700 10px/1 ui-monospace,SFMono-Regular,monospace;letter-spacing:.14em;color:var(--muted)}
-    .art-title{font:700 clamp(66px,9vw,122px)/.75 var(--display);letter-spacing:-.07em;color:var(--ink);text-transform:uppercase;overflow-wrap:anywhere}
-    .art-chips{display:flex;gap:7px}.art-chips span{height:7px;flex:1;background:var(--accent)}.art-chips span:nth-child(2){background:var(--accent-2)}.art-chips span:nth-child(3){background:var(--ink)}
-    .section{padding-block:var(--section-space);border-bottom:1px solid var(--border)}
-    .section-head{display:grid;grid-template-columns:minmax(130px,.35fr) minmax(260px,.9fr) minmax(260px,.75fr);gap:24px;align-items:start;margin-bottom:48px}.section-head .eyebrow{margin-top:9px}.section-head h2{margin:0;font:600 clamp(38px,6vw,72px)/.95 var(--display);letter-spacing:-.045em}.section-head>p:last-child{margin:6px 0 0;color:var(--muted);line-height:1.7}
-    .color-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.swatch{min-width:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}.swatch-color{height:132px;border-bottom:1px solid var(--border)}.swatch-copy{display:grid;gap:3px;padding:14px}.swatch-copy strong{font-size:13px}.swatch-copy code,.swatch-copy span{color:var(--muted);font-size:10px;overflow-wrap:anywhere}
-    .gradient-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.gradient-card{display:flex;align-items:flex-end;min-height:280px;padding:24px;border:1px solid var(--border);border-radius:calc(var(--radius) * 1.4);overflow:hidden}.gradient-card>div{max-width:360px;padding:16px;background:color-mix(in srgb,var(--canvas) 82%,transparent);color:var(--ink);border:1px solid color-mix(in srgb,var(--border) 70%,transparent);border-radius:var(--radius);backdrop-filter:blur(14px)}.gradient-card strong{font:600 22px/1.1 var(--display)}.gradient-card p{margin:8px 0 0;color:var(--muted);font-size:12px}
-    .type-table{border-top:1px solid var(--border)}.type-row{display:grid;grid-template-columns:210px minmax(0,1fr);gap:32px;align-items:center;padding:26px 0;border-bottom:1px solid var(--border)}.type-meta{display:grid;gap:5px}.type-meta strong{font-size:12px;text-transform:uppercase}.type-meta code{color:var(--muted)}.type-sample{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .font-table{margin-top:42px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}.font-row{display:grid;grid-template-columns:100px 1fr 1fr;gap:20px;padding:17px 20px;border-bottom:1px solid var(--border);background:var(--surface)}.font-row:last-child{border-bottom:0}.font-row span,.font-row small{color:var(--muted);font-size:11px}.font-row strong{font-family:var(--display)}
-    .metric-title{margin:46px 0 20px;font:600 20px/1.2 var(--display)}.spacing-grid{display:flex;align-items:flex-end;gap:12px;min-height:150px;padding:24px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.space-item{display:grid;flex:1;gap:6px;justify-items:center;min-width:44px}.space-bar{display:block;width:100%;max-width:72px;background:var(--accent);border-radius:3px 3px 0 0}.space-item strong{font-size:11px}.space-item code{color:var(--muted);font-size:9px}
-    .radius-grid,.shadow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}.radius-item,.shadow-item{display:grid;place-items:center;gap:10px;min-height:160px;padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.radius-item>div{width:72px;height:72px;border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface))}.radius-item code,.shadow-item code{color:var(--muted);text-align:center}.shadow-item{min-height:130px;margin:10px;background:var(--surface)}
-    .flat-note{display:flex;align-items:center;gap:22px;padding:28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.flat-note>span{font:700 44px/1 var(--display);color:var(--accent)}.flat-note p{margin:4px 0 0;color:var(--muted)}
-    .surface-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.surface-card{min-height:180px;padding:20px;border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;justify-content:flex-end}.surface-card strong{font:600 22px/1 var(--display)}.surface-card code{margin-top:8px;color:var(--muted)}
-    .component-list{display:grid;gap:18px}.component-card{border:1px solid var(--border);border-radius:calc(var(--radius) * 1.25);overflow:hidden;background:var(--surface)}.component-card>header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 20px;border-bottom:1px solid var(--border)}.component-card>header>div{display:flex;align-items:center;gap:14px}.component-card header span{color:var(--accent);font:600 10px/1 ui-monospace,monospace}.component-card h3{margin:0;font:600 16px/1.2 var(--display)}.component-card header code{color:var(--muted)}.component-stage{display:flex;align-items:center;gap:12px;min-height:170px;padding:30px;background:color-mix(in srgb,var(--surface) 65%,var(--canvas));overflow:auto}.state-demo{filter:brightness(1.08);transform:translateY(-2px)}
-    .mini-card{width:min(340px,100%);padding:22px;border:1px solid var(--border);border-radius:var(--radius);background:var(--canvas)}.mini-card strong{display:block;margin-top:10px;font:600 22px/1.2 var(--display)}.mini-card p{color:var(--muted);font-size:13px}.mini-label{color:var(--accent);font:700 10px/1 ui-monospace,monospace;text-transform:uppercase}.mini-progress{height:6px;margin-top:18px;background:var(--border);overflow:hidden;border-radius:99px}.mini-progress span{display:block;width:68%;height:100%;background:var(--accent)}
-    .demo-field{display:grid;gap:7px;width:min(390px,100%);font-size:12px;font-weight:600}.demo-field input{width:100%;padding:13px 14px;border:1px solid var(--accent);border-radius:8px;outline:3px solid color-mix(in srgb,var(--accent) 18%,transparent);background:var(--canvas);color:var(--ink)}.demo-field small{color:var(--muted);font-weight:400}
-    .guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.guide-card{padding:28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.guide-card.do{border-top:4px solid var(--accent)}.guide-card.dont{border-top:4px solid var(--accent-2)}.guide-card h3{margin:0 0 22px;font:600 24px/1 var(--display)}.guide-card ul{display:grid;gap:13px;margin:0;padding:0;list-style:none}.guide-card li{position:relative;padding-left:22px;color:var(--muted);font-size:14px}.guide-card li::before{position:absolute;left:0;color:var(--accent);font-weight:800}.guide-card.do li::before{content:"+"}.guide-card.dont li::before{content:"×";color:var(--accent-2)}
-    .footer{display:flex;justify-content:space-between;gap:30px;padding:44px max(24px,calc((100vw - 1120px)/2));color:var(--muted);font-size:12px}.footer-links{display:flex;flex-wrap:wrap;gap:18px}.footer a:hover{color:var(--ink)}
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.visible{opacity:1;transform:none}
-    body[data-tone="retro"]{background:#000}.page-shell[data-tone="retro"]{width:min(1180px,calc(100% - 28px));margin:auto;border-inline:10px solid #000}.page-shell[data-tone="retro"] .nav{backdrop-filter:none;background:#fff}.page-shell[data-tone="retro"] .hero-art,.page-shell[data-tone="retro"] .component-card{box-shadow:8px 8px 0 #000}.page-shell[data-tone="retro"] .hero h1{text-transform:uppercase}.page-shell[data-tone="retro"] .art-grid{background-size:8px 8px}
-    .page-shell[data-tone="motorsport"] .hero-art::after{content:"";position:absolute;left:0;right:0;bottom:32%;height:18px;background:linear-gradient(90deg,#0066b1 0 33%,#1c69d4 33% 66%,#e22718 66%)}
-    .page-shell[data-tone="chevron"] .hero-art::after{content:"";position:absolute;width:230px;height:460px;right:-100px;top:10px;background:var(--accent);transform:skewX(-24deg);opacity:.75}
-    .page-shell[data-tone="precision"] .hero-art{box-shadow:0 0 90px rgba(94,106,210,.18)}.page-shell[data-tone="precision"] .art-grid{background-size:24px 24px}
-    .page-shell[data-tone="sunset"] .hero-art::before{background:linear-gradient(155deg,#ffd900,#fa520f 60%,#6f1700);filter:none;opacity:1}.page-shell[data-tone="sunset"] .art-title{font-family:'Cormorant Garamond',serif}
-    .page-shell[data-tone="chrome"] .hero-art,.page-shell[data-tone="chrome"] .component-card{box-shadow:inset 3px 3px 0 #d7e6f5,inset -4px -4px 0 #3d4f97,6px 7px 0 rgba(33,36,46,.25)}.page-shell[data-tone="chrome"] .nav{background:#21242e;color:#fff}.page-shell[data-tone="chrome"] .nav-links a{color:#ecab37}
-    .page-shell[data-tone="chrome"] .source-link{color:#ecab37!important;border-color:#60619c}
-    .page-shell[data-tone="terminal"] *{border-radius:4px!important}.page-shell[data-tone="terminal"] .hero-art::before{background:#201d1d;filter:none;opacity:1}.page-shell[data-tone="terminal"] .art-grid{background-image:linear-gradient(rgba(253,252,252,.07) 1px,transparent 1px);background-size:100% 24px}.page-shell[data-tone="terminal"] .art-title{color:#fdfcfc}.page-shell[data-tone="terminal"] .art-content small{color:#9a9898}
-    .page-shell[data-tone="collaboration"] .hero-art::after{content:"";position:absolute;width:120px;height:120px;border-radius:32px;right:28px;top:28px;background:conic-gradient(#36c5f0 0 25%,#2eb67d 0 50%,#ecb22e 0 75%,#e01e5a 0)}
-    .page-shell[data-tone="orbital"] .hero-art::before{background:radial-gradient(circle at 72% 72%,#d9e5ef 0 2%,#536779 3%,#14202b 17%,transparent 36%),radial-gradient(circle,#fff 0 1px,transparent 1.5px);background-size:auto,29px 29px;filter:none;opacity:.8}.page-shell[data-tone="orbital"] h1,.page-shell[data-tone="orbital"] h2{text-transform:uppercase}
-    .page-shell[data-tone="spectrum"] .hero-art::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18px;background:linear-gradient(90deg,#fc4c02,#ef2cc1,#bdbbff)}
-    .page-shell[data-tone="cosmic"] .hero-art::before{background:radial-gradient(circle at 66% 30%,#ffc285,#ff7a17 10%,#7c3aed 28%,#0d1726 54%,#0a0a0a 75%);filter:none;opacity:1}
-    .page-shell[data-tone="pixel"] .hero-art::after{content:"";position:absolute;inset:auto 0 0 auto;width:52%;height:44%;background:linear-gradient(90deg,var(--accent) 50%,transparent 0),linear-gradient(var(--accent-2) 50%,transparent 0);background-size:38px 38px;mix-blend-mode:multiply}
-    .page-shell[data-tone="playful"] .button-primary{box-shadow:0 4px 0 #46a302}.page-shell[data-tone="playful"] .button-primary:active{box-shadow:0 2px 0 #46a302}.page-shell[data-tone="playful"] .hero-art{border-radius:28px}.page-shell[data-tone="playful"] .hero-art::after{content:"★";position:absolute;right:34px;top:28px;color:#ffc800;font-size:64px;transform:rotate(12deg)}
-    @media(max-width:900px){.nav-links a:not(.source-link){display:none}.hero{grid-template-columns:1fr;min-height:auto}.hero-art{min-height:380px}.section-head{grid-template-columns:1fr}.section-head .eyebrow{margin-bottom:0}.color-grid{grid-template-columns:repeat(2,1fr)}.gradient-grid{grid-template-columns:1fr}.type-row{grid-template-columns:1fr}.surface-grid{grid-template-columns:1fr}.font-row{grid-template-columns:80px 1fr}.font-row small{grid-column:2}.guide-grid{grid-template-columns:1fr}}
-    @media(max-width:560px){.wrap{width:min(100% - 28px,1120px)}.nav{padding-inline:14px}.brand-lockup{font-size:15px}.source-link{font-size:10px!important}.hero h1{font-size:clamp(48px,17vw,82px)}.hero-art{min-height:320px}.color-grid{grid-template-columns:1fr 1fr}.swatch-color{height:100px}.spacing-grid{overflow-x:auto;align-items:flex-end}.space-item{min-width:58px}.component-stage{padding:20px;align-items:flex-start;flex-direction:column}.footer{flex-direction:column}.page-shell[data-tone="retro"]{width:100%;border-inline:5px solid #000}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.button{transition:none}}
-  </style>
-</head>
-<body>
-  <div class="page-shell" data-tone="pixel">
-    <nav class="nav" aria-label="Preview navigation">
-      <a class="brand-lockup" href="#top"><i aria-hidden="true"></i>Caldera</a>
-      <div class="nav-links">
-        <a href="#colors">Colors</a><a href="#typography">Type</a><a href="#spacing">Metrics</a><a href="#components">Components</a>
-        <a class="source-link" href="https://caldera.xyz/" target="_blank" rel="noopener noreferrer">Official site ↗</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="design-source" content="https://caldera.xyz/" />
+    <meta name="theme-color" content="#e2e2df" />
+    <title>Caldera — Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --canvas: #e2e2df;
+        --surface: #f7f6f2;
+        --ink: #070607;
+        --white: #fff;
+        --orange: #fc5000;
+        --violet: #524ae9;
+        --sulfur: #f5f28e;
+        --line: #c9c9c4;
+        --display: "Bebas Neue", "Arial Narrow", sans-serif;
+        --body: "DM Sans", sans-serif;
+        --max: 1200px;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 76px;
+      }
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      ::selection {
+        background: var(--orange);
+        color: var(--ink);
+      }
+      :focus-visible {
+        outline: 3px solid var(--violet);
+        outline-offset: 3px;
+      }
+      .wrap {
+        width: min(100%, calc(var(--max) + 48px));
+        margin: auto;
+        padding-inline: 24px;
+      }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(226, 226, 223, 0.94);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(14px);
+      }
+      .nav-inner {
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .nav-left,
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+      .nav-left {
+        gap: 10px;
+        text-decoration: none;
+      }
+      .logo-favicon {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+      .wordmark {
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+      .tag {
+        padding: 4px 9px;
+        background: var(--surface);
+        border-radius: 800px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .nav-right {
+        gap: 3px;
+      }
+      .nav-link {
+        padding: 7px 10px;
+        border-radius: 800px;
+        color: #52524e;
+        font-size: 12px;
+        text-decoration: none;
+      }
+      .nav-link:hover {
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .site-link {
+        margin-left: 5px;
+        background: var(--orange);
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .hero {
+        min-height: calc(100vh - 68px);
+        display: grid;
+        align-content: space-between;
+        padding-block: clamp(72px, 8vw, 108px) 44px;
+      }
+      .hero-title {
+        max-width: 940px;
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(92px, 16vw, 189px);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 0.78;
+        text-transform: uppercase;
+      }
+      .hero-bottom {
+        display: grid;
+        grid-template-columns: 1fr minmax(280px, 420px);
+        gap: 48px;
+        align-items: end;
+      }
+      .hero-mark {
+        width: 78px;
+        height: 26px;
+        background: var(--orange);
+        border-radius: 40px 40px 8px 8px;
+      }
+      .hero-copy {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+      .hero-actions,
+      .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .hero-actions {
+        margin-top: 24px;
+      }
+      .hero-tags {
+        margin-top: 16px;
+      }
+      .hero-tags span {
+        padding: 6px 10px;
+        border: 1px solid var(--ink);
+        border-radius: 800px;
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+      .btn {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        border: 1px solid var(--ink);
+        border-radius: 800px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition:
+          transform 0.16s ease,
+          background 0.16s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn-primary {
+        border-color: var(--orange);
+        background: var(--orange);
+      }
+      .section {
+        padding-block: clamp(78px, 10vw, 128px);
+        border-top: 1px solid var(--line);
+      }
+      .section-head {
+        display: grid;
+        grid-template-columns: 160px minmax(0, 1fr) minmax(260px, 390px);
+        gap: 32px;
+        align-items: start;
+        margin-bottom: 44px;
+      }
+      .kicker {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .section h2 {
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(52px, 8vw, 92px);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 0.88;
+        text-transform: uppercase;
+      }
+      .section-desc {
+        margin: 4px 0 0;
+        color: #555552;
+        font-size: 14px;
+      }
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--ink);
+        border-left: 1px solid var(--ink);
+      }
+      .swatch {
+        background: var(--surface);
+        border-right: 1px solid var(--ink);
+        border-bottom: 1px solid var(--ink);
+      }
+      .swatch-color {
+        height: 124px;
+        border-bottom: 1px solid var(--ink);
+      }
+      .swatch-meta {
+        padding: 14px;
+      }
+      .swatch-name {
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .token {
+        display: block;
+        margin-top: 3px;
+        color: #676763;
+        font-family: ui-monospace, monospace;
+        font-size: 10px;
+      }
+      .type-families {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 42px;
+        border-top: 1px solid var(--ink);
+        border-left: 1px solid var(--ink);
+      }
+      .family {
+        min-height: 210px;
+        padding: 24px;
+        background: var(--surface);
+        border-right: 1px solid var(--ink);
+        border-bottom: 1px solid var(--ink);
+      }
+      .family-sample {
+        margin: 36px 0 10px;
+        font-family: var(--display);
+        font-size: 72px;
+        line-height: 0.8;
+        text-transform: uppercase;
+      }
+      .family.body .family-sample {
+        font-family: var(--body);
+        font-size: 42px;
+        font-weight: 500;
+        line-height: 1;
+      }
+      .family p {
+        margin: 0;
+        color: #676763;
+        font-size: 12px;
+      }
+      .type-list {
+        border-top: 1px solid var(--ink);
+      }
+      .type-row {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr) 170px;
+        gap: 24px;
+        align-items: baseline;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--ink);
+      }
+      .type-sample {
+        overflow: hidden;
+        font-family: var(--display);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 0.94;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+      .type-row.body .type-sample {
+        font-family: var(--body);
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.5;
+        text-transform: none;
+      }
+      .spec {
+        color: #676763;
+        font-family: ui-monospace, monospace;
+        font-size: 10px;
+        text-align: right;
+      }
+      .metrics {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 48px;
+      }
+      .metric-title {
+        margin: 0 0 20px;
+        font-family: var(--display);
+        font-size: 28px;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+      .space-grid {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 8px;
+      }
+      .space-item {
+        width: 58px;
+        display: grid;
+        gap: 7px;
+        justify-items: center;
+      }
+      .space-bar {
+        width: 100%;
+        background: var(--orange);
+        border-radius: 16px 16px 0 0;
+      }
+      .space-item code {
+        font-size: 10px;
+      }
+      .radius-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--ink);
+        border-left: 1px solid var(--ink);
+      }
+      .radius-item {
+        min-height: 116px;
+        display: grid;
+        place-items: center;
+        gap: 6px;
+        padding: 14px;
+        background: var(--surface);
+        border-right: 1px solid var(--ink);
+        border-bottom: 1px solid var(--ink);
+        text-align: center;
+      }
+      .radius-shape {
+        width: 50px;
+        height: 50px;
+        background: var(--sulfur);
+        border: 1px solid var(--ink);
+      }
+      .radius-item code {
+        font-size: 9px;
+      }
+      .surface-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--ink);
+      }
+      .surface {
+        min-height: 240px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 24px;
+        border-right: 1px solid var(--ink);
+      }
+      .surface:last-child {
+        border-right: 0;
+      }
+      .surface strong {
+        font-family: var(--display);
+        font-size: 32px;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+      .surface.dark {
+        color: var(--white);
+      }
+      .components {
+        display: grid;
+        gap: 20px;
+      }
+      .component {
+        overflow: hidden;
+        background: var(--surface);
+        border: 1px solid var(--ink);
+        border-radius: 40px;
+      }
+      .component-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 18px 26px;
+        border-bottom: 1px solid var(--ink);
+      }
+      .component-head h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .component-head code {
+        font-size: 10px;
+      }
+      .stage {
+        min-height: 190px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+        padding: 32px;
+      }
+      .stats {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .stat {
+        min-height: 210px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 30px;
+        border-radius: 40px;
+        background: var(--orange);
+        color: var(--white);
+      }
+      .stat:nth-child(2) {
+        background: var(--surface);
+        color: var(--ink);
+        border: 1px solid var(--ink);
+      }
+      .stat:nth-child(3) {
+        background: var(--sulfur);
+        color: var(--ink);
+      }
+      .stat strong {
+        font-family: var(--display);
+        font-size: 72px;
+        font-weight: 400;
+        line-height: 0.8;
+      }
+      .stat span {
+        font-size: 13px;
+      }
+      .dark-stage {
+        background: var(--ink);
+      }
+      .field {
+        width: min(100%, 560px);
+        display: flex;
+        gap: 8px;
+      }
+      .field input {
+        min-width: 0;
+        flex: 1;
+        padding: 18px 24px;
+        border: 1.5px solid var(--white);
+        border-radius: 100px;
+        background: transparent;
+        color: var(--white);
+        outline: 0;
+      }
+      .field input::placeholder {
+        color: var(--white);
+      }
+      .field .btn {
+        border-color: var(--orange);
+        background: var(--orange);
+      }
+      .content-card {
+        width: min(100%, 480px);
+        padding: 40px;
+        border-radius: 40px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+      }
+      .badge {
+        display: inline-flex;
+        padding: 6px 12px;
+        border-radius: 800px;
+        background: var(--sulfur);
+        font-size: 11px;
+      }
+      .content-card h4 {
+        margin: 24px 0 8px;
+        font-family: var(--display);
+        font-size: 42px;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 0.95;
+        text-transform: uppercase;
+      }
+      .content-card p {
+        margin: 0;
+        color: #555552;
+        font-size: 14px;
+      }
+      .guide-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-top: 1px solid var(--ink);
+        border-left: 1px solid var(--ink);
+      }
+      .guide {
+        padding: 36px;
+        background: var(--surface);
+        border-right: 1px solid var(--ink);
+        border-bottom: 1px solid var(--ink);
+      }
+      .guide h3 {
+        margin: 0 0 22px;
+        font-family: var(--display);
+        font-size: 36px;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+      .guide ul {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .guide li {
+        position: relative;
+        padding-left: 20px;
+        font-size: 14px;
+      }
+      .guide li::before {
+        position: absolute;
+        left: 0;
+        color: var(--orange);
+        content: "+";
+      }
+      .guide.avoid li::before {
+        color: var(--violet);
+        content: "×";
+      }
+      .downloads {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 36px;
+      }
+      .download {
+        padding: 9px 13px;
+        border: 1px solid var(--ink);
+        border-radius: 800px;
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        text-decoration: none;
+      }
+      .footer {
+        padding-block: 38px;
+        border-top: 1px solid var(--line);
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        color: #555552;
+        font-size: 12px;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      @media (max-width: 850px) {
+        .nav-link:not(.site-link) {
+          display: none;
+        }
+        .hero-bottom,
+        .section-head,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+        .color-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .type-row {
+          grid-template-columns: 110px 1fr;
+        }
+        .spec {
+          grid-column: 2;
+          text-align: left;
+        }
+        .surface-grid,
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .surface {
+          min-height: 160px;
+          border-right: 0;
+          border-bottom: 1px solid var(--ink);
+        }
+        .surface:last-child {
+          border-bottom: 0;
+        }
+      }
+      @media (max-width: 560px) {
+        .tag {
+          display: none;
+        }
+        .hero-title {
+          font-size: clamp(78px, 25vw, 124px);
+        }
+        .type-families,
+        .guide-grid {
+          grid-template-columns: 1fr;
+        }
+        .type-row {
+          grid-template-columns: 1fr;
+        }
+        .spec {
+          grid-column: auto;
+        }
+        .radius-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .stage {
+          padding: 22px;
+        }
+        .field {
+          flex-direction: column;
+        }
+        .footer-inner {
+          flex-direction: column;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Design system navigation">
+      <div class="wrap nav-inner">
+        <a class="nav-left" href="#top"
+          ><img
+            src="https://a.favicon.im/caldera.xyz"
+            alt="caldera.xyz favicon"
+            loading="lazy"
+            class="logo-favicon"
+            style="width: 30px; height: 30px; object-fit: contain"
+          /><span class="wordmark">caldera</span
+          ><span class="tag">Design System</span></a
+        >
+        <div class="nav-right">
+          <a class="nav-link" href="#colors">Colors</a
+          ><a class="nav-link" href="#type">Type</a
+          ><a class="nav-link" href="#spacing">Spacing</a
+          ><a class="nav-link" href="#components">Components</a
+          ><a
+            class="nav-link site-link"
+            href="https://caldera.xyz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Site ↗</a
+          >
+        </div>
       </div>
     </nav>
-
-    <main class="wrap" id="top">
-      <header class="hero">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">Caldera / Design system</p>
-          <h1>Build worlds onchain.</h1>
-          <p class="hero-summary">A basalt-gray rollup platform energized by digital orange, isolated cyber violet, oversized type and pixel-grid technical texture.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="DESIGN.md" download>Download spec</a>
-            <a class="button button-secondary" href="tokens.json" download>Tokens JSON</a>
-            <a class="button button-quiet" href="variables.css" download>Variables CSS</a>
-            <a class="button button-quiet" href="theme.css" download>Tailwind theme</a>
+    <main id="top">
+      <header class="wrap hero">
+        <h1 class="hero-title">The Internet<br />of Chains</h1>
+        <div class="hero-bottom">
+          <div>
+            <div class="hero-mark" aria-hidden="true"></div>
+            <div class="hero-tags">
+              <span>Light theme</span><span>Flat color blocks</span
+              ><span>40px cards</span><span>Pill controls</span>
+            </div>
           </div>
-          <div class="hero-stats"><span>7 colors</span><span>19 type styles</span><span>16 spacing steps</span><span>7 radii</span></div>
-        </div>
-        <div class="hero-art reveal" aria-label="Caldera visual signature">
-          <div class="art-grid"></div><div class="art-content"><small>ROLLUPS / METALAYER</small><div class="art-title">CALDERA</div><div class="art-chips"><span></span><span></span><span></span></div></div>
+          <div>
+            <p class="hero-copy">
+              Warm pumice surfaces contain volcanic orange, compressed
+              architectural type, and sparingly placed violet and sulfur
+              accents.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="DESIGN.md" download
+                >Download spec</a
+              ><a class="btn" href="#components">View components</a>
+            </div>
+          </div>
         </div>
       </header>
-
       <section class="section" id="colors">
-        <div class="section-head reveal"><p class="eyebrow">01 / Foundation</p><h2>Color tokens.</h2><p>Real values from the packaged Caldera design reference. Semantic names remain searchable in CSS and JSON exports.</p></div>
-        <div class="color-grid">
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#e2e2df"></div>
-          <div class="swatch-copy"><strong>Basalt Canvas</strong><code>#e2e2df</code><span>--color-basalt-canvas</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#f7f6f2"></div>
-          <div class="swatch-copy"><strong>Ash White</strong><code>#f7f6f2</code><span>--color-ash-white</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#070607"></div>
-          <div class="swatch-copy"><strong>Abyssal Ink</strong><code>#070607</code><span>--color-abyssal-ink</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#ffffff"></div>
-          <div class="swatch-copy"><strong>Pure White</strong><code>#ffffff</code><span>--color-pure-white</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#fc5000"></div>
-          <div class="swatch-copy"><strong>Digital Orange</strong><code>#fc5000</code><span>--color-digital-orange</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#524ae9"></div>
-          <div class="swatch-copy"><strong>Cyber Violet</strong><code>#524ae9</code><span>--color-cyber-violet</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#f5f28e"></div>
-          <div class="swatch-copy"><strong>Pixel Glare</strong><code>#f5f28e</code><span>--color-pixel-glare</span></div>
-        </article></div>
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">01 / Foundation</span>
+            <h2>Color system</h2>
+            <p class="section-desc">
+              Seven observed colors. Orange commands action; violet stays
+              decorative and sulfur marks compact labels.
+            </p>
+          </div>
+          <div class="color-grid">
+            <article class="swatch">
+              <div class="swatch-color" style="background: #e2e2df"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Pumice</div>
+                <code class="token">#e2e2df · canvas</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #f7f6f2"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Limestone</div>
+                <code class="token">#f7f6f2 · surface</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #070607"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Obsidian</div>
+                <code class="token">#070607 · ink</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #fff"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Chalk</div>
+                <code class="token">#ffffff · on-dark</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #fc5000"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Ember</div>
+                <code class="token">#fc5000 · action</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #524ae9"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Plasma Violet</div>
+                <code class="token">#524ae9 · decorative</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #f5f28e"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Sulfur</div>
+                <code class="token">#f5f28e · badge</code>
+              </div>
+            </article>
+          </div>
+        </div>
       </section>
-
-      <section class="section" id="treatments"><div class="section-head reveal"><p class="eyebrow">Signature treatments</p><h2>Color in motion.</h2><p>Brand-specific transitions and surface gestures documented for Caldera.</p></div><div class="gradient-grid"><article class="gradient-card reveal" style="background:linear-gradient(135deg,#fc5000,#f5f28e)"><div><strong>Digital Heat</strong><p>Orange energy resolving into pixel glare.</p></div></article><article class="gradient-card reveal" style="background:linear-gradient(135deg,#524ae9,#070607)"><div><strong>Cyber Field</strong><p>Violet infrastructure depth for technical surfaces.</p></div></article></div></section>
-
-      <section class="section" id="typography">
-        <div class="section-head reveal"><p class="eyebrow">02 / Typography</p><h2>Voice at every scale.</h2><p>Documented sizes, weights, line heights and tracking. Proprietary families fall back to an open-source preview substitute.</p></div>
-        <div class="type-table">
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>xs</strong><code>12px · 400 · 1.2 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,12px,3.75rem);font-weight:400;line-height:1.2;letter-spacing:0">Build worlds onchain.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>sm</strong><code>14px · 500 · 1.2 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,14px,3.75rem);font-weight:500;line-height:1.2;letter-spacing:0">Build worlds onchain.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>sm-2</strong><code>14px · 500 · 1.5 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,14px,3.75rem);font-weight:500;line-height:1.5;letter-spacing:0">Build worlds onchain.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>base</strong><code>16px · 500 · 1.55 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,16px,3.75rem);font-weight:500;line-height:1.55;letter-spacing:0">Caldera builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>base-2</strong><code>16px · 500 · 1.25 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,16px,3.75rem);font-weight:500;line-height:1.25;letter-spacing:0">Caldera builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>lg</strong><code>18px · 500 · 1.5 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,18px,3.75rem);font-weight:500;line-height:1.5;letter-spacing:0">Caldera builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>lg-2</strong><code>18px · 500 · 1.11 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,18px,3.75rem);font-weight:500;line-height:1.11;letter-spacing:0">Caldera builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>lg-3</strong><code>18px · 500 · 1.2 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,18px,3.75rem);font-weight:500;line-height:1.2;letter-spacing:0">Caldera builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>2xl</strong><code>26px · 400 · 1.2 · 0</code></div>
-          <div class="type-sample" style="font-family:'DM Sans', sans-serif;font-size:clamp(1rem,26px,3.75rem);font-weight:400;line-height:1.2;letter-spacing:0">Caldera builds a recognizable visual language.</div>
-        </article></div>
-        <h3 class="metric-title">Font families</h3><div class="font-table"><div class="font-row"><span>Primary</span><strong>sans-serif</strong><small>Previewed with DM Sans, sans-serif</small></div><div class="font-row"><span>Family 2</span><strong>DM Sans</strong><small>Documented brand family</small></div><div class="font-row"><span>Family 3</span><strong>PP Neue Corp Compact Ultrabold</strong><small>Documented brand family</small></div></div>
+      <section class="section" id="type">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">02 / Typography</span>
+            <h2>Compressed voice</h2>
+            <p class="section-desc">
+              PP Neue Corp Compact Ultrabold supplies the source display voice;
+              Bebas Neue is used here as an open substitute. DM Sans remains
+              medium-weight throughout body UI.
+            </p>
+          </div>
+          <div class="type-families">
+            <article class="family">
+              <span class="kicker">Display substitute</span>
+              <div class="family-sample">Caldera 189</div>
+              <p>Bebas Neue · source: PP Neue Corp Compact Ultrabold</p>
+            </article>
+            <article class="family body">
+              <span class="kicker">Body family</span>
+              <div class="family-sample">DM Sans Aa</div>
+              <p>DM Sans · weight 500</p>
+            </article>
+          </div>
+          <div class="type-list">
+            <div class="type-row">
+              <code class="token">display</code>
+              <div
+                class="type-sample"
+                style="font-size: clamp(58px, 10vw, 96px)"
+              >
+                Internet of chains
+              </div>
+              <code class="spec">96px / .95 / .02em</code>
+            </div>
+            <div class="type-row">
+              <code class="token">heading</code>
+              <div class="type-sample" style="font-size: 56px">
+                Build worlds
+              </div>
+              <code class="spec">56px / .94 / .02em</code>
+            </div>
+            <div class="type-row">
+              <code class="token">heading-sm</code>
+              <div class="type-sample" style="font-size: 32px">
+                Purpose built
+              </div>
+              <code class="spec">32px / 1 / .02em</code>
+            </div>
+            <div class="type-row body">
+              <code class="token">subheading</code>
+              <div
+                class="type-sample"
+                style="font-size: 30px; line-height: 1.11"
+              >
+                Interconnected rollups
+              </div>
+              <code class="spec">30px / 1.11 / 500</code>
+            </div>
+            <div class="type-row body">
+              <code class="token">body</code>
+              <div class="type-sample" style="font-size: 16px">
+                Caldera is a network of interconnected, purpose-built
+                blockchains.
+              </div>
+              <code class="spec">16px / 1.55 / 500</code>
+            </div>
+            <div class="type-row body">
+              <code class="token">body-sm</code>
+              <div class="type-sample" style="font-size: 14px">
+                Rollups · Metalayer · Infrastructure
+              </div>
+              <code class="spec">14px / 1.25 / 500</code>
+            </div>
+          </div>
+        </div>
       </section>
-
       <section class="section" id="spacing">
-        <div class="section-head reveal"><p class="eyebrow">03 / Geometry</p><h2>Rhythm and shape.</h2><p>Spacing and corner geometry are presented directly from the package rather than normalized into a generic scale.</p></div>
-        <h3 class="metric-title">Spacing scale</h3><div class="spacing-grid"><div class="space-item reveal"><span class="space-bar" style="height:8px"></span><strong>4</strong><code>4px</code></div><div class="space-item reveal"><span class="space-bar" style="height:9.2px"></span><strong>8</strong><code>8px</code></div><div class="space-item reveal"><span class="space-bar" style="height:10.35px"></span><strong>9</strong><code>9px</code></div><div class="space-item reveal"><span class="space-bar" style="height:11.5px"></span><strong>10</strong><code>10px</code></div><div class="space-item reveal"><span class="space-bar" style="height:13.799999999999999px"></span><strong>12</strong><code>12px</code></div><div class="space-item reveal"><span class="space-bar" style="height:18.4px"></span><strong>16</strong><code>16px</code></div><div class="space-item reveal"><span class="space-bar" style="height:20.7px"></span><strong>18</strong><code>18px</code></div><div class="space-item reveal"><span class="space-bar" style="height:23px"></span><strong>20</strong><code>20px</code></div><div class="space-item reveal"><span class="space-bar" style="height:27.599999999999998px"></span><strong>24</strong><code>24px</code></div></div>
-        <h3 class="metric-title">Border radius</h3><div class="radius-grid"><article class="radius-item reveal"><div style="border-radius:16px"></div><strong>2xl</strong><code>16px</code></article><article class="radius-item reveal"><div style="border-radius:20px"></div><strong>2xl-2</strong><code>20px</code></article><article class="radius-item reveal"><div style="border-radius:24px"></div><strong>3xl</strong><code>24px</code></article><article class="radius-item reveal"><div style="border-radius:32px"></div><strong>3xl-2</strong><code>32px</code></article><article class="radius-item reveal"><div style="border-radius:40px"></div><strong>3xl-3</strong><code>40px</code></article><article class="radius-item reveal"><div style="border-radius:100px"></div><strong>full</strong><code>100px</code></article><article class="radius-item reveal"><div style="border-radius:800px"></div><strong>full-2</strong><code>800px</code></article></div>
-        <h3 class="metric-title">Shadows</h3><div class="flat-note reveal"><span>00</span><div><strong>Flat by design</strong><p>No shadow tokens are documented for Caldera. Surface contrast, borders and composition create hierarchy instead.</p></div></div>
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">03 / Geometry</span>
+            <h2>Rhythm &amp; shape</h2>
+            <p class="section-desc">
+              A broad sixteen-step spacing scale supports dense labels and
+              architectural display moments. Forty-pixel cards and exaggerated
+              pills define the silhouette.
+            </p>
+          </div>
+          <div class="metrics">
+            <div>
+              <h3 class="metric-title">Spacing scale</h3>
+              <div class="space-grid">
+                <div class="space-item">
+                  <span class="space-bar" style="height: 4px"></span
+                  ><code>4</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 8px"></span
+                  ><code>8</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 9px"></span
+                  ><code>9</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 10px"></span
+                  ><code>10</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 12px"></span
+                  ><code>12</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 16px"></span
+                  ><code>16</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 18px"></span
+                  ><code>18</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 20px"></span
+                  ><code>20</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 24px"></span
+                  ><code>24</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 32px"></span
+                  ><code>32</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 40px"></span
+                  ><code>40</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 48px"></span
+                  ><code>48</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 56px"></span
+                  ><code>56</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 64px"></span
+                  ><code>64</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 80px"></span
+                  ><code>80</code>
+                </div>
+                <div class="space-item">
+                  <span class="space-bar" style="height: 92px"></span
+                  ><code>92</code>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="metric-title">Radius scale</h3>
+              <div class="radius-grid">
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 16px"></div>
+                  <code>16px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 20px"></div>
+                  <code>20px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 24px"></div>
+                  <code>24px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 32px"></div>
+                  <code>32px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 40px"></div>
+                  <code>40px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 100px"></div>
+                  <code>100px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 800px"></div>
+                  <code>800px</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-
       <section class="section" id="surfaces">
-        <div class="section-head reveal"><p class="eyebrow">04 / Depth</p><h2>Surface hierarchy.</h2><p>Three working levels show how the brand creates hierarchy using contrast, borders and restrained elevation.</p></div>
-        <div class="surface-grid"><article class="surface-card reveal" style="background:var(--canvas)"><strong>Canvas</strong><code>#e2e2df</code></article><article class="surface-card reveal" style="background:var(--surface)"><strong>Surface</strong><code>#f7f6f2</code></article><article class="surface-card reveal" style="background:var(--surface-2);color:#070607"><strong>Emphasis</strong><code>#070607</code></article></div>
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">04 / Surfaces</span>
+            <h2>Flat hierarchy</h2>
+            <p class="section-desc">
+              Solid surface changes, borders, and scale carry depth across the
+              system.
+            </p>
+          </div>
+          <div class="surface-grid">
+            <article class="surface" style="background: #e2e2df">
+              <strong>Pumice canvas</strong><code class="token">#e2e2df</code>
+            </article>
+            <article class="surface" style="background: #f7f6f2">
+              <strong>Limestone card</strong><code class="token">#f7f6f2</code>
+            </article>
+            <article class="surface dark" style="background: #070607">
+              <strong>Obsidian band</strong
+              ><code class="token" style="color: #fff">#070607</code>
+            </article>
+          </div>
+        </div>
       </section>
-
       <section class="section" id="components">
-        <div class="section-head reveal"><p class="eyebrow">05 / Components</p><h2>Brand behavior.</h2><p>Live controls combine the documented palette, typography, geometry and interaction hierarchy.</p></div>
-        <div class="component-list"><article class="component-card reveal"><header><div><span>01</span><h3>Digital orange CTA</h3></div><code>.button-primary</code></header><div class="component-stage"><button class="button button-primary">Digital orange CTA</button><button class="button button-primary state-demo">Hover / active</button></div></article><article class="component-card reveal"><header><div><span>02</span><h3>Ghost navigation action</h3></div><code>.button-secondary</code></header><div class="component-stage"><button class="button button-secondary">Ghost navigation action</button><button class="button button-quiet">Quiet action</button></div></article><article class="component-card reveal"><header><div><span>03</span><h3>Rollup stats card</h3></div><code>.brand-card</code></header><div class="component-stage"><article class="mini-card"><span class="mini-label">Featured</span><strong>Rollup stats card</strong><p>Brand surface, type and border treatments working as one component.</p><div class="mini-progress"><span></span></div></article></div></article><article class="component-card reveal"><header><div><span>04</span><h3>Network configuration input</h3></div><code>input:focus</code></header><div class="component-stage"><label class="demo-field"><span>Network configuration input</span><input value="Focused state" aria-label="Network configuration input"><small>Documented focus treatment</small></label></div></article></div>
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">05 / Components</span>
+            <h2>Contained heat</h2>
+            <p class="section-desc">
+              Rounded containers keep the loud display type and molten orange
+              deliberate rather than chaotic.
+            </p>
+          </div>
+          <div class="components">
+            <article class="component">
+              <div class="component-head">
+                <h3>Primary and ghost actions</h3>
+                <code>pill / 12×24</code>
+              </div>
+              <div class="stage">
+                <button class="btn btn-primary" type="button">
+                  Explore chains</button
+                ><button class="btn" type="button">Book a call</button>
+              </div>
+            </article>
+            <article class="component">
+              <div class="component-head">
+                <h3>Stats row</h3>
+                <code>40px radius / 40px pad</code>
+              </div>
+              <div class="stage">
+                <div class="stats">
+                  <div class="stat">
+                    <span>Rollups deployed</span><strong>50+</strong>
+                  </div>
+                  <div class="stat">
+                    <span>Chains connected</span><strong>1K</strong>
+                  </div>
+                  <div class="stat">
+                    <span>Settlement speed</span><strong>2S</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="component">
+              <div class="component-head">
+                <h3>Content card</h3>
+                <code>limestone / sulfur</code>
+              </div>
+              <div class="stage">
+                <div class="content-card">
+                  <span class="badge">METALAYER</span>
+                  <h4>One network, many worlds</h4>
+                  <p>
+                    Large compressed titles stay structural above concise DM
+                    Sans copy.
+                  </p>
+                </div>
+              </div>
+            </article>
+            <article class="component">
+              <div class="component-head">
+                <h3>Dark input section</h3>
+                <code>100px input radius</code>
+              </div>
+              <div class="stage dark-stage">
+                <label class="field"
+                  ><input
+                    type="email"
+                    placeholder="Enter your work email"
+                    aria-label="Work email"
+                  /><button class="btn" type="button">
+                    Get started
+                  </button></label
+                >
+              </div>
+            </article>
+          </div>
+        </div>
       </section>
-
       <section class="section" id="guidelines">
-        <div class="section-head reveal"><p class="eyebrow">06 / Guidelines</p><h2>Keep it recognizable.</h2><p>Concrete implementation guardrails for preserving the visual character of Caldera.</p></div>
-        <div class="guide-grid"><article class="guide-card do reveal"><h3>Do / Embrace</h3><ul><li>Use basalt gray as the broad environmental canvas.</li><li>Pair digital orange with isolated cyber violet.</li><li>Let oversized type collide with compact technical labels.</li><li>Use pixel grids and sharp color fields as texture.</li></ul></article><article class="guide-card dont reveal"><h3>Don't / Avoid</h3><ul><li>Do not smooth every surface into generic gradients.</li><li>Do not use orange and violet at equal weight in every section.</li><li>Do not replace the near-black technical surface with navy.</li><li>Do not make the layout uniformly polite or centered.</li></ul></article></div>
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">06 / Direction</span>
+            <h2>Usage rules</h2>
+            <p class="section-desc">
+              Concrete constraints drawn from the Caldera reference.
+            </p>
+          </div>
+          <div class="guide-grid">
+            <article class="guide">
+              <h3>Preserve</h3>
+              <ul>
+                <li>Use Pumice as the broad page canvas.</li>
+                <li>Set structural headings at 48px or larger.</li>
+                <li>Keep DM Sans body copy at weight 500.</li>
+                <li>Reserve Ember for primary actions and key cards.</li>
+              </ul>
+            </article>
+            <article class="guide avoid">
+              <h3>Avoid</h3>
+              <ul>
+                <li>Using Plasma Violet for controls or body text.</li>
+                <li>
+                  Adding extra chromatic accents beyond the three observed hues.
+                </li>
+                <li>Compressing the 40px card padding.</li>
+                <li>Replacing compact display type with a generic sans.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="downloads">
+            <a class="download" href="DESIGN.md" download>DESIGN.md ↓</a
+            ><a class="download" href="tokens.json" download>tokens.json ↓</a
+            ><a class="download" href="variables.css" download
+              >variables.css ↓</a
+            ><a class="download" href="theme.css" download>theme.css ↓</a>
+          </div>
+        </div>
       </section>
     </main>
-
-    <footer class="footer"><span>Caldera design system preview</span><div class="footer-links"><a href="#colors">Colors</a><a href="#typography">Typography</a><a href="#spacing">Spacing</a><a href="#components">Components</a><a href="https://caldera.xyz/" target="_blank" rel="noopener noreferrer">Compare official site ↗</a></div></footer>
-  </div>
-  <script>
-    const observer = new IntersectionObserver((items) => {
-      items.forEach((item) => {
-        if (!item.isIntersecting) return
-        item.target.classList.add("visible")
-        observer.unobserve(item.target)
-      })
-    }, { threshold: 0.08, rootMargin: "0px 0px -32px" })
-    document.querySelectorAll(".reveal").forEach((element, index) => {
-      element.style.transitionDelay = String(Math.min(index % 6, 4) * 45) + "ms"
-      observer.observe(element)
-    })
-  </script>
-</body>
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>Caldera light design reference</span
+        ><a
+          href="https://caldera.xyz/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >caldera.xyz ↗</a
+        >
+      </div>
+    </footer>
+    <script>
+      const items = document.querySelectorAll(".reveal")
+      if (
+        "IntersectionObserver" in window &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        const observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible")
+                observer.unobserve(entry.target)
+              }
+            }),
+          { threshold: 0.06 }
+        )
+        items.forEach((item) => observer.observe(item))
+      } else {
+        items.forEach((item) => item.classList.add("visible"))
+      }
+    </script>
+  </body>
 </html>

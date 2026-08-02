@@ -1,273 +1,555 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="design-source" content="https://x.ai/">
-  <title>xAI — Design System Preview</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box}
-    :root{
-      --canvas:#0a0a0a;--surface:#191919;--surface-2:#1a1c20;
-      --ink:#ffffff;--muted:#7d8187;--accent:#ffffff;--accent-2:#ff7a17;
-      --border:#212327;--on-accent:#0a0a0a;
-      --display:'Manrope', sans-serif;--body:'Manrope', sans-serif;
-      --radius:12px;
-      --section-space:clamp(72px,10vw,132px);
-    }
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
-    ::selection{background:var(--accent);color:var(--on-accent)}
-    a{color:inherit}
-    button,input{font:inherit}
-    code{font:500 11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
-    .page-shell{min-height:100vh;overflow:hidden;background:var(--canvas)}
-    .wrap{width:min(1120px,calc(100% - 48px));margin-inline:auto}
-    .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;min-height:68px;padding:0 max(24px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--canvas) 88%,transparent);backdrop-filter:blur(18px)}
-    .brand-lockup{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 18px/1 var(--display);letter-spacing:-.02em}
-    .brand-lockup i{width:11px;height:11px;background:var(--accent);border-radius:50%;box-shadow:16px 0 0 var(--accent-2)}
-    .nav-links{display:flex;align-items:center;gap:4px}.nav-links a{padding:8px 10px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:600}.nav-links a:hover{color:var(--ink)}
-    .source-link{border:1px solid var(--border);border-radius:999px!important;margin-left:8px;color:var(--ink)!important}
-    .hero{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.75fr);gap:clamp(40px,7vw,96px);align-items:center;min-height:calc(100vh - 68px);padding-block:clamp(72px,10vw,132px);border-bottom:1px solid var(--border)}
-    .hero-copy{position:relative;z-index:2}.eyebrow{margin:0 0 18px;color:var(--accent);font:700 11px/1.2 ui-monospace,SFMono-Regular,monospace;letter-spacing:.16em;text-transform:uppercase}
-    .hero h1{max-width:790px;margin:0;font:600 clamp(58px,9.4vw,132px)/.86 var(--display);letter-spacing:-.055em;text-wrap:balance}
-    .hero-summary{max-width:680px;margin:30px 0 0;color:var(--muted);font-size:clamp(16px,1.6vw,19px);line-height:1.65}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
-    .button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border:1px solid var(--border);border-radius:999px;cursor:pointer;text-decoration:none;font-weight:700;transition:transform .18s,background .18s,color .18s,border-color .18s}
-    .button:active{transform:translateY(2px)}.button-primary{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}.button-primary:hover{filter:brightness(1.08);transform:translateY(-2px)}
-    .button-secondary{background:transparent;color:var(--ink)}.button-secondary:hover,.button-quiet:hover{border-color:var(--accent);color:var(--accent)}.button-quiet{border-color:transparent;background:transparent;color:var(--muted)}
-    .hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}.hero-stats span{padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font:600 11px/1.2 ui-monospace,SFMono-Regular,monospace}
-    .hero-art{position:relative;min-height:480px;border:1px solid var(--border);border-radius:calc(var(--radius) * 1.5);overflow:hidden;background:var(--surface);isolation:isolate}
-    .hero-art::before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle at 68% 30%,color-mix(in srgb,var(--accent) 70%,transparent),transparent 32%),radial-gradient(circle at 20% 80%,color-mix(in srgb,var(--accent-2) 45%,transparent),transparent 38%);filter:blur(16px);opacity:.68}
-    .art-grid{position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--border) 70%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--border) 70%,transparent) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
-    .art-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:28px}.art-content small{font:700 10px/1 ui-monospace,SFMono-Regular,monospace;letter-spacing:.14em;color:var(--muted)}
-    .art-title{font:700 clamp(66px,9vw,122px)/.75 var(--display);letter-spacing:-.07em;color:var(--ink);text-transform:uppercase;overflow-wrap:anywhere}
-    .art-chips{display:flex;gap:7px}.art-chips span{height:7px;flex:1;background:var(--accent)}.art-chips span:nth-child(2){background:var(--accent-2)}.art-chips span:nth-child(3){background:var(--ink)}
-    .section{padding-block:var(--section-space);border-bottom:1px solid var(--border)}
-    .section-head{display:grid;grid-template-columns:minmax(130px,.35fr) minmax(260px,.9fr) minmax(260px,.75fr);gap:24px;align-items:start;margin-bottom:48px}.section-head .eyebrow{margin-top:9px}.section-head h2{margin:0;font:600 clamp(38px,6vw,72px)/.95 var(--display);letter-spacing:-.045em}.section-head>p:last-child{margin:6px 0 0;color:var(--muted);line-height:1.7}
-    .color-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.swatch{min-width:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}.swatch-color{height:132px;border-bottom:1px solid var(--border)}.swatch-copy{display:grid;gap:3px;padding:14px}.swatch-copy strong{font-size:13px}.swatch-copy code,.swatch-copy span{color:var(--muted);font-size:10px;overflow-wrap:anywhere}
-    .gradient-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:14px}.gradient-card{display:flex;align-items:flex-end;min-height:280px;padding:24px;border:1px solid var(--border);border-radius:calc(var(--radius) * 1.4);overflow:hidden}.gradient-card>div{max-width:360px;padding:16px;background:color-mix(in srgb,var(--canvas) 82%,transparent);color:var(--ink);border:1px solid color-mix(in srgb,var(--border) 70%,transparent);border-radius:var(--radius);backdrop-filter:blur(14px)}.gradient-card strong{font:600 22px/1.1 var(--display)}.gradient-card p{margin:8px 0 0;color:var(--muted);font-size:12px}
-    .type-table{border-top:1px solid var(--border)}.type-row{display:grid;grid-template-columns:210px minmax(0,1fr);gap:32px;align-items:center;padding:26px 0;border-bottom:1px solid var(--border)}.type-meta{display:grid;gap:5px}.type-meta strong{font-size:12px;text-transform:uppercase}.type-meta code{color:var(--muted)}.type-sample{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .font-table{margin-top:42px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}.font-row{display:grid;grid-template-columns:100px 1fr 1fr;gap:20px;padding:17px 20px;border-bottom:1px solid var(--border);background:var(--surface)}.font-row:last-child{border-bottom:0}.font-row span,.font-row small{color:var(--muted);font-size:11px}.font-row strong{font-family:var(--display)}
-    .metric-title{margin:46px 0 20px;font:600 20px/1.2 var(--display)}.spacing-grid{display:flex;align-items:flex-end;gap:12px;min-height:150px;padding:24px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.space-item{display:grid;flex:1;gap:6px;justify-items:center;min-width:44px}.space-bar{display:block;width:100%;max-width:72px;background:var(--accent);border-radius:3px 3px 0 0}.space-item strong{font-size:11px}.space-item code{color:var(--muted);font-size:9px}
-    .radius-grid,.shadow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}.radius-item,.shadow-item{display:grid;place-items:center;gap:10px;min-height:160px;padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.radius-item>div{width:72px;height:72px;border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--surface))}.radius-item code,.shadow-item code{color:var(--muted);text-align:center}.shadow-item{min-height:130px;margin:10px;background:var(--surface)}
-    .flat-note{display:flex;align-items:center;gap:22px;padding:28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.flat-note>span{font:700 44px/1 var(--display);color:var(--accent)}.flat-note p{margin:4px 0 0;color:var(--muted)}
-    .surface-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.surface-card{min-height:180px;padding:20px;border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;justify-content:flex-end}.surface-card strong{font:600 22px/1 var(--display)}.surface-card code{margin-top:8px;color:var(--muted)}
-    .component-list{display:grid;gap:18px}.component-card{border:1px solid var(--border);border-radius:calc(var(--radius) * 1.25);overflow:hidden;background:var(--surface)}.component-card>header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 20px;border-bottom:1px solid var(--border)}.component-card>header>div{display:flex;align-items:center;gap:14px}.component-card header span{color:var(--accent);font:600 10px/1 ui-monospace,monospace}.component-card h3{margin:0;font:600 16px/1.2 var(--display)}.component-card header code{color:var(--muted)}.component-stage{display:flex;align-items:center;gap:12px;min-height:170px;padding:30px;background:color-mix(in srgb,var(--surface) 65%,var(--canvas));overflow:auto}.state-demo{filter:brightness(1.08);transform:translateY(-2px)}
-    .mini-card{width:min(340px,100%);padding:22px;border:1px solid var(--border);border-radius:var(--radius);background:var(--canvas)}.mini-card strong{display:block;margin-top:10px;font:600 22px/1.2 var(--display)}.mini-card p{color:var(--muted);font-size:13px}.mini-label{color:var(--accent);font:700 10px/1 ui-monospace,monospace;text-transform:uppercase}.mini-progress{height:6px;margin-top:18px;background:var(--border);overflow:hidden;border-radius:99px}.mini-progress span{display:block;width:68%;height:100%;background:var(--accent)}
-    .demo-field{display:grid;gap:7px;width:min(390px,100%);font-size:12px;font-weight:600}.demo-field input{width:100%;padding:13px 14px;border:1px solid var(--accent);border-radius:8px;outline:3px solid color-mix(in srgb,var(--accent) 18%,transparent);background:var(--canvas);color:var(--ink)}.demo-field small{color:var(--muted);font-weight:400}
-    .guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.guide-card{padding:28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.guide-card.do{border-top:4px solid var(--accent)}.guide-card.dont{border-top:4px solid var(--accent-2)}.guide-card h3{margin:0 0 22px;font:600 24px/1 var(--display)}.guide-card ul{display:grid;gap:13px;margin:0;padding:0;list-style:none}.guide-card li{position:relative;padding-left:22px;color:var(--muted);font-size:14px}.guide-card li::before{position:absolute;left:0;color:var(--accent);font-weight:800}.guide-card.do li::before{content:"+"}.guide-card.dont li::before{content:"×";color:var(--accent-2)}
-    .footer{display:flex;justify-content:space-between;gap:30px;padding:44px max(24px,calc((100vw - 1120px)/2));color:var(--muted);font-size:12px}.footer-links{display:flex;flex-wrap:wrap;gap:18px}.footer a:hover{color:var(--ink)}
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.visible{opacity:1;transform:none}
-    body[data-tone="retro"]{background:#000}.page-shell[data-tone="retro"]{width:min(1180px,calc(100% - 28px));margin:auto;border-inline:10px solid #000}.page-shell[data-tone="retro"] .nav{backdrop-filter:none;background:#fff}.page-shell[data-tone="retro"] .hero-art,.page-shell[data-tone="retro"] .component-card{box-shadow:8px 8px 0 #000}.page-shell[data-tone="retro"] .hero h1{text-transform:uppercase}.page-shell[data-tone="retro"] .art-grid{background-size:8px 8px}
-    .page-shell[data-tone="motorsport"] .hero-art::after{content:"";position:absolute;left:0;right:0;bottom:32%;height:18px;background:linear-gradient(90deg,#0066b1 0 33%,#1c69d4 33% 66%,#e22718 66%)}
-    .page-shell[data-tone="chevron"] .hero-art::after{content:"";position:absolute;width:230px;height:460px;right:-100px;top:10px;background:var(--accent);transform:skewX(-24deg);opacity:.75}
-    .page-shell[data-tone="precision"] .hero-art{box-shadow:0 0 90px rgba(94,106,210,.18)}.page-shell[data-tone="precision"] .art-grid{background-size:24px 24px}
-    .page-shell[data-tone="sunset"] .hero-art::before{background:linear-gradient(155deg,#ffd900,#fa520f 60%,#6f1700);filter:none;opacity:1}.page-shell[data-tone="sunset"] .art-title{font-family:'Cormorant Garamond',serif}
-    .page-shell[data-tone="chrome"] .hero-art,.page-shell[data-tone="chrome"] .component-card{box-shadow:inset 3px 3px 0 #d7e6f5,inset -4px -4px 0 #3d4f97,6px 7px 0 rgba(33,36,46,.25)}.page-shell[data-tone="chrome"] .nav{background:#21242e;color:#fff}.page-shell[data-tone="chrome"] .nav-links a{color:#ecab37}
-    .page-shell[data-tone="chrome"] .source-link{color:#ecab37!important;border-color:#60619c}
-    .page-shell[data-tone="terminal"] *{border-radius:4px!important}.page-shell[data-tone="terminal"] .hero-art::before{background:#201d1d;filter:none;opacity:1}.page-shell[data-tone="terminal"] .art-grid{background-image:linear-gradient(rgba(253,252,252,.07) 1px,transparent 1px);background-size:100% 24px}.page-shell[data-tone="terminal"] .art-title{color:#fdfcfc}.page-shell[data-tone="terminal"] .art-content small{color:#9a9898}
-    .page-shell[data-tone="collaboration"] .hero-art::after{content:"";position:absolute;width:120px;height:120px;border-radius:32px;right:28px;top:28px;background:conic-gradient(#36c5f0 0 25%,#2eb67d 0 50%,#ecb22e 0 75%,#e01e5a 0)}
-    .page-shell[data-tone="orbital"] .hero-art::before{background:radial-gradient(circle at 72% 72%,#d9e5ef 0 2%,#536779 3%,#14202b 17%,transparent 36%),radial-gradient(circle,#fff 0 1px,transparent 1.5px);background-size:auto,29px 29px;filter:none;opacity:.8}.page-shell[data-tone="orbital"] h1,.page-shell[data-tone="orbital"] h2{text-transform:uppercase}
-    .page-shell[data-tone="spectrum"] .hero-art::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18px;background:linear-gradient(90deg,#fc4c02,#ef2cc1,#bdbbff)}
-    .page-shell[data-tone="cosmic"] .hero-art::before{background:radial-gradient(circle at 66% 30%,#ffc285,#ff7a17 10%,#7c3aed 28%,#0d1726 54%,#0a0a0a 75%);filter:none;opacity:1}
-    .page-shell[data-tone="pixel"] .hero-art::after{content:"";position:absolute;inset:auto 0 0 auto;width:52%;height:44%;background:linear-gradient(90deg,var(--accent) 50%,transparent 0),linear-gradient(var(--accent-2) 50%,transparent 0);background-size:38px 38px;mix-blend-mode:multiply}
-    .page-shell[data-tone="playful"] .button-primary{box-shadow:0 4px 0 #46a302}.page-shell[data-tone="playful"] .button-primary:active{box-shadow:0 2px 0 #46a302}.page-shell[data-tone="playful"] .hero-art{border-radius:28px}.page-shell[data-tone="playful"] .hero-art::after{content:"★";position:absolute;right:34px;top:28px;color:#ffc800;font-size:64px;transform:rotate(12deg)}
-    @media(max-width:900px){.nav-links a:not(.source-link){display:none}.hero{grid-template-columns:1fr;min-height:auto}.hero-art{min-height:380px}.section-head{grid-template-columns:1fr}.section-head .eyebrow{margin-bottom:0}.color-grid{grid-template-columns:repeat(2,1fr)}.gradient-grid{grid-template-columns:1fr}.type-row{grid-template-columns:1fr}.surface-grid{grid-template-columns:1fr}.font-row{grid-template-columns:80px 1fr}.font-row small{grid-column:2}.guide-grid{grid-template-columns:1fr}}
-    @media(max-width:560px){.wrap{width:min(100% - 28px,1120px)}.nav{padding-inline:14px}.brand-lockup{font-size:15px}.source-link{font-size:10px!important}.hero h1{font-size:clamp(48px,17vw,82px)}.hero-art{min-height:320px}.color-grid{grid-template-columns:1fr 1fr}.swatch-color{height:100px}.spacing-grid{overflow-x:auto;align-items:flex-end}.space-item{min-width:58px}.component-stage{padding:20px;align-items:flex-start;flex-direction:column}.footer{flex-direction:column}.page-shell[data-tone="retro"]{width:100%;border-inline:5px solid #000}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.button{transition:none}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="design-source" content="https://x.ai/">
+<title>SpaceXAI - Light Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --black:#0a0a0a;
+  --black-hover:#242424;
+  --ink-soft:#1f1f1f;
+  --body:#4b4b4b;
+  --muted:#848484;
+  --line:#dbdbdb;
+  --line-strong:#bfbfbf;
+  --white:#ffffff;
+  --soft:#f7f7f7;
+  --raised:#fbfbfb;
+
+  --r-none:0;
+  --r-sm:8px;
+  --r-md:12px;
+  --r-lg:16px;
+  --r-xl:24px;
+  --r-pill:9999px;
+}
+
+::selection{background:var(--black);color:var(--white)}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',Arial,system-ui,-apple-system,sans-serif;
+  background:var(--white);color:var(--black);
+  font-size:16px;line-height:1.5;letter-spacing:0;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+
+button,input{font:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{
+  outline:2px solid var(--black);outline-offset:3px;
+}
+
+.page{max-width:1120px;margin:0 auto;padding:0 40px 120px}
+
+/* NAV */
+.nav{
+  display:flex;justify-content:space-between;align-items:center;
+  min-height:72px;padding:10px 0;position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line);
+}
+.logo-favicon{width:30px;height:30px;object-fit:contain}
+.nav-left{display:flex;align-items:center;gap:8px}
+.nav-wordmark{
+  color:var(--black);font-size:17px;font-weight:600;letter-spacing:-.35px;
+  text-decoration:none;
+}
+.nav-tag{
+  color:var(--body);background:var(--soft);border:1px solid var(--line);
+  padding:4px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:500;
+}
+.nav-right{display:flex;align-items:center;gap:4px}
+.nav-link{
+  color:var(--muted);padding:7px 10px;border-radius:var(--r-pill);
+  font-size:13px;font-weight:400;text-decoration:none;transition:color .2s,background .2s;
+}
+.nav-link:hover{color:var(--black);background:var(--soft)}
+.nav-link--active{color:var(--white);background:var(--black);padding-inline:14px}
+.nav-link--active:hover{color:var(--white);background:var(--black-hover)}
+
+/* SECTIONS */
+.section{padding:96px 0 0;margin-top:64px;border-top:1px solid var(--line)}
+.section-header{margin-bottom:40px}
+.section-label{
+  color:var(--muted);font-size:11px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:10px;
+}
+.section-title{
+  color:var(--black);font-size:34px;font-weight:400;letter-spacing:-1px;line-height:1.15;
+}
+.section-desc{
+  color:var(--body);font-size:15px;line-height:1.65;margin-top:14px;max-width:640px;
+}
+.subheading{
+  color:var(--black);font-size:14px;font-weight:500;margin:40px 0 20px;
+}
+
+/* HERO */
+.hero{
+  min-height:660px;padding:148px 0 100px;display:flex;flex-direction:column;
+  align-items:center;text-align:center;justify-content:center;
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:8px;color:var(--body);
+  background:var(--soft);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:7px 12px;font-size:12px;font-weight:500;margin-bottom:28px;
+}
+.hero-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--black)}
+.hero-title{
+  max-width:940px;color:var(--black);font-size:clamp(48px,7.7vw,92px);
+  font-weight:400;line-height:.99;letter-spacing:-.045em;
+}
+.hero-title em{font-style:normal;color:var(--muted)}
+.hero-subtitle{
+  max-width:610px;color:var(--body);font-size:17px;line-height:1.65;margin-top:30px;
+}
+.hero-tags{display:flex;justify-content:center;gap:8px;margin-top:28px;flex-wrap:wrap}
+.hero-tag{
+  color:var(--muted);background:var(--white);border:1px solid var(--line);
+  padding:5px 11px;border-radius:var(--r-pill);font-size:11px;font-weight:500;
+}
+.hero-actions{display:flex;justify-content:center;gap:10px;margin-top:32px;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:46px;padding:11px 22px;border-radius:var(--r-pill);
+  font-family:inherit;font-size:14px;font-weight:500;line-height:20px;
+  text-decoration:none;white-space:nowrap;cursor:pointer;
+  transition:background .18s,border-color .18s,color .18s,transform .12s;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--black);color:var(--white);border:1px solid var(--black)}
+.btn-primary:hover{background:var(--black-hover);border-color:var(--black-hover)}
+.btn-secondary{background:var(--white);color:var(--black);border:1px solid var(--line)}
+.btn-secondary:hover{background:var(--soft);border-color:var(--line-strong)}
+.btn-quiet{background:transparent;color:var(--body);border:1px solid transparent;padding-inline:12px}
+.btn-quiet:hover{color:var(--black);background:var(--soft)}
+
+/* COLORS */
+.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:14px}
+.color-token{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;transition:border-color .2s,transform .2s;
+}
+.color-token:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+.color-swatch{height:82px;border-bottom:1px solid var(--line)}
+.color-info{padding:14px 16px 16px}
+.color-name{color:var(--black);font-size:13px;font-weight:500}
+.color-hex{color:var(--muted);font:11px/18px 'IBM Plex Mono',monospace;margin-top:2px}
+.color-role{color:var(--body);font-size:11px;line-height:1.45;margin-top:6px}
+
+/* TYPOGRAPHY */
+.font-table{
+  display:flex;flex-direction:column;border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.font-row{
+  padding:20px 24px;border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:92px 1fr 220px;align-items:baseline;gap:16px;
+  background:var(--white);
+}
+.font-row:last-child{border-bottom:none}
+.font-role-tag{color:var(--muted);font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.font-name{color:var(--black);font-size:16px;font-weight:500;letter-spacing:-.25px}
+.font-meta{color:var(--muted);font-size:11px;text-align:right}
+.type-table{
+  display:flex;flex-direction:column;border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.type-row{
+  display:grid;grid-template-columns:100px minmax(0,1fr) 250px;align-items:baseline;
+  padding:18px 24px;border-bottom:1px solid var(--line);background:var(--white);
+}
+.type-row:last-child{border-bottom:none}
+.type-row:hover{background:var(--soft)}
+.type-meta{color:var(--muted);font:10px/1.4 'IBM Plex Mono',monospace;text-transform:uppercase}
+.type-sample{color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.type-specs{color:var(--muted);font:10px/1.5 'IBM Plex Mono',monospace;text-align:right}
+
+/* SPACING */
+.spacing-bars{display:flex;align-items:flex-end;gap:14px;min-height:142px;flex-wrap:wrap}
+.spacing-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:48px}
+.spacing-bar{width:100%;background:var(--black);opacity:.16;border-radius:2px;transition:opacity .2s}
+.spacing-col:hover .spacing-bar{opacity:1}
+.spacing-val{color:var(--black);font:11px/1.3 'IBM Plex Mono',monospace}
+.spacing-name{color:var(--muted);font-size:10px}
+
+/* SHAPES */
+.shapes-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end}
+.shape-item{display:flex;flex-direction:column;align-items:center;gap:7px}
+.shape-box{
+  width:72px;height:72px;background:var(--soft);border:1px solid var(--line);
+  transition:border-color .2s,transform .2s;
+}
+.shape-box:hover{border-color:var(--black);transform:scale(1.04)}
+.shape-label{color:var(--black);font-size:11px;font-weight:500}
+.shape-value{color:var(--muted);font:10px/1.3 'IBM Plex Mono',monospace}
+
+/* DEPTH */
+.depth-row{display:flex;align-items:center;gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}
+.depth-row:last-child{border-bottom:none}
+.depth-swatch{width:56px;height:56px;border-radius:var(--r-md);flex-shrink:0;border:1px solid var(--line)}
+.depth-info{flex:1}
+.depth-name{color:var(--black);font-size:14px;font-weight:500}
+.depth-desc{color:var(--muted);font-size:12px;margin-top:3px}
+.depth-value{color:var(--muted);font:11px/1.4 'IBM Plex Mono',monospace}
+.surface-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.surface-item{
+  min-height:116px;padding:26px 18px;border:1px solid var(--line);border-radius:var(--r-lg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+}
+.surface-name{color:var(--black);font-size:14px;font-weight:500}
+.surface-val{color:var(--muted);font:10px/1.4 'IBM Plex Mono',monospace}
+
+/* COMPONENTS */
+.component-card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:30px;margin-bottom:18px;transition:border-color .2s;
+}
+.component-card:hover{border-color:var(--line-strong)}
+.component-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:20px}
+.component-name{color:var(--black);font-size:15px;font-weight:500}
+.component-role{color:var(--muted);font-size:12px;margin-top:4px}
+.component-class{
+  color:var(--body);background:var(--soft);border:1px solid var(--line);
+  padding:4px 9px;border-radius:var(--r-pill);font:10px/1.4 'IBM Plex Mono',monospace;
+}
+.component-preview{
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:24px;
+  background:var(--soft);border:1px solid var(--line);border-radius:var(--r-md);
+}
+.component-desc{color:var(--body);font-size:12px;line-height:1.55;margin-top:12px;max-width:650px}
+.announcement{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 13px;
+  color:var(--black);background:var(--white);border:1px solid var(--line);
+  border-radius:var(--r-pill);font-size:12px;text-decoration:none;
+}
+.announcement:hover{border-color:var(--line-strong)}
+.announcement span{color:var(--muted)}
+.code-panel{width:100%;max-width:620px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.code-head{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}
+.code-head button{color:var(--body);background:transparent;border:0;cursor:pointer;font-size:11px}
+.code-head button:hover{color:var(--black)}
+.code-panel pre{overflow:auto;padding:18px;color:var(--ink-soft);font:12px/1.7 'IBM Plex Mono',monospace;white-space:pre}
+.metric-demo{width:100%;display:grid;grid-template-columns:repeat(3,1fr);background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.metric-cell{padding:24px;border-right:1px solid var(--line)}
+.metric-cell:last-child{border-right:none}
+.metric-cell strong{display:block;color:var(--black);font-size:30px;font-weight:400;letter-spacing:-1px}
+.metric-cell span{display:block;color:var(--muted);font-size:11px;margin-top:6px}
+.news-demo{width:100%;background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.news-row{display:grid;grid-template-columns:100px 1fr auto;gap:20px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);color:var(--black);text-decoration:none;transition:background .2s}
+.news-row:last-child{border-bottom:none}
+.news-row:hover{background:var(--soft)}
+.news-row time{color:var(--muted);font-size:11px}
+.news-row span{font-size:13px}
+.news-row b{font-size:15px;font-weight:400}
+
+/* GUIDELINES */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.guide-card{padding:28px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--white)}
+.guide-card--do{border-top:3px solid var(--black)}
+.guide-card--dont{border-top:3px solid var(--line-strong)}
+.guide-label{color:var(--black);font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px}
+.guide-list{list-style:none;display:flex;flex-direction:column;gap:11px}
+.guide-list li{color:var(--body);font-size:13px;line-height:1.5;padding-left:18px;position:relative}
+.guide-card--do .guide-list li::before{content:'+';position:absolute;left:0;color:var(--black);font-weight:600}
+.guide-card--dont .guide-list li::before{content:'-';position:absolute;left:0;color:var(--muted);font-weight:600}
+
+/* FOOTER */
+.footer{margin-top:96px;padding:32px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footer-left{color:var(--muted);font-size:13px}
+.footer-right{display:flex;gap:18px;flex-wrap:wrap}
+.footer-link{color:var(--muted);font-size:11px;text-decoration:none;transition:color .2s}
+.footer-link:hover{color:var(--black)}
+
+/* RESPONSIVE */
+@media(max-width:820px){
+  .page{padding:0 22px 80px}
+  .nav{align-items:flex-start}
+  .nav-right{max-width:58vw;overflow-x:auto;justify-content:flex-start;padding-bottom:4px}
+  .hero{min-height:560px;padding:110px 0 72px}
+  .section{padding-top:72px;margin-top:48px}
+  .font-row{grid-template-columns:80px 1fr}.font-meta{display:none}
+  .type-row{grid-template-columns:80px minmax(0,1fr)}.type-specs{display:none}
+  .surface-grid{grid-template-columns:1fr}
+  .metric-demo{grid-template-columns:1fr}.metric-cell{border-right:0;border-bottom:1px solid var(--line)}.metric-cell:last-child{border-bottom:0}
+  .news-row{grid-template-columns:80px 1fr}.news-row span{display:none}
+}
+@media(max-width:560px){
+  .page{padding-inline:16px}
+  .nav-tag{display:none}
+  .nav-right{max-width:66vw}
+  .nav-link{padding-inline:8px}.nav-link:nth-child(3),.nav-link:nth-child(4){display:none}
+  .hero-title{font-size:46px;letter-spacing:-2px}
+  .hero-actions{width:100%}.hero-actions .btn{width:100%}
+  .section-title{font-size:29px}
+  .color-grid{grid-template-columns:1fr 1fr}
+  .component-card{padding:20px}.component-preview{padding:18px}
+  .component-header{flex-direction:column}.component-class{align-self:flex-start}
+  .guide-grid{grid-template-columns:1fr}
+  .footer{align-items:flex-start;flex-direction:column}
+}
+
+/* ENTRANCE ANIMATION */
+.section,.hero{opacity:0;transform:translateY(18px);transition:opacity .58s cubic-bezier(.22,1,.36,1),transform .58s cubic-bezier(.22,1,.36,1)}
+.section.visible,.hero.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.section,.hero{opacity:1;transform:none;transition:none}}
+</style>
 </head>
 <body>
-  <div class="page-shell" data-tone="cosmic">
-    <nav class="nav" aria-label="Preview navigation">
-      <a class="brand-lockup" href="#top"><i aria-hidden="true"></i>xAI</a>
-      <div class="nav-links">
-        <a href="#colors">Colors</a><a href="#typography">Type</a><a href="#spacing">Metrics</a><a href="#components">Components</a>
-        <a class="source-link" href="https://x.ai/" target="_blank" rel="noopener noreferrer">Official site ↗</a>
+
+<div class="page">
+
+  <nav class="nav" aria-label="Design system navigation">
+    <div class="nav-left">
+      <img src="https://a.favicon.im/x.ai" alt="x.ai favicon" loading="lazy" class="logo-favicon" style="width:30px;height:30px;object-fit:contain;">
+      <a href="#" class="nav-wordmark">SpaceXAI</a>
+      <span class="nav-tag">Light system</span>
+    </div>
+    <div class="nav-right">
+      <a href="#colors" class="nav-link">Colors</a>
+      <a href="#typography" class="nav-link">Type</a>
+      <a href="#spacing" class="nav-link">Spacing</a>
+      <a href="#components" class="nav-link">Components</a>
+      <a class="nav-link nav-link--active" href="https://x.ai/" target="_blank" rel="noopener noreferrer">Official site &nearr;</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-label">Verified light theme / 2026</div>
+    <h1 class="hero-title">Frontier AI models<br>for everything<br><em>you build.</em></h1>
+    <p class="hero-subtitle">A high-contrast editorial system where white space, oversized type, black pill actions, and thin gray rules make complex AI products feel direct and legible.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">12 color tokens</span>
+      <span class="hero-tag">10 type steps</span>
+      <span class="hero-tag">4px base grid</span>
+    </div>
+    <div class="hero-actions">
+      <a href="DESIGN.md" class="btn btn-primary" download>Download spec</a>
+      <a href="theme.css" class="btn btn-secondary" download>theme.css</a>
+      <a href="tokens.json" class="btn btn-secondary" download>tokens.json</a>
+      <a href="variables.css" class="btn btn-secondary" download>variables.css</a>
+    </div>
+  </header>
+
+  <section class="section" id="colors">
+    <div class="section-header">
+      <div class="section-label">Foundation</div>
+      <h2 class="section-title">Color Tokens</h2>
+      <p class="section-desc">The verified interface is light and monochrome. Black carries decisive actions and display text; a short neutral ramp handles hierarchy, boundaries, and alternate technical surfaces.</p>
+    </div>
+    <div class="color-grid">
+      <div class="color-token"><div class="color-swatch" style="background:#0A0A0A"></div><div class="color-info"><div class="color-name">Primary</div><div class="color-hex">#0A0A0A</div><div class="color-role">Filled CTAs and strongest emphasis</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#242424"></div><div class="color-info"><div class="color-name">Primary Hover</div><div class="color-hex">#242424</div><div class="color-role">Hover state for black controls</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#1F1F1F"></div><div class="color-info"><div class="color-name">Ink Soft</div><div class="color-hex">#1F1F1F</div><div class="color-role">Dense copy and technical text</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#4B4B4B"></div><div class="color-info"><div class="color-name">Body</div><div class="color-hex">#4B4B4B</div><div class="color-role">Supporting paragraphs</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#848484"></div><div class="color-info"><div class="color-name">Muted</div><div class="color-hex">#848484</div><div class="color-role">Navigation, labels, metadata</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#BFBFBF"></div><div class="color-info"><div class="color-name">Hairline Strong</div><div class="color-hex">#BFBFBF</div><div class="color-role">Hovered outlines</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#DBDBDB"></div><div class="color-info"><div class="color-name">Hairline</div><div class="color-hex">#DBDBDB</div><div class="color-role">Default borders and dividers</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#F7F7F7"></div><div class="color-info"><div class="color-name">Canvas Soft</div><div class="color-hex">#F7F7F7</div><div class="color-role">Alternate bands and code panels</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#FBFBFB"></div><div class="color-info"><div class="color-name">Canvas Raised</div><div class="color-hex">#FBFBFB</div><div class="color-role">Inset content surface</div></div></div>
+      <div class="color-token"><div class="color-swatch" style="background:#FFFFFF"></div><div class="color-info"><div class="color-name">Canvas</div><div class="color-hex">#FFFFFF</div><div class="color-role">Primary page background</div></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="typography">
+    <div class="section-header">
+      <div class="section-label">Typography</div>
+      <h2 class="section-title">Universal, neutral, exact</h2>
+      <p class="section-desc">Universal Sans leads the identity. Inter is the open substitute used here; Geist Mono shifts technical examples into a more operational register.</p>
+    </div>
+    <div class="font-table">
+      <div class="font-row"><span class="font-role-tag">Primary</span><span class="font-name">Universal Sans / Inter</span><span class="font-meta">Display, body, navigation, controls</span></div>
+      <div class="font-row"><span class="font-role-tag">Technical</span><span class="font-name" style="font-family:'IBM Plex Mono',monospace;font-size:14px">Geist Mono / IBM Plex Mono</span><span class="font-meta">API code, labels, data</span></div>
+    </div>
+
+    <h3 class="subheading">Type Scale</h3>
+    <div class="type-table">
+      <div class="type-row"><span class="type-meta">Display XL</span><span class="type-sample" style="font-size:56px;line-height:1;letter-spacing:-2px">Frontier</span><span class="type-specs">96 / 96 / 400 / -3.2</span></div>
+      <div class="type-row"><span class="type-meta">Display LG</span><span class="type-sample" style="font-size:46px;line-height:1.06;letter-spacing:-1.5px">Everything</span><span class="type-specs">72 / 76 / 400 / -2.2</span></div>
+      <div class="type-row"><span class="type-meta">Display MD</span><span class="type-sample" style="font-size:38px;line-height:1.08;letter-spacing:-1px">One API.</span><span class="type-specs">48 / 52 / 400 / -1.4</span></div>
+      <div class="type-row"><span class="type-meta">Display SM</span><span class="type-sample" style="font-size:30px;line-height:1.18;letter-spacing:-.7px">Latest news</span><span class="type-specs">32 / 38 / 400 / -0.7</span></div>
+      <div class="type-row"><span class="type-meta">Title</span><span class="type-sample" style="font-size:24px;line-height:30px;letter-spacing:-.3px">Build on your own</span><span class="type-specs">24 / 30 / 500 / -0.3</span></div>
+      <div class="type-row"><span class="type-meta">Body LG</span><span class="type-sample" style="font-size:18px;line-height:28px">Reasoning, code, voice, images, and video.</span><span class="type-specs">18 / 28 / 400 / 0</span></div>
+      <div class="type-row"><span class="type-meta">Body MD</span><span class="type-sample" style="font-size:16px;line-height:24px">A unified API for every modality.</span><span class="type-specs">16 / 24 / 400 / 0</span></div>
+      <div class="type-row"><span class="type-meta">Body SM</span><span class="type-sample" style="font-size:14px;line-height:20px">Products, developers, company, and news</span><span class="type-specs">14 / 20 / 400 / 0</span></div>
+      <div class="type-row"><span class="type-meta">Label</span><span class="type-sample" style="font-size:13px;line-height:16px;font-weight:500">Try for free</span><span class="type-specs">13 / 16 / 500 / 0</span></div>
+      <div class="type-row"><span class="type-meta">Code</span><span class="type-sample" style="font:13px/20px 'IBM Plex Mono',monospace">model: "grok-4.5"</span><span class="type-specs">13 / 20 / 400 / 0</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="spacing">
+    <div class="section-header">
+      <div class="section-label">Layout</div>
+      <h2 class="section-title">Spacing &amp; Shapes</h2>
+      <p class="section-desc">A 4px base scale expands quickly into 96px and 128px section intervals. Shape stays restrained: technical panels receive modest rounding while actions use a full pill.</p>
+    </div>
+    <h3 class="subheading">Spacing Scale (4px base)</h3>
+    <div class="spacing-bars">
+      <div class="spacing-col"><div class="spacing-bar" style="height:8px"></div><span class="spacing-val">4</span><span class="spacing-name">xs</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:12px"></div><span class="spacing-val">8</span><span class="spacing-name">sm</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:16px"></div><span class="spacing-val">12</span><span class="spacing-name">md</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:22px"></div><span class="spacing-val">16</span><span class="spacing-name">lg</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:32px"></div><span class="spacing-val">24</span><span class="spacing-name">xl</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:42px"></div><span class="spacing-val">32</span><span class="spacing-name">2xl</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:60px"></div><span class="spacing-val">48</span><span class="spacing-name">3xl</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:78px"></div><span class="spacing-val">64</span><span class="spacing-name">4xl</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:104px"></div><span class="spacing-val">96</span><span class="spacing-name">5xl</span></div>
+      <div class="spacing-col"><div class="spacing-bar" style="height:128px"></div><span class="spacing-val">128</span><span class="spacing-name">6xl</span></div>
+    </div>
+
+    <h3 class="subheading">Border Radius</h3>
+    <div class="shapes-row">
+      <div class="shape-item"><div class="shape-box" style="border-radius:0"></div><span class="shape-label">none</span><span class="shape-value">0px</span></div>
+      <div class="shape-item"><div class="shape-box" style="border-radius:8px"></div><span class="shape-label">sm</span><span class="shape-value">8px</span></div>
+      <div class="shape-item"><div class="shape-box" style="border-radius:12px"></div><span class="shape-label">md</span><span class="shape-value">12px</span></div>
+      <div class="shape-item"><div class="shape-box" style="border-radius:16px"></div><span class="shape-label">lg / panels</span><span class="shape-value">16px</span></div>
+      <div class="shape-item"><div class="shape-box" style="border-radius:24px"></div><span class="shape-label">xl / frames</span><span class="shape-value">24px</span></div>
+      <div class="shape-item"><div class="shape-box" style="border-radius:9999px"></div><span class="shape-label">pill / actions</span><span class="shape-value">9999px</span></div>
+    </div>
+
+  </section>
+
+  <section class="section" id="depth">
+    <div class="section-header">
+      <div class="section-label">Elevation</div>
+      <h2 class="section-title">Depth &amp; Surfaces</h2>
+      <p class="section-desc">The light system separates content with subtle neutral steps and precise hairline boundaries.</p>
+    </div>
+    <h3 class="subheading">Depth Levels</h3>
+    <div>
+      <div class="depth-row"><div class="depth-swatch" style="background:#FFFFFF"></div><div class="depth-info"><div class="depth-name">Canvas</div><div class="depth-desc">Primary page field and dominant white space</div></div><div class="depth-value">Level 0</div></div>
+      <div class="depth-row"><div class="depth-swatch" style="background:#FBFBFB"></div><div class="depth-info"><div class="depth-name">Raised</div><div class="depth-desc">Barely shifted inset or editorial surface</div></div><div class="depth-value">Level 1</div></div>
+      <div class="depth-row"><div class="depth-swatch" style="background:#F7F7F7"></div><div class="depth-info"><div class="depth-name">Soft</div><div class="depth-desc">Code panels and alternate content bands</div></div><div class="depth-value">Level 2</div></div>
+    </div>
+    <h3 class="subheading">Surface System</h3>
+    <div class="surface-grid">
+      <div class="surface-item" style="background:#FFFFFF"><span class="surface-name">Canvas</span><span class="surface-val">#FFFFFF</span></div>
+      <div class="surface-item" style="background:#FBFBFB"><span class="surface-name">Canvas Raised</span><span class="surface-val">#FBFBFB</span></div>
+      <div class="surface-item" style="background:#F7F7F7"><span class="surface-name">Canvas Soft</span><span class="surface-val">#F7F7F7</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="components">
+    <div class="section-header">
+      <div class="section-label">Components</div>
+      <h2 class="section-title">Component Library</h2>
+      <p class="section-desc">Observed patterns combine black-and-white contrast, pill geometry, thin outlines, and technical panels. Every preview includes the intended hierarchy and state behavior.</p>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header"><div><div class="component-name">Primary Action</div><div class="component-role">Main conversion CTA</div></div><span class="component-class">.btn-primary</span></div>
+      <div class="component-preview"><button class="btn btn-primary">Try for free</button><button class="btn btn-primary" style="background:var(--black-hover);border-color:var(--black-hover)">Hover state</button></div>
+      <div class="component-desc">#0A0A0A fill, white text, 9999px radius, 11px/22px padding. Hover moves to #242424; active scales to 0.98.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header"><div><div class="component-name">Secondary Action</div><div class="component-role">Outlined supporting CTA</div></div><span class="component-class">.btn-secondary</span></div>
+      <div class="component-preview"><button class="btn btn-secondary">Contact Sales</button><button class="btn btn-secondary" style="background:var(--soft);border-color:var(--line-strong)">Hover state</button></div>
+      <div class="component-desc">White fill, black text, #DEDEDE outline, and matching pill geometry. Hover strengthens the outline and shifts the surface.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header"><div><div class="component-name">Announcement Pill</div><div class="component-role">Compact product-news link</div></div><span class="component-class">.announcement</span></div>
+      <div class="component-preview"><a href="#" class="announcement"><strong>New</strong><span>Meet Grok 4.5</span><b aria-hidden="true">&rarr;</b></a></div>
+      <div class="component-desc">Soft white surface, hairline border, 9999px radius, and a compact 12px label. Use once above a major statement.</div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-header"><div><div class="component-name">API Code Panel</div><div class="component-role">Developer example with copy action</div></div><span class="component-class">.code-panel</span></div>
+      <div class="component-preview">
+        <div class="code-panel"><div class="code-head"><span>TypeScript</span><button type="button">Copy</button></div><pre><code>const client = new Client({ apiKey });
+
+const response = await client.chat.create({
+  model: "grok-4.5",
+  input: "Explain quantum computing"
+});</code></pre></div>
       </div>
-    </nav>
+      <div class="component-desc">#F7F7F7 stage, white inner surface, #DBDBDB outline, 16px radius, and 13px/20px monospace content.</div>
+    </div>
 
-    <main class="wrap" id="top">
-      <header class="hero">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">xAI / Design system</p>
-          <h1>Understand the universe.</h1>
-          <p class="hero-summary">An inspired interpretation of xAI's design language — Elon Musk's frontier-AI company whose web surface is a strict near-black canvas broken only by white pill outlines, occasional warm sunset / dusk gradient accents, a custom geometric sans (Universal Sans) for display, and an uppercase tracked monospace caption face; the whole system reads as…</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="DESIGN.md" download>Download spec</a>
-            <a class="button button-secondary" href="tokens.json" download>Tokens JSON</a>
-            <a class="button button-quiet" href="variables.css" download>Variables CSS</a>
-            <a class="button button-quiet" href="theme.css" download>Tailwind theme</a>
-          </div>
-          <div class="hero-stats"><span>18 colors</span><span>11 type styles</span><span>9 spacing steps</span><span>4 radii</span></div>
-        </div>
-        <div class="hero-art reveal" aria-label="xAI visual signature">
-          <div class="art-grid"></div><div class="art-content"><small>GROK / FRONTIER AI</small><div class="art-title">xAI</div><div class="art-chips"><span></span><span></span><span></span></div></div>
-        </div>
-      </header>
+    <div class="component-card">
+      <div class="component-header"><div><div class="component-name">Metric Block</div><div class="component-role">Large numeric proof points</div></div><span class="component-class">.metric</span></div>
+      <div class="component-preview"><div class="metric-demo"><div class="metric-cell"><strong>1M+</strong><span>API calls per day</span></div><div class="metric-cell"><strong>&lt;200ms</strong><span>Median latency</span></div><div class="metric-cell"><strong>5+</strong><span>Model families</span></div></div></div>
+      <div class="component-desc">Large regular-weight values pair with compact muted labels, separated by precise hairline rules.</div>
+    </div>
 
-      <section class="section" id="colors">
-        <div class="section-head reveal"><p class="eyebrow">01 / Foundation</p><h2>Color tokens.</h2><p>Real values from the packaged xAI design reference. Semantic names remain searchable in CSS and JSON exports.</p></div>
-        <div class="color-grid">
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#ffffff"></div>
-          <div class="swatch-copy"><strong>Primary</strong><code>#ffffff</code><span>--color-primary</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#0a0a0a"></div>
-          <div class="swatch-copy"><strong>On Primary</strong><code>#0a0a0a</code><span>--color-on-primary</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#ffffff"></div>
-          <div class="swatch-copy"><strong>Ink</strong><code>#ffffff</code><span>--color-ink</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#fafaf7"></div>
-          <div class="swatch-copy"><strong>Ink Hover</strong><code>#fafaf7</code><span>--color-ink-hover</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#dadbdf"></div>
-          <div class="swatch-copy"><strong>Body</strong><code>#dadbdf</code><span>--color-body</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#7d8187"></div>
-          <div class="swatch-copy"><strong>Body Mid</strong><code>#7d8187</code><span>--color-body-mid</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#7d8187"></div>
-          <div class="swatch-copy"><strong>Mute</strong><code>#7d8187</code><span>--color-mute</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#212327"></div>
-          <div class="swatch-copy"><strong>Hairline</strong><code>#212327</code><span>--color-hairline</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#0a0a0a"></div>
-          <div class="swatch-copy"><strong>Canvas</strong><code>#0a0a0a</code><span>--color-canvas</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#1a1c20"></div>
-          <div class="swatch-copy"><strong>Canvas Soft</strong><code>#1a1c20</code><span>--color-canvas-soft</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#191919"></div>
-          <div class="swatch-copy"><strong>Canvas Card</strong><code>#191919</code><span>--color-canvas-card</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#363a3f"></div>
-          <div class="swatch-copy"><strong>Canvas Mid</strong><code>#363a3f</code><span>--color-canvas-mid</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#ff7a17"></div>
-          <div class="swatch-copy"><strong>Accent Sunset</strong><code>#ff7a17</code><span>--color-accent-sunset</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#ffc285"></div>
-          <div class="swatch-copy"><strong>Accent Sunset Soft</strong><code>#ffc285</code><span>--color-accent-sunset-soft</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#7c3aed"></div>
-          <div class="swatch-copy"><strong>Accent Dusk</strong><code>#7c3aed</code><span>--color-accent-dusk</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#c4b5fd"></div>
-          <div class="swatch-copy"><strong>Accent Twilight</strong><code>#c4b5fd</code><span>--color-accent-twilight</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#a0c3ec"></div>
-          <div class="swatch-copy"><strong>Accent Breeze</strong><code>#a0c3ec</code><span>--color-accent-breeze</span></div>
-        </article>
-        <article class="swatch reveal">
-          <div class="swatch-color" style="background:#0d1726"></div>
-          <div class="swatch-copy"><strong>Accent Midnight</strong><code>#0d1726</code><span>--color-accent-midnight</span></div>
-        </article></div>
-      </section>
+    <div class="component-card">
+      <div class="component-header"><div><div class="component-name">Editorial News Row</div><div class="component-role">Date, title, and direction</div></div><span class="component-class">.news-row</span></div>
+      <div class="component-preview"><div class="news-demo"><a href="#" class="news-row"><time>Jul 31</time><b>Imagine Video with References</b><span>&rarr;</span></a><a href="#" class="news-row"><time>Jul 29</time><b>Introducing Grok Voice</b><span>&rarr;</span></a></div></div>
+      <div class="component-desc">Full-width row, hairline separators, and a #F7F7F7 hover surface preserve the editorial rhythm.</div>
+    </div>
+  </section>
 
-      <section class="section" id="treatments"><div class="section-head reveal"><p class="eyebrow">Signature treatments</p><h2>Color in motion.</h2><p>Brand-specific transitions and surface gestures documented for xAI.</p></div><div class="gradient-grid"><article class="gradient-card reveal" style="background:radial-gradient(circle at 72% 28%,#ffc285 0%,#ff7a17 15%,#7c3aed 37%,#0d1726 68%,#0a0a0a 100%)"><div><strong>Sunset Dusk</strong><p>A rare cosmic accent against the strict black surface.</p></div></article></div></section>
+  <section class="section" id="guidelines">
+    <div class="section-header">
+      <div class="section-label">Guidelines</div>
+      <h2 class="section-title">Do's &amp; Don'ts</h2>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card guide-card--do">
+        <div class="guide-label">Do - Embrace</div>
+        <ul class="guide-list">
+          <li>Keep #FFFFFF as the uninterrupted page field</li>
+          <li>Use #0A0A0A only for text and decisive interaction</li>
+          <li>Give major statements 96-128px of vertical space</li>
+          <li>Separate panels and rows with #DBDBDB rules</li>
+          <li>Keep buttons at 9999px pill radius</li>
+          <li>Use Universal Sans with tight display tracking</li>
+          <li>Reserve Geist Mono for code and technical data</li>
+        </ul>
+      </div>
+      <div class="guide-card guide-card--dont">
+        <div class="guide-label">Don't - Avoid</div>
+        <ul class="guide-list">
+          <li>Do not turn the page into a near-black theme</li>
+          <li>Do not crowd the centered hero with extra columns</li>
+          <li>Do not make every container a pill</li>
+          <li>Do not use monospace for long reading text</li>
+          <li>Do not replace muted navigation with loud accents</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-      <section class="section" id="typography">
-        <div class="section-head reveal"><p class="eyebrow">02 / Typography</p><h2>Voice at every scale.</h2><p>Documented sizes, weights, line heights and tracking. Proprietary families fall back to an open-source preview substitute.</p></div>
-        <div class="type-table">
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>display-xl</strong><code>96px · 400 · 96px · -2.4px</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,96px,3.75rem);font-weight:400;line-height:96px;letter-spacing:-2.4px">Understand the universe.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>display-lg</strong><code>72px · 400 · 72px · -1.8px</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,72px,3.75rem);font-weight:400;line-height:72px;letter-spacing:-1.8px">Understand the universe.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>display-md</strong><code>48px · 400 · 48px · -1.2px</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,48px,3.75rem);font-weight:400;line-height:48px;letter-spacing:-1.2px">Understand the universe.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>display-sm</strong><code>32px · 400 · 36px · -0.6px</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,32px,3.75rem);font-weight:400;line-height:36px;letter-spacing:-0.6px">xAI builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>display-xs</strong><code>20px · 400 · 28px · 0</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,20px,3.75rem);font-weight:400;line-height:28px;letter-spacing:0">xAI builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>body-lg</strong><code>18px · 400 · 28px · 0</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,18px,3.75rem);font-weight:400;line-height:28px;letter-spacing:0">xAI builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>body-md</strong><code>16px · 400 · 24px · 0</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,16px,3.75rem);font-weight:400;line-height:24px;letter-spacing:0">xAI builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>body-sm</strong><code>14px · 400 · 20px · 0</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,14px,3.75rem);font-weight:400;line-height:20px;letter-spacing:0">xAI builds a recognizable visual language.</div>
-        </article>
-        <article class="type-row reveal">
-          <div class="type-meta"><strong>caption-mono</strong><code>14px · 400 · 20px · 1.4px</code></div>
-          <div class="type-sample" style="font-family:'Manrope', sans-serif;font-size:clamp(1rem,14px,3.75rem);font-weight:400;line-height:20px;letter-spacing:1.4px">xAI builds a recognizable visual language.</div>
-        </article></div>
-        <h3 class="metric-title">Font families</h3><div class="font-table"><div class="font-row"><span>Primary</span><strong>universalSans, Inter, system-ui, -apple-system, sans-serif</strong><small>Previewed with Manrope, sans-serif</small></div><div class="font-row"><span>Family 2</span><strong>universalSans, Inter, system-ui, sans-serif</strong><small>Documented brand family</small></div><div class="font-row"><span>Family 3</span><strong>GeistMono, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace</strong><small>Documented brand family</small></div><div class="font-row"><span>Family 4</span><strong>GeistMono, ui-monospace, SFMono-Regular, Menlo, monospace</strong><small>Documented brand family</small></div></div>
-      </section>
+  <footer class="footer">
+    <div class="footer-left">SpaceXAI Light Design System</div>
+    <div class="footer-right">
+      <a href="#colors" class="footer-link">Colors</a>
+      <a href="#typography" class="footer-link">Typography</a>
+      <a href="#spacing" class="footer-link">Spacing</a>
+      <a href="#components" class="footer-link">Components</a>
+      <a href="DESIGN.md" class="footer-link" download>Download spec</a>
+      <a href="https://x.ai/" class="footer-link" target="_blank" rel="noopener noreferrer">Official site &nearr;</a>
+    </div>
+  </footer>
 
-      <section class="section" id="spacing">
-        <div class="section-head reveal"><p class="eyebrow">03 / Geometry</p><h2>Rhythm and shape.</h2><p>Spacing and corner geometry are presented directly from the package rather than normalized into a generic scale.</p></div>
-        <h3 class="metric-title">Spacing scale</h3><div class="spacing-grid"><div class="space-item reveal"><span class="space-bar" style="height:8px"></span><strong>xxs</strong><code>2px</code></div><div class="space-item reveal"><span class="space-bar" style="height:8px"></span><strong>xs</strong><code>4px</code></div><div class="space-item reveal"><span class="space-bar" style="height:9.2px"></span><strong>sm</strong><code>8px</code></div><div class="space-item reveal"><span class="space-bar" style="height:13.799999999999999px"></span><strong>md</strong><code>12px</code></div><div class="space-item reveal"><span class="space-bar" style="height:18.4px"></span><strong>lg</strong><code>16px</code></div><div class="space-item reveal"><span class="space-bar" style="height:27.599999999999998px"></span><strong>xl</strong><code>24px</code></div><div class="space-item reveal"><span class="space-bar" style="height:36.8px"></span><strong>2xl</strong><code>32px</code></div><div class="space-item reveal"><span class="space-bar" style="height:55.199999999999996px"></span><strong>3xl</strong><code>48px</code></div><div class="space-item reveal"><span class="space-bar" style="height:73.6px"></span><strong>4xl</strong><code>64px</code></div></div>
-        <h3 class="metric-title">Border radius</h3><div class="radius-grid"><article class="radius-item reveal"><div style="border-radius:0px"></div><strong>none</strong><code>0px</code></article><article class="radius-item reveal"><div style="border-radius:8px"></div><strong>sm</strong><code>8px</code></article><article class="radius-item reveal"><div style="border-radius:9999px"></div><strong>pill</strong><code>9999px</code></article><article class="radius-item reveal"><div style="border-radius:9999px"></div><strong>full</strong><code>9999px</code></article></div>
-        <h3 class="metric-title">Shadows</h3><div class="flat-note reveal"><span>00</span><div><strong>Flat by design</strong><p>No shadow tokens are documented for xAI. Surface contrast, borders and composition create hierarchy instead.</p></div></div>
-      </section>
+</div>
 
-      <section class="section" id="surfaces">
-        <div class="section-head reveal"><p class="eyebrow">04 / Depth</p><h2>Surface hierarchy.</h2><p>Three working levels show how the brand creates hierarchy using contrast, borders and restrained elevation.</p></div>
-        <div class="surface-grid"><article class="surface-card reveal" style="background:var(--canvas)"><strong>Canvas</strong><code>#0a0a0a</code></article><article class="surface-card reveal" style="background:var(--surface)"><strong>Surface</strong><code>#191919</code></article><article class="surface-card reveal" style="background:var(--surface-2);color:#ffffff"><strong>Emphasis</strong><code>#1a1c20</code></article></div>
-      </section>
+<script>
+  const elements = document.querySelectorAll('.section, .hero');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, index) => {
+        if (!entry.isIntersecting) return;
+        entry.target.style.transitionDelay = `${index * 50}ms`;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+    elements.forEach(element => observer.observe(element));
+  } else {
+    elements.forEach(element => element.classList.add('visible'));
+  }
+</script>
 
-      <section class="section" id="components">
-        <div class="section-head reveal"><p class="eyebrow">05 / Components</p><h2>Brand behavior.</h2><p>Live controls combine the documented palette, typography, geometry and interaction hierarchy.</p></div>
-        <div class="component-list"><article class="component-card reveal"><header><div><span>01</span><h3>White pill CTA</h3></div><code>.button-primary</code></header><div class="component-stage"><button class="button button-primary">White pill CTA</button><button class="button button-primary state-demo">Hover / active</button></div></article><article class="component-card reveal"><header><div><span>02</span><h3>Research navigation link</h3></div><code>.button-secondary</code></header><div class="component-stage"><button class="button button-secondary">Research navigation link</button><button class="button button-quiet">Quiet action</button></div></article><article class="component-card reveal"><header><div><span>03</span><h3>Model capability card</h3></div><code>.brand-card</code></header><div class="component-stage"><article class="mini-card"><span class="mini-label">Featured</span><strong>Model capability card</strong><p>Brand surface, type and border treatments working as one component.</p><div class="mini-progress"><span></span></div></article></div></article><article class="component-card reveal"><header><div><span>04</span><h3>Prompt input</h3></div><code>input:focus</code></header><div class="component-stage"><label class="demo-field"><span>Prompt input</span><input value="Focused state" aria-label="Prompt input"><small>Documented focus treatment</small></label></div></article></div>
-      </section>
-
-      <section class="section" id="guidelines">
-        <div class="section-head reveal"><p class="eyebrow">06 / Guidelines</p><h2>Keep it recognizable.</h2><p>Concrete implementation guardrails for preserving the visual character of xAI.</p></div>
-        <div class="guide-grid"><article class="guide-card do reveal"><h3>Do / Embrace</h3><ul><li>Keep the near-black canvas uninterrupted.</li><li>Use white pill outlines for primary interaction.</li><li>Reserve sunset gradients for rare cosmic moments.</li><li>Set captions in uppercase tracked monospace.</li></ul></article><article class="guide-card dont reveal"><h3>Don't / Avoid</h3><ul><li>Do not turn dusk accents into a page-wide rainbow.</li><li>Do not add conventional SaaS card shadows.</li><li>Do not introduce soft rounded containers everywhere.</li><li>Do not over-explain the interface with decorative labels.</li></ul></article></div>
-      </section>
-    </main>
-
-    <footer class="footer"><span>xAI design system preview</span><div class="footer-links"><a href="#colors">Colors</a><a href="#typography">Typography</a><a href="#spacing">Spacing</a><a href="#components">Components</a><a href="https://x.ai/" target="_blank" rel="noopener noreferrer">Compare official site ↗</a></div></footer>
-  </div>
-  <script>
-    const observer = new IntersectionObserver((items) => {
-      items.forEach((item) => {
-        if (!item.isIntersecting) return
-        item.target.classList.add("visible")
-        observer.unobserve(item.target)
-      })
-    }, { threshold: 0.08, rootMargin: "0px 0px -32px" })
-    document.querySelectorAll(".reveal").forEach((element, index) => {
-      element.style.transitionDelay = String(Math.min(index % 6, 4) * 45) + "ms"
-      observer.observe(element)
-    })
-  </script>
 </body>
 </html>

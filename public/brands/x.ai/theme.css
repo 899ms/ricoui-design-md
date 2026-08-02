@@ -1,56 +1,47 @@
-/* xAI-Inspired Tailwind CSS v4 theme */
+/* SpaceXAI light Tailwind CSS v4 theme */
 @theme {
-  --color-primary: #ffffff;
-  --color-on-primary: #0a0a0a;
-  --color-ink: #ffffff;
-  --color-ink-hover: #fafaf7;
-  --color-body: #dadbdf;
-  --color-body-mid: #7d8187;
-  --color-mute: #7d8187;
-  --color-hairline: #212327;
-  --color-canvas: #0a0a0a;
-  --color-canvas-soft: #1a1c20;
-  --color-canvas-card: #191919;
-  --color-canvas-mid: #363a3f;
-  --color-accent-sunset: #ff7a17;
-  --color-accent-sunset-soft: #ffc285;
-  --color-accent-dusk: #7c3aed;
-  --color-accent-twilight: #c4b5fd;
-  --color-accent-breeze: #a0c3ec;
-  --color-accent-midnight: #0d1726;
-  --font-primary: universalSans, Inter, system-ui, -apple-system, sans-serif;
-  --font-family-2: universalSans, Inter, system-ui, sans-serif;
-  --font-family-3: GeistMono, ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-  --font-family-4: GeistMono, ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-primary: #0a0a0a;
+  --color-primary-hover: #242424;
+  --color-on-primary: #ffffff;
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1f1f1f;
+  --color-body: #4b4b4b;
+  --color-muted: #848484;
+  --color-hairline: #dbdbdb;
+  --color-hairline-strong: #bfbfbf;
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #f7f7f7;
+  --color-canvas-raised: #fbfbfb;
+
+  --font-primary: "Universal Sans", Inter, Arial, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", "IBM Plex Mono", "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+
   --text-display-xl: 96px;
   --leading-display-xl: 96px;
-  --tracking-display-xl: -2.4px;
+  --tracking-display-xl: -3.2px;
   --text-display-lg: 72px;
-  --leading-display-lg: 72px;
-  --tracking-display-lg: -1.8px;
+  --leading-display-lg: 76px;
+  --tracking-display-lg: -2.2px;
   --text-display-md: 48px;
-  --leading-display-md: 48px;
-  --tracking-display-md: -1.2px;
+  --leading-display-md: 52px;
+  --tracking-display-md: -1.4px;
   --text-display-sm: 32px;
-  --leading-display-sm: 36px;
-  --tracking-display-sm: -0.6px;
-  --text-display-xs: 20px;
-  --leading-display-xs: 28px;
+  --leading-display-sm: 38px;
+  --tracking-display-sm: -0.7px;
+  --text-title: 24px;
+  --leading-title: 30px;
+  --tracking-title: -0.3px;
   --text-body-lg: 18px;
   --leading-body-lg: 28px;
   --text-body-md: 16px;
   --leading-body-md: 24px;
   --text-body-sm: 14px;
   --leading-body-sm: 20px;
-  --text-caption-mono: 14px;
-  --leading-caption-mono: 20px;
-  --tracking-caption-mono: 1.4px;
-  --text-caption-mono-sm: 12px;
-  --leading-caption-mono-sm: 16px;
-  --tracking-caption-mono-sm: 1.2px;
-  --text-button-md: 14px;
-  --leading-button-md: 20px;
-  --spacing-xxs: 2px;
+  --text-label: 13px;
+  --leading-label: 16px;
+  --text-code: 13px;
+  --leading-code: 20px;
+
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;
@@ -59,8 +50,13 @@
   --spacing-2xl: 32px;
   --spacing-3xl: 48px;
   --spacing-4xl: 64px;
+  --spacing-5xl: 96px;
+  --spacing-6xl: 128px;
+
   --radius-none: 0px;
   --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-pill: 9999px;
-  --radius-full: 9999px;
 }

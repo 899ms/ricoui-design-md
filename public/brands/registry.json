@@ -4,7 +4,7 @@
     "folder": "airbnb",
     "name": "Airbnb",
     "website": "https://www.airbnb.com/",
-    "description": "A warm, generous consumer marketplace anchored on a clean white canvas and Airbnb Rausch (#ff385c), the single brand voltage that carries every primary CTA, search-button orb, and rating dot. Type runs Airbnb Cereal VF at modest weights — display sits at 22–28px in weight 500/600 rather than the heavy 700+ that fintech and enterprise systems use; the brand trusts photography and generous whitespace over typographic muscle. Three product entries (Homes, Experiences, Services) sit in the top nav with hand-illustrated 32-icon glyphs and \"NEW\" badges, signaling a marketplace expansion rather than a feature dump. Pill-shaped search bars (`{rounded.full}`), softly rounded property cards (`{rounded.lg}` ~14px), and 32px button radii read as friendly and human — there is no hard corner anywhere except the body grid.",
+    "description": "Airbnb pairs a clean white canvas with its signature Rausch pink, friendly rounded forms, generous spacing, and photography-led cards to create a warm, approachable marketplace for homes, experiences, and services.",
     "tags": [
       "Light UI",
       "Minimal",
@@ -237,7 +237,7 @@
     "folder": "caldera",
     "name": "Caldera",
     "website": "https://caldera.xyz/",
-    "description": "像素化的赛博游乐场。高对比数字街机美学，搭配鲜明渐变形态和超粗排版。",
+    "description": "Caldera uses warm limestone, molten orange, oversized condensed type, halftone textures, and soft rounded forms to create a bold volcanic visual identity.",
     "tags": [
       "Light UI",
       "Design System"
@@ -440,40 +440,11 @@
     "favicon": "favicon.ico"
   },
   {
-    "id": "dell-1996",
-    "folder": "dell-1996",
-    "name": "Dell 1996 Inspired",
-    "website": "https://www.dell.com/",
-    "description": "An inspired interpretation of Dell.com's 1996 design language — a catalog-era enterprise web design built around a literal black page frame, vivid flat color-block \"ribbon cards\" tinted in sage, salmon, periwinkle, sky, peach and lime, chunky Helvetica-Black display titles, Times Roman body copy, and an entire visual vocabulary of pre-Photoshop hand-cut GIF stickers (NEW! bursts, award seals, beveled product photos).",
-    "tags": [
-      "Light UI",
-      "Enterprise",
-      "Design System"
-    ],
-    "category": "Media & Consumer Tech",
-    "previewColors": [
-      "#e91d2a",
-      "#ffffff",
-      "#ffffff",
-      "#ffffff",
-      "#000000"
-    ],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_dell_com.webp",
-    "favicon": "favicon.ico"
-  },
-  {
     "id": "duolingo",
     "folder": "duolingo",
     "name": "Duolingo",
     "website": "https://www.duolingo.com/",
-    "description": "包裹在趣味几何中的明快绿色课堂。圆润形态、胶囊按钮和游戏化配色。",
+    "description": "Duolingo's interface treats the page like a children's storybook: white paper canvas, chubby rounded display type, and a single saturated green that reads as 'correct answer' the moment it appears. Body copy stays calm in mid-gray so the green and its accent blue can do all the emotional work — green for progress and headings, blue for interactive links and secondary actions. Components are pill-shaped or chunky-rounded with thick 2px borders in black or color, giving every button the feel of a sticker pressed onto the page rather than a flat UI control.",
     "tags": [
       "Light UI",
       "Design System"
@@ -558,36 +529,6 @@
     ],
     "cover": "cover_expo_dev.webp",
     "favicon": "favicon.png"
-  },
-  {
-    "id": "ferrari",
-    "folder": "ferrari",
-    "name": "Ferrari",
-    "website": "https://www.ferrari.com/",
-    "description": "A luxury-automotive brand whose marketing surfaces read as cinematic editorial. The base canvas is **near-black** (`#181818`) holding pure white display type; white-canvas bands appear only inside specific editorial contexts (preowned listings, pricing tables). The single brand voltage is **Rosso Corsa** (`#da291c`) — the iconic Ferrari racing red — used scarcely on primary CTAs, the Cavallino mark, and Formula 1 race-position highlights. Type runs **FerrariSans** at modest weights (display 500, body 400) — never bombastic. Spacing follows an explicit 8px token ladder (`xxxs` 4px through `super` 128px); generous editorial pacing throughout. The brand's strongest visual signature is the **full-bleed cinematic hero photograph** that fills the viewport top with car photography, model details, or trackside livery — followed by a tighter editorial body layout below.",
-    "tags": [
-      "Dark UI",
-      "Editorial",
-      "Luxury",
-      "Design System"
-    ],
-    "category": "Automotive",
-    "previewColors": [
-      "#da291c",
-      "#b01e0a",
-      "#9d2211",
-      "#ffffff",
-      "#969696"
-    ],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_ferrari_com.webp",
-    "favicon": "favicon.ico"
   },
   {
     "id": "figma",
@@ -679,35 +620,6 @@
       "theme.css"
     ],
     "cover": "cover_hashicorp_com.webp",
-    "favicon": "favicon.ico"
-  },
-  {
-    "id": "hp",
-    "folder": "hp",
-    "name": "HP",
-    "website": "https://www.hp.com/",
-    "description": "An inspired interpretation of HP's design language — a white-paper enterprise-consumer system anchored by HP Electric Blue (`#024ad8`) as the lone signal CTA, near-black ink (`#1a1a1a`) for headlines, geometric Forma-DJR sans throughout, and angular blue-chevron decorations that nod to the HP wordmark's slashes. Cards round at 8–16px, photos sit in soft 16px frames, and dark navy slabs anchor the customer-story and \"how can we help\" closing bands.",
-    "tags": [
-      "Light UI",
-      "Enterprise",
-      "Design System"
-    ],
-    "category": "Media & Consumer Tech",
-    "previewColors": [
-      "#024ad8",
-      "#296ef9",
-      "#0e3191",
-      "#c9e0fc",
-      "#ffffff"
-    ],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_hp_com.webp",
     "favicon": "favicon.ico"
   },
   {
@@ -917,65 +829,6 @@
     "favicon": "favicon.ico"
   },
   {
-    "id": "meta",
-    "folder": "meta",
-    "name": "Meta",
-    "website": "https://www.meta.com/",
-    "description": "Meta's design system spans hardware commerce (Quest VR, Ray-Ban Meta AI glasses) and brand surfaces with a confident product-merchandising voice. The system pairs a stark white canvas with full-bleed photographic product cards, a confident Optimistic VF wordmark/headline face, dual-CTA hero patterns (black primary + outlined secondary), and a saturated cobalt blue (#0064E0) for in-product purchase actions. Pill-shaped 100px-radius buttons, generous 24-32px card rounding, and tight three-tier text hierarchy carry across homepage, product detail (PDP), buy-now configurator, and accessory subpages.",
-    "tags": [
-      "Light UI",
-      "Design System"
-    ],
-    "category": "Media & Consumer Tech",
-    "previewColors": [
-      "#0064e0",
-      "#0457cb",
-      "#0091ff",
-      "#ffffff",
-      "#000000"
-    ],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_meta_com.webp",
-    "favicon": "favicon.jpg"
-  },
-  {
-    "id": "minimax",
-    "folder": "minimax",
-    "name": "MiniMax",
-    "website": "https://www.minimax.io/",
-    "description": "MiniMax presents itself as a premium AI infrastructure brand through a striking duality — bold black-pill CTAs and stark white canvas for marketing, paired with vibrant gradient product cards (orange-red, magenta-pink, purple, blue) that turn each model release into a distinctive visual identity. The system uses DM Sans across all surfaces, employs an oversized 80px hero display, anchors major actions in deep near-black pills, and layers content density via a 3-column documentation grid with sidebar nav, prose body, and TOC. Coverage spans the marketing homepage, model showcase pages, developer documentation, and platform pricing surfaces.",
-    "tags": [
-      "Light UI",
-      "Gradient",
-      "Developer-focused",
-      "Luxury",
-      "Design System"
-    ],
-    "category": "AI & LLM Platforms",
-    "previewColors": [
-      "#0a0a0a",
-      "#ffffff",
-      "#181e25",
-      "#ff5530",
-      "#ea5ec1"
-    ],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_minimax_io.webp",
-    "favicon": "favicon.ico"
-  },
-  {
     "id": "mintlify",
     "folder": "mintlify",
     "name": "Mintlify",
@@ -1004,35 +857,6 @@
     ],
     "cover": "cover_mintlify_com.webp",
     "favicon": "favicon.ico"
-  },
-  {
-    "id": "miro",
-    "folder": "miro",
-    "name": "Miro",
-    "website": "https://miro.com/",
-    "description": "Miro presents itself as the AI-powered visual workspace through a confident, almost playful brand voice — anchored by its signature canary yellow ({colors.brand-yellow}) wordmark over white canvas, broken open by colorful pastel feature tints (rose, teal, coral, orange, mint) that echo the actual sticky-note color palette used on the live whiteboard. Black-pill primary buttons dominate marketing, real Miro-board mockups serve as feature illustrations, and a 4-tier pricing grid leads into a dense comparison table. Roobert PRO carries display headlines; the system supports homepage, pricing, AI Workflows product page, agile vertical, and customer stories surfaces.",
-    "tags": [
-      "Light UI",
-      "Playful",
-      "Design System"
-    ],
-    "category": "Design & Creative Tools",
-    "previewColors": [
-      "#1c1c1e",
-      "#ffffff",
-      "#ffd02f",
-      "#fcb900",
-      "#fff4c4"
-    ],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_miro_com.webp",
-    "favicon": "favicon.png"
   },
   {
     "id": "mistral.ai",
@@ -1120,29 +944,6 @@
     ],
     "cover": "cover_nike_com.webp",
     "favicon": "favicon.ico"
-  },
-  {
-    "id": "nintendo-2001",
-    "folder": "nintendo-2001",
-    "name": "Nintendo.com (2001) Analysis",
-    "website": "https://www.nintendo.com/",
-    "description": "An analysis of Nintendo.com's 2001 design language — a brushed-periwinkle \"console chrome\" interface where every panel is a beveled metal plate, navigation glows amber over a halftone-dotted carbon bar, and bold outlined display type sits on circuit-board hero fields. A Y2K hardware aesthetic that treats the web page like the faceplate of a game system.",
-    "tags": [
-      "Light UI",
-      "Gradient",
-      "Design System"
-    ],
-    "category": "Gaming & Entertainment",
-    "previewColors": [],
-    "files": [
-      "DESIGN.md",
-      "preview.html",
-      "tokens.json",
-      "variables.css",
-      "theme.css"
-    ],
-    "cover": "cover_nintendo_com.webp",
-    "favicon": "favicon.png"
   },
   {
     "id": "notion",
@@ -1975,6 +1776,34 @@
     "favicon": "favicon.ico"
   },
   {
+    "id": "vercel-dark",
+    "folder": "vercel-dark",
+    "name": "Vercel Dark",
+    "website": "https://vercel.com/",
+    "description": "A dark interpretation of Vercel's Geist interface language: a true-black developer canvas, compact white typography, charcoal surface steps, and a single blue interaction signal. Hierarchy comes from border contrast rather than decorative effects.",
+    "tags": [
+      "Dark UI",
+      "Minimal",
+      "Developer-focused",
+      "Design System"
+    ],
+    "category": "Developer Tools & IDEs",
+    "previewColors": [
+      "#000000",
+      "#0a0a0a",
+      "#1a1a1a",
+      "#ffffff",
+      "#0070f3"
+    ],
+    "files": [
+      "DESIGN.md",
+      "preview.html",
+      "tokens.json",
+      "variables.css",
+      "theme.css"
+    ]
+  },
+  {
     "id": "vodafone",
     "folder": "vodafone",
     "name": "Vodafone-Inspired",
@@ -2153,21 +1982,21 @@
   {
     "id": "x.ai",
     "folder": "x.ai",
-    "name": "xAI-Inspired",
+    "name": "SpaceXAI",
     "website": "https://x.ai/",
-    "description": "An inspired interpretation of xAI's design language — Elon Musk's frontier-AI company whose web surface is a strict near-black canvas broken only by white pill outlines, occasional warm sunset / dusk gradient accents, a custom geometric sans (Universal Sans) for display, and an uppercase tracked monospace caption face; the whole system reads as engineered-cosmic, unmarketed.",
+    "description": "A verified light interpretation of SpaceXAI's current web identity: white canvas, near-black typography, generous editorial spacing, monochrome pill actions, and border-led technical panels set in Universal Sans and Geist Mono.",
     "tags": [
-      "Dark UI",
-      "Gradient",
+      "Light UI",
+      "Monochrome",
       "Design System"
     ],
     "category": "AI & LLM Platforms",
     "previewColors": [
-      "#ffffff",
       "#0a0a0a",
       "#ffffff",
-      "#fafaf7",
-      "#dadbdf"
+      "#1f1f1f",
+      "#848484",
+      "#dbdbdb"
     ],
     "files": [
       "DESIGN.md",

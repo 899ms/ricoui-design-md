@@ -1,831 +1,1251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clay (Mesh) — Design System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
-:root{
-  --warm-linen:#f9f8f6;
-  --ivory-tile:#f6f5f1;
-  --parchment:#f1f0ed;
-  --soft-border:#1f1f1f14;
-  --ink:#1f1f1f;
-  --ink-80:#1f1f1fcc;
-  --ink-60:#1f1f1f99;
-  --ink-8:#1f1f1f14;
-  --ink-12:#1f1f1f1f;
-  --bronze:#d49065;
-  --peach:#fec99b;
-  --amber-glow:#f2b98b;
-  --tangerine:#fb7232;
-  --tangerine-dark:#ff6821;
-  --selection-gold:#f8d05a;
-  --frosted-glass:rgba(255,255,255,.6);
-  --tooltip-charcoal:#4a4a49;
-
-  --r-sm:4px;--r-md:6px;--r-lg:8px;--r-xl:16px;
-  --r-full:100%;--r-pill:11px;
-}
-
-::selection{background:var(--selection-gold);color:var(--ink)}
-html{scroll-behavior:smooth}
-
-body{
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
-  background:var(--warm-linen);color:var(--ink);
-  font-size:16px;line-height:1.5;
-  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-}
-
-.page{max-width:960px;margin:0 auto;padding:0 32px 120px}
-
-/* ── NAV ── */
-.nav{
-  display:flex;justify-content:space-between;align-items:center;
-  height:56px;padding:0 24px;position:sticky;top:16px;z-index:100;
-  background:var(--frosted-glass);backdrop-filter:blur(16px) saturate(1.5);
-  -webkit-backdrop-filter:blur(16px) saturate(1.5);
-  border-radius:var(--r-xl);margin:0 -32px;
-  box-shadow:0 0 0 .5px #0000000f,0 2px 4px -2px #00000014,0 8px 16px -8px #00000008,
-    inset 0 1px #fff,inset 0 -1px #ffffff3d,inset 0 -5px 6px #ffffff80,inset 0 -8px 24px #ffffff1f;
-}
-.nav-left{display:flex;align-items:center;gap:12px}
-.nav-wordmark{
-  font-size:18px;font-weight:700;letter-spacing:-.35px;
-  color:var(--ink);text-decoration:none;
-}
-.nav-tag{
-  font-size:10px;font-weight:700;color:var(--ink-60);
-  text-transform:uppercase;letter-spacing:2.5px;
-}
-.nav-right{display:flex;align-items:center;gap:8px}
-.nav-link{
-  font-size:12px;font-weight:700;color:var(--ink-60);text-decoration:none;
-  text-transform:uppercase;letter-spacing:1px;
-  padding:8px 12px;border-radius:var(--r-md);transition:all .15s;
-}
-.nav-link:hover{color:var(--tangerine)}
-.nav-link--active{color:var(--ink)}
-.nav-url{
-  font-size:11px;font-weight:400;color:var(--ink-60);text-decoration:none;
-  padding:4px 10px;border-radius:var(--r-xl);transition:all .2s;
-  background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);
-  letter-spacing:.02px;white-space:nowrap;
-}
-.nav-url:hover{color:var(--ink);background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1)}
-
-/* ── SECTIONS ── */
-.section{
-  padding:80px 0 0;
-  border-top:1px solid var(--soft-border);
-  margin-top:64px;
-}
-.section:first-of-type{border-top:none;margin-top:48px}
-.section-header{margin-bottom:40px}
-.section-label{
-  font-size:12px;font-weight:700;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--ink-60);margin-bottom:8px;
-}
-.section-title{
-  font-size:32px;font-weight:700;letter-spacing:.66px;line-height:1.15;
-  color:var(--ink);
-}
-.section-desc{
-  font-size:15px;line-height:1.6;color:var(--ink-60);
-  margin-top:12px;max-width:560px;
-}
-
-/* ── HERO ── */
-.hero{
-  padding:80px 0 48px;
-  border-bottom:1px solid var(--soft-border);
-  margin:0 -32px;padding-left:32px;padding-right:32px;
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(212,144,101,.12),transparent 70%);
-  border-radius:50%;filter:blur(80px);
-  right:-80px;top:-120px;pointer-events:none;
-}
-.hero::after{
-  content:'';position:absolute;
-  width:300px;height:300px;
-  background:radial-gradient(circle,rgba(254,201,155,.1),transparent 70%);
-  border-radius:50%;filter:blur(60px);
-  left:20%;bottom:-80px;pointer-events:none;
-}
-.hero-label{
-  font-size:12px;font-weight:700;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--ink-60);margin-bottom:16px;
-}
-.hero-title{
-  font-size:clamp(40px,6vw,56px);font-weight:700;line-height:1;
-  letter-spacing:.88px;color:var(--ink);
-}
-.hero-title em{
-  font-style:normal;
-  background:linear-gradient(130deg,var(--bronze),var(--peach));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-subtitle{
-  font-size:17px;line-height:1.6;color:var(--ink-60);
-  margin-top:20px;max-width:480px;
-}
-.hero-tags{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
-.hero-tag{
-  font-size:10px;font-weight:700;color:var(--ink-80);
-  text-transform:uppercase;letter-spacing:.5px;
-  background:var(--ink-8);padding:4px 8px;border-radius:var(--r-sm);
-}
-.hero-actions{display:flex;gap:12px;margin-top:28px}
-
-/* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:inherit;font-size:13px;font-weight:700;line-height:1;
-  letter-spacing:.01px;padding:12px 32px;border-radius:var(--r-md);
-  cursor:pointer;text-decoration:none;white-space:nowrap;
-  transition:opacity .15s,transform .15s,background .15s,border-color .15s;
-}
-.btn:active{transform:scale(.97)}
-.btn-primary{
-  background:linear-gradient(130deg,var(--bronze),var(--peach));
-  color:#fff;border:1px solid transparent;
-}
-.btn-primary:hover{opacity:.85}
-.btn-secondary{
-  background:transparent;color:var(--ink-80);
-  border:1px solid var(--soft-border);
-}
-.btn-secondary:hover{border-color:var(--ink-12);background:var(--ink-8)}
-.btn-ghost{
-  background:var(--ink-8);color:var(--ink);
-  border:1px solid transparent;
-}
-.btn-ghost:hover{background:var(--ink-12)}
-
-/* ── COLOR TOKENS ── */
-.color-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;
-}
-.color-token{
-  background:#fff;border:1px solid var(--soft-border);
-  border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s;
-}
-.color-token:hover{border-color:var(--ink-12)}
-.color-swatch{width:100%;height:80px}
-.color-info{padding:14px 16px}
-.color-name{font-size:13px;font-weight:700;letter-spacing:.01px;color:var(--ink)}
-.color-hex{
-  font-size:12px;font-weight:600;color:var(--ink-60);margin-top:2px;
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-.color-role{font-size:11px;color:var(--ink-60);margin-top:6px;line-height:1.4}
-
-/* ── GRADIENT TOKENS ── */
-.gradient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.gradient-token{
-  border-radius:var(--r-lg);padding:24px;border:1px solid var(--soft-border);
-  min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;
-}
-.gradient-name{font-size:12px;font-weight:600;color:var(--ink-60);letter-spacing:.015px;margin-bottom:4px}
-.gradient-desc{font-size:12px;color:var(--ink-60);line-height:1.4}
-
-/* ── TYPE SCALE ── */
-.type-table{
-  display:flex;flex-direction:column;border:1px solid var(--soft-border);
-  border-radius:var(--r-lg);overflow:hidden;
-}
-.type-row{
-  display:grid;grid-template-columns:100px 1fr 200px;align-items:baseline;
-  padding:16px 24px;border-bottom:1px solid var(--soft-border);
-  background:#fff;
-}
-.type-row:last-child{border-bottom:none}
-.type-row:hover{background:var(--ivory-tile)}
-.type-meta{
-  font-size:10px;font-weight:700;color:var(--ink-60);
-  letter-spacing:1px;text-transform:uppercase;
-}
-.type-sample{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.type-specs{
-  font-size:11px;color:var(--ink-60);text-align:right;
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-
-/* ── SPACING ── */
-.spacing-bars{display:flex;align-items:flex-end;gap:20px;height:120px}
-.spacing-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
-.spacing-bar{
-  width:100%;border-radius:var(--r-md);
-  background:linear-gradient(180deg,var(--bronze),var(--peach));
-  opacity:.35;transition:opacity .3s;
-}
-.spacing-col:hover .spacing-bar{opacity:.7}
-.spacing-val{font-size:11px;font-weight:700;color:var(--ink);letter-spacing:.015px}
-.spacing-name{font-size:10px;font-weight:600;color:var(--ink-60);letter-spacing:.015px}
-
-/* ── SHAPES ── */
-.shapes-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end}
-.shape-item{display:flex;flex-direction:column;align-items:center;gap:8px}
-.shape-box{
-  width:72px;height:72px;background:var(--ivory-tile);
-  border:1.5px solid var(--soft-border);transition:all .3s cubic-bezier(.22,1,.36,1);
-}
-.shape-box:hover{border-color:var(--amber-glow);transform:scale(1.06)}
-.shape-label{font-size:11px;font-weight:600;color:var(--ink-60);letter-spacing:.015px;white-space:nowrap}
-.shape-value{
-  font-size:10px;font-weight:400;color:var(--ink-60);letter-spacing:.015px;
-  font-variant-numeric:tabular-nums;
-}
-
-/* ── DEPTH ── */
-.depth-row{
-  display:flex;align-items:center;gap:20px;padding:20px 0;
-  border-bottom:1px solid var(--soft-border);
-}
-.depth-row:last-child{border-bottom:none}
-.depth-swatch{
-  width:56px;height:56px;border-radius:var(--r-md);flex-shrink:0;
-}
-.depth-info{flex:1}
-.depth-name{font-size:14px;font-weight:700;letter-spacing:.01px;color:var(--ink)}
-.depth-desc{font-size:12px;color:var(--ink-60);margin-top:2px;letter-spacing:.015px}
-.depth-value{
-  font-size:12px;font-weight:600;color:var(--ink-60);
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-
-/* ── SURFACES ── */
-.surface-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
-.surface-item{
-  border-radius:var(--r-lg);padding:28px 20px;
-  text-align:center;border:1px solid var(--soft-border);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;min-height:110px;transition:transform .3s;
-}
-.surface-item:hover{transform:scale(1.02)}
-.surface-name{font-size:14px;font-weight:700;letter-spacing:.01px}
-.surface-val{
-  font-size:11px;font-weight:600;color:var(--ink-60);
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-
-/* ── COMPONENTS ── */
-.component-card{
-  background:#fff;border:1px solid var(--soft-border);
-  border-radius:var(--r-lg);padding:32px;margin-bottom:20px;
-  transition:border-color .2s;
-}
-.component-card:hover{border-color:var(--ink-12)}
-.component-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
-.component-name{font-size:15px;font-weight:700;letter-spacing:.01px;color:var(--ink)}
-.component-role{font-size:12px;color:var(--ink-60);margin-top:4px;letter-spacing:.015px}
-.component-class{
-  font-size:10px;font-weight:700;color:var(--ink-80);
-  text-transform:uppercase;letter-spacing:1px;
-  background:var(--ink-8);padding:3px 10px;border-radius:var(--r-pill);
-}
-.component-preview{
-  display:flex;gap:16px;align-items:center;flex-wrap:wrap;
-  padding:20px;background:var(--warm-linen);border-radius:var(--r-md);
-  border:1px solid var(--soft-border);
-}
-.component-desc{
-  font-size:12px;color:var(--ink-60);line-height:1.5;
-  margin-top:12px;max-width:480px;
-}
-
-/* ── DO/DON'T ── */
-.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.guide-card{
-  border-radius:var(--r-lg);padding:28px;
-  border:1px solid var(--soft-border);background:#fff;
-}
-.guide-card--do{border-color:rgba(212,144,101,.2);background:rgba(212,144,101,.03)}
-.guide-card--dont{border-color:rgba(200,60,60,.15);background:rgba(200,60,60,.02)}
-.guide-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
-.guide-card--do .guide-label{color:var(--bronze)}
-.guide-card--dont .guide-label{color:#c83c3c}
-.guide-list{
-  list-style:none;display:flex;flex-direction:column;gap:10px;
-}
-.guide-list li{
-  font-size:13px;line-height:1.5;padding-left:20px;position:relative;
-  color:var(--ink-80);
-}
-.guide-card--do .guide-list li::before{
-  content:'\2713';position:absolute;left:0;color:var(--bronze);font-weight:700;font-size:12px;
-}
-.guide-card--dont .guide-list li::before{
-  content:'\2717';position:absolute;left:0;color:#c83c3c;font-weight:700;font-size:12px;
-}
-
-/* ── FOOTER ── */
-.footer{
-  margin-top:96px;padding:32px 0;
-  border-top:1px solid var(--soft-border);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.footer-left{font-size:14px;font-weight:600;color:var(--ink-60);opacity:.6}
-.footer-right{display:flex;gap:20px}
-.footer-link{
-  font-size:12px;font-weight:600;color:var(--ink-60);text-decoration:none;
-  transition:color .2s;letter-spacing:.015px;
-}
-.footer-link:hover{color:var(--tangerine)}
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .page{padding:0 20px 80px}
-  .hero{margin:0 -20px;padding-left:20px;padding-right:20px;padding-top:56px}
-  .nav{margin:0 -20px}
-  .section-title{font-size:24px}
-  .type-row{grid-template-columns:70px 1fr;gap:8px}
-  .type-specs{display:none}
-  .guide-grid{grid-template-columns:1fr}
-  .color-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .hero-title{font-size:36px}
-}
-
-/* ── ENTRANCE ANIMATION ── */
-.section,.hero{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
-.section.visible,.hero.visible{opacity:1;transform:translateY(0)}
-</style>
-</head>
-<body>
-
-<div class="page">
-
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-left">
-      <a href="#" class="nav-wordmark">Clay</a>
-      <span class="nav-tag">Design System</span>
-      <a href="https://www.clay.earth" class="nav-url">https://www.clay.earth</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="design-source" content="https://www.clay.com/" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Clay — Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --canvas: #fff;
+        --cream: #f9f8f6;
+        --ink: #000;
+        --body: #55534e;
+        --muted: #9f9b93;
+        --sand: #dad4c8;
+        --mist: #e6e8ec;
+        --violet: #3859f9;
+        --lime: #cbd810;
+        --orange: #ff7614;
+        --blue: #429dff;
+        --lavender: #b8a5e8;
+        --pink: #f8b9e3;
+        --cobalt: #0667d9;
+        --font: "Inter", Arial, sans-serif;
+        --max: 1200px;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 78px;
+      }
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--body);
+        font-family: var(--font);
+        font-size: 16px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      ::selection {
+        background: var(--lime);
+        color: var(--ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--violet);
+        outline-offset: 3px;
+      }
+      .wrap {
+        width: min(100%, calc(var(--max) + 48px));
+        margin: auto;
+        padding-inline: 24px;
+      }
+      .banner {
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 24px;
+        background: var(--lavender);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid var(--mist);
+        backdrop-filter: blur(14px);
+      }
+      .nav-inner {
+        min-height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      .nav-left,
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+      .nav-left {
+        gap: 10px;
+        text-decoration: none;
+      }
+      .logo-favicon {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+      .wordmark {
+        color: var(--ink);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+      .tag {
+        padding: 4px 9px;
+        background: var(--cream);
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 600;
+      }
+      .nav-right {
+        gap: 3px;
+      }
+      .nav-link {
+        padding: 7px 10px;
+        border-radius: 12px;
+        color: var(--body);
+        font-size: 13px;
+        text-decoration: none;
+      }
+      .nav-link:hover {
+        background: var(--cream);
+        color: var(--ink);
+      }
+      .site-link {
+        margin-left: 5px;
+        background: var(--ink);
+        color: #fff;
+      }
+      .hero {
+        min-height: 700px;
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        padding-block: clamp(88px, 11vw, 148px);
+        text-align: center;
+      }
+      .hero-label {
+        margin: 0 0 18px;
+        color: var(--violet);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        max-width: 940px;
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(62px, 9vw, 108px);
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 0.94;
+      }
+      .hero-copy {
+        max-width: 610px;
+        margin: 24px 0 0;
+        color: var(--body);
+        font-size: 19px;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px;
+      }
+      .btn {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        border: 1px solid var(--mist);
+        border-radius: 1584px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: transform 0.16s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn-primary {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: #fff;
+        box-shadow:
+          rgba(0, 0, 0, 0.1) 0 1px 1px 0,
+          rgba(0, 0, 0, 0.04) 0 -1px 1px 0 inset,
+          rgba(0, 0, 0, 0.05) 0 -0.5px 1px 0;
+      }
+      .color-ribbon {
+        width: min(820px, 100%);
+        display: grid;
+        grid-template-columns: 1.1fr 0.8fr 1fr 0.7fr 1.2fr;
+        height: 44px;
+        margin-top: 64px;
+        border-radius: 40px;
+        overflow: hidden;
+      }
+      .color-ribbon span:nth-child(1) {
+        background: var(--lime);
+      }
+      .color-ribbon span:nth-child(2) {
+        background: var(--orange);
+      }
+      .color-ribbon span:nth-child(3) {
+        background: var(--blue);
+      }
+      .color-ribbon span:nth-child(4) {
+        background: var(--pink);
+      }
+      .color-ribbon span:nth-child(5) {
+        background: var(--lavender);
+      }
+      .section {
+        padding-block: clamp(80px, 9vw, 120px);
+        border-top: 1px solid var(--mist);
+      }
+      .section-head {
+        display: grid;
+        grid-template-columns: 140px minmax(0, 1fr) minmax(260px, 390px);
+        gap: 28px;
+        margin-bottom: 44px;
+      }
+      .kicker {
+        color: var(--violet);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .section h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(44px, 6vw, 70px);
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 0.98;
+      }
+      .section-desc {
+        margin: 4px 0 0;
+        color: var(--body);
+        font-size: 14px;
+      }
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .swatch {
+        overflow: hidden;
+        background: var(--cream);
+        border: 1px solid var(--mist);
+        border-radius: 12px;
+      }
+      .swatch-color {
+        height: 98px;
+        border-bottom: 1px solid var(--mist);
+      }
+      .swatch-meta {
+        padding: 13px;
+      }
+      .swatch-name {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .token {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-family: ui-monospace, monospace;
+        font-size: 10px;
+      }
+      .font-card {
+        min-height: 240px;
+        padding: 30px;
+        background: var(--cream);
+        border: 1px solid var(--sand);
+        border-radius: 24px;
+      }
+      .glyph {
+        margin: 44px 0 14px;
+        color: var(--ink);
+        font-size: clamp(56px, 8vw, 88px);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        line-height: 0.84;
+      }
+      .font-card p {
+        margin: 0;
+        color: var(--body);
+        font-size: 13px;
+      }
+      .type-list {
+        margin-top: 36px;
+        border-top: 1px solid var(--mist);
+      }
+      .type-row {
+        display: grid;
+        grid-template-columns: 140px minmax(0, 1fr) 180px;
+        gap: 24px;
+        align-items: baseline;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--mist);
+      }
+      .sample {
+        overflow: hidden;
+        color: var(--ink);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .spec {
+        color: var(--muted);
+        font-family: ui-monospace, monospace;
+        font-size: 10px;
+        text-align: right;
+      }
+      .metrics {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 48px;
+      }
+      .metric-title {
+        margin: 0 0 22px;
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .space-list {
+        display: grid;
+        gap: 12px;
+      }
+      .space-row {
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr) 46px;
+        gap: 12px;
+        align-items: center;
+      }
+      .space-bar {
+        height: 6px;
+        background: var(--violet);
+        border-radius: 12px;
+      }
+      .space-row code {
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .radius-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .radius-item {
+        min-height: 112px;
+        display: grid;
+        place-items: center;
+        gap: 7px;
+        background: var(--cream);
+        border: 1px solid var(--sand);
+        text-align: center;
+      }
+      .radius-shape {
+        width: 50px;
+        height: 50px;
+        background: var(--lavender);
+        border: 1px solid var(--ink);
+      }
+      .radius-item code {
+        font-size: 9px;
+      }
+      .surface-strip {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        min-height: 280px;
+        border-radius: 40px;
+        overflow: hidden;
+      }
+      .surface {
+        display: flex;
+        align-items: flex-end;
+        padding: 18px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 600;
+        writing-mode: vertical-rl;
+      }
+      .surface:nth-child(1) {
+        background: var(--lime);
+      }
+      .surface:nth-child(2) {
+        background: var(--orange);
+      }
+      .surface:nth-child(3) {
+        background: var(--blue);
+      }
+      .surface:nth-child(4) {
+        background: var(--pink);
+      }
+      .surface:nth-child(5) {
+        background: var(--lavender);
+      }
+      .surface:nth-child(6) {
+        background: var(--cobalt);
+        color: #fff;
+      }
+      .components {
+        display: grid;
+        gap: 18px;
+      }
+      .component {
+        overflow: hidden;
+        background: var(--canvas);
+        border: 1px solid var(--mist);
+        border-radius: 24px;
+      }
+      .component-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 17px 22px;
+        border-bottom: 1px solid var(--mist);
+      }
+      .component-head h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .component-head code {
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .stage {
+        min-height: 190px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        padding: 32px;
+        background: var(--cream);
+      }
+      .announcement {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 10px 18px;
+        background: var(--lavender);
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .announcement strong {
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .testimonials {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .quote {
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        padding: 32px;
+        border-radius: 40px;
+        color: var(--ink);
+      }
+      .quote:nth-child(1) {
+        background: var(--lime);
+      }
+      .quote:nth-child(2) {
+        background: var(--orange);
+      }
+      .quote:nth-child(3) {
+        background: var(--blue);
+      }
+      .quote-brand {
+        font-weight: 700;
+      }
+      .quote blockquote {
+        margin: 38px 0 28px;
+        font-size: 17px;
+      }
+      .person {
+        width: max-content;
+        margin-top: auto;
+        padding: 10px 12px;
+        background: #fff;
+        border-radius: 12px;
+        font-size: 12px;
+      }
+      .feature {
+        width: min(100%, 650px);
+        display: grid;
+        grid-template-columns: 0.7fr 1.3fr;
+        gap: 22px;
+        align-items: center;
+        padding: 24px;
+        background: #fff;
+        border: 1px solid var(--sand);
+        border-radius: 12px;
+      }
+      .metric {
+        color: var(--ink);
+        font-size: 44px;
+        font-weight: 700;
+      }
+      .feature h4 {
+        margin: 0 0 6px;
+        color: var(--ink);
+        font-size: 16px;
+      }
+      .feature p {
+        margin: 0;
+        color: var(--body);
+        font-size: 14px;
+      }
+      .field {
+        width: min(100%, 480px);
+        display: flex;
+        gap: 8px;
+      }
+      .field input {
+        min-width: 0;
+        flex: 1;
+        height: 46px;
+        padding-inline: 14px;
+        border: 1px solid var(--mist);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--ink);
+      }
+      .guide-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .guide {
+        padding: 30px;
+        background: var(--cream);
+        border: 1px solid var(--sand);
+        border-radius: 24px;
+      }
+      .guide h3 {
+        margin: 0 0 20px;
+        color: var(--ink);
+        font-size: 28px;
+      }
+      .guide ul {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .guide li {
+        position: relative;
+        padding-left: 20px;
+        color: var(--body);
+        font-size: 14px;
+      }
+      .guide li::before {
+        position: absolute;
+        left: 0;
+        color: var(--violet);
+        content: "+";
+      }
+      .guide.avoid li::before {
+        color: var(--orange);
+        content: "×";
+      }
+      .downloads {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 34px;
+      }
+      .download {
+        padding: 9px 13px;
+        border: 1px solid var(--sand);
+        border-radius: 12px;
+        color: var(--ink);
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        text-decoration: none;
+      }
+      .footer {
+        padding-block: 40px;
+        border-top: 1px solid var(--mist);
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      @media (max-width: 850px) {
+        .nav-link:not(.site-link) {
+          display: none;
+        }
+        .section-head,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+        .color-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .type-row {
+          grid-template-columns: 110px 1fr;
+        }
+        .spec {
+          grid-column: 2;
+          text-align: left;
+        }
+        .testimonials {
+          grid-template-columns: 1fr;
+        }
+        .quote {
+          min-height: 230px;
+        }
+      }
+      @media (max-width: 560px) {
+        .tag {
+          display: none;
+        }
+        .hero h1 {
+          font-size: 58px;
+        }
+        .hero-copy {
+          font-size: 17px;
+        }
+        .color-grid,
+        .guide-grid {
+          grid-template-columns: 1fr;
+        }
+        .type-row {
+          grid-template-columns: 1fr;
+        }
+        .spec {
+          grid-column: auto;
+        }
+        .radius-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .surface-strip {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .stage {
+          padding: 20px;
+        }
+        .feature {
+          grid-template-columns: 1fr;
+        }
+        .field {
+          flex-direction: column;
+        }
+        .footer-inner {
+          flex-direction: column;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      Sculpt the system · automate the work · grow the result
     </div>
-    <div class="nav-right">
-      <a href="#colors" class="nav-link nav-link--active">Colors</a>
-      <a href="#typography" class="nav-link">Type</a>
-      <a href="#spacing" class="nav-link">Spacing</a>
-      <a href="#components" class="nav-link">Components</a>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-label">Design System</div>
-    <h1 class="hero-title">Every relationship,<br><em>remembered.</em></h1>
-    <p class="hero-subtitle">A warm, thoughtful design system built around human connection. Bronze accents, serif-led typography, and generous breathing room.</p>
-    <div class="hero-tags">
-      <span class="hero-tag">18 color tokens</span>
-      <span class="hero-tag">12 type steps</span>
-      <span class="hero-tag">4px grid</span>
-      <span class="hero-tag">4 surface levels</span>
-    </div>
-    <div class="hero-actions">
-      <a href="DESIGN.md" class="btn btn-primary" download>Download Spec</a>
-      <a href="theme.css" class="btn btn-secondary" download>theme.css</a>
-      <a href="tokens.json" class="btn btn-secondary" download>tokens.json</a>
-      <a href="variables.css" class="btn btn-secondary" download>variables.css</a>
-    </div>
-  </div>
-
-  <!-- COLORS -->
-  <section class="section" id="colors">
-    <div class="section-header">
-      <div class="section-label">Foundation</div>
-      <h2 class="section-title">Color Tokens</h2>
-      <p class="section-desc">Warm off-white canvas with bronze, amber, and tangerine accents. 18 tokens across surfaces, text hierarchy, and interactive elements.</p>
-    </div>
-    <div class="color-grid">
-      <div class="color-token">
-        <div class="color-swatch" style="background:#f9f8f6"></div>
-        <div class="color-info"><div class="color-name">Warm Linen</div><div class="color-hex">#f9f8f6</div><div class="color-role">Primary page background</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#f6f5f1"></div>
-        <div class="color-info"><div class="color-name">Ivory Tile</div><div class="color-hex">#f6f5f1</div><div class="color-role">Card backgrounds</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#f1f0ed"></div>
-        <div class="color-info"><div class="color-name">Parchment</div><div class="color-hex">#f1f0ed</div><div class="color-role">Tertiary surfaces</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#1f1f1f"></div>
-        <div class="color-info"><div class="color-name">Ink</div><div class="color-hex">#1f1f1f</div><div class="color-role">Primary text, headings</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#1f1f1fcc"></div>
-        <div class="color-info"><div class="color-name">Ink 80</div><div class="color-hex">#1f1f1fcc</div><div class="color-role">Secondary text, labels</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#1f1f1f99"></div>
-        <div class="color-info"><div class="color-name">Ink 60</div><div class="color-hex">#1f1f1f99</div><div class="color-role">Body text, descriptions</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#1f1f1f14"></div>
-        <div class="color-info"><div class="color-name">Ink 8</div><div class="color-hex">#1f1f1f14</div><div class="color-role">Tag backgrounds, fills</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#d49065"></div>
-        <div class="color-info"><div class="color-name">Bronze</div><div class="color-hex">#d49065</div><div class="color-role">Gradient start, accent</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#fec99b"></div>
-        <div class="color-info"><div class="color-name">Peach</div><div class="color-hex">#fec99b</div><div class="color-role">Gradient end, highlight</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#f2b98b"></div>
-        <div class="color-info"><div class="color-name">Amber Glow</div><div class="color-hex">#f2b98b</div><div class="color-role">Links, interactive accent</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#fb7232"></div>
-        <div class="color-info"><div class="color-name">Tangerine</div><div class="color-hex">#fb7232</div><div class="color-role">Active states, CTA hover</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#ff6821"></div>
-        <div class="color-info"><div class="color-name">Tangerine Dark</div><div class="color-hex">#ff6821</div><div class="color-role">Citation hover, strong</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#f8d05a"></div>
-        <div class="color-info"><div class="color-name">Selection Gold</div><div class="color-hex">#f8d05a</div><div class="color-role">Text selection highlight</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#4a4a49"></div>
-        <div class="color-info"><div class="color-name">Tooltip Charcoal</div><div class="color-hex">#4a4a49</div><div class="color-role">Tooltip backgrounds</div></div>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin:40px 0 20px;letter-spacing:.01px">Gradients</h3>
-    <div class="gradient-grid">
-      <div class="gradient-token" style="background:linear-gradient(130deg,rgba(212,144,101,.15) 0%,rgba(254,201,155,.1) 100%),#fff">
-        <div class="gradient-name">bronze</div>
-        <div class="gradient-desc">Decorative text fills, accent lines, card borders</div>
-      </div>
-      <div class="gradient-token" style="background:radial-gradient(circle,rgba(212,144,101,.08),transparent 70%),#fff">
-        <div class="gradient-name">warm-glow</div>
-        <div class="gradient-desc">Background atmosphere, hero section ambience</div>
-      </div>
-      <div class="gradient-token" style="background:radial-gradient(circle,rgba(254,201,155,.06),transparent 70%),#fff">
-        <div class="gradient-name">peach-glow</div>
-        <div class="gradient-desc">Secondary ambient light, decorative orbs</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TYPOGRAPHY -->
-  <section class="section" id="typography">
-    <div class="section-header">
-      <div class="section-label">Typography</div>
-      <h2 class="section-title">Type Scale</h2>
-      <p class="section-desc">Verlag Condensed for headings, Verlag for body, Chronicle for editorial warmth. System sans as fallback.</p>
-    </div>
-    <div class="type-table">
-      <div class="type-row">
-        <span class="type-meta">Display-xl</span>
-        <span class="type-sample" style="font-size:28px;font-weight:700;line-height:1;letter-spacing:.88px">Every relationship</span>
-        <span class="type-specs">64px / 1.0 / 0.88px</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Display-lg</span>
-        <span class="type-sample" style="font-size:24px;font-weight:700;line-height:1.17;letter-spacing:.2px">Remembered</span>
-        <span class="type-specs">48px / 1.17 / 0.2px</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Heading-lg</span>
-        <span class="type-sample" style="font-size:20px;font-weight:700;line-height:1.11;letter-spacing:.66px">Section heading</span>
-        <span class="type-specs">36px / 1.11 / 0.66px</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Heading</span>
-        <span class="type-sample" style="font-size:18px;font-weight:700;line-height:1.29;letter-spacing:.4px">Subsection heading</span>
-        <span class="type-specs">28px / 1.29 / 0.4px</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Body</span>
-        <span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.5">Default body text for readable content</span>
-        <span class="type-specs">16px / 1.5 / —</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Body-sm</span>
-        <span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.5">Dense data, comparison rows</span>
-        <span class="type-specs">14px / 1.5 / —</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Caption</span>
-        <span class="type-sample" style="font-size:12px;font-weight:700;line-height:1;letter-spacing:2.5px;text-transform:uppercase">Section labels</span>
-        <span class="type-specs">12px / 1.0 / 2.5px</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Tag</span>
-        <span class="type-sample" style="font-size:10px;font-weight:700;line-height:1;letter-spacing:1px;text-transform:uppercase">Interest tags</span>
-        <span class="type-specs">10px / 1.0 / 1px</span>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin:40px 0 20px;letter-spacing:.01px">Fonts</h3>
-    <div style="display:flex;flex-direction:column;border:1px solid var(--soft-border);border-radius:var(--r-lg);overflow:hidden">
-      <div style="padding:20px 24px;border-bottom:1px solid var(--soft-border);display:flex;align-items:baseline;gap:16px;background:#fff">
-        <span style="font-size:10px;font-weight:700;color:var(--ink-60);letter-spacing:1px;text-transform:uppercase;flex:0 0 80px">Display</span>
-        <span style="font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.2px">Verlag Condensed</span>
-        <span style="font-size:11px;color:var(--ink-60);letter-spacing:.015px">700, 900 · 36–64px</span>
-      </div>
-      <div style="padding:20px 24px;border-bottom:1px solid var(--soft-border);display:flex;align-items:baseline;gap:16px;background:#fff">
-        <span style="font-size:10px;font-weight:700;color:var(--ink-60);letter-spacing:1px;text-transform:uppercase;flex:0 0 80px">Body</span>
-        <span style="font-size:16px;font-weight:400;color:var(--ink);letter-spacing:-.2px">Verlag</span>
-        <span style="font-size:11px;color:var(--ink-60);letter-spacing:.015px">400, 700 · 14–28px</span>
-      </div>
-      <div style="padding:20px 24px;border-bottom:1px solid var(--soft-border);display:flex;align-items:baseline;gap:16px;background:#fff">
-        <span style="font-size:10px;font-weight:700;color:var(--ink-60);letter-spacing:1px;text-transform:uppercase;flex:0 0 80px">Editorial</span>
-        <span style="font-family:'IBM Plex Serif',Georgia,serif;font-size:16px;font-weight:400;color:var(--ink);letter-spacing:-.2px">Chronicle Text G1</span>
-        <span style="font-size:11px;color:var(--ink-60);letter-spacing:.015px">400 · 20–24px · Serif</span>
-      </div>
-      <div style="padding:20px 24px;display:flex;align-items:baseline;gap:16px;background:#fff">
-        <span style="font-size:10px;font-weight:700;color:var(--ink-60);letter-spacing:1px;text-transform:uppercase;flex:0 0 80px">Fallback</span>
-        <span style="font-size:16px;font-weight:400;color:var(--ink);letter-spacing:-.2px">Inter</span>
-        <span style="font-size:11px;color:var(--ink-60);letter-spacing:.015px">Substitute for all sans-serif</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- SPACING & SHAPES -->
-  <section class="section" id="spacing">
-    <div class="section-header">
-      <div class="section-label">Layout</div>
-      <h2 class="section-title">Spacing & Shapes</h2>
-      <p class="section-desc">Base unit 4px. Generous density with ample breathing room. 14-step spacing scale, 5 border radius values.</p>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:20px;letter-spacing:.01px">Spacing Scale (4px base)</h3>
-    <div class="spacing-bars">
-      <div class="spacing-col"><div class="spacing-bar" style="height:8px"></div><span class="spacing-val">4</span><span class="spacing-name">4px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:14px"></div><span class="spacing-val">8</span><span class="spacing-name">8px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:20px"></div><span class="spacing-val">16</span><span class="spacing-name">16px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:32px"></div><span class="spacing-val">24</span><span class="spacing-name">24px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:44px"></div><span class="spacing-val">40</span><span class="spacing-name">40px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:58px"></div><span class="spacing-val">64</span><span class="spacing-name">64px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:78px"></div><span class="spacing-val">96</span><span class="spacing-name">96px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:100px"></div><span class="spacing-val">120</span><span class="spacing-name">120px</span></div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin:40px 0 20px;letter-spacing:.01px">Border Radius</h3>
-    <div class="shapes-row">
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:4px"></div>
-        <span class="shape-label">tag</span>
-        <span class="shape-value">4px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:6px"></div>
-        <span class="shape-label">button</span>
-        <span class="shape-value">6px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:8px"></div>
-        <span class="shape-label">card</span>
-        <span class="shape-value">8px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:16px"></div>
-        <span class="shape-label">panel</span>
-        <span class="shape-value">16px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:100%"></div>
-        <span class="shape-label">avatar</span>
-        <span class="shape-value">100%</span>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin:40px 0 20px;letter-spacing:.01px">Shadows</h3>
-    <div style="display:flex;flex-wrap:wrap;gap:16px">
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-md);background:#fff;border:1px solid var(--soft-border)">
-        <span style="font-size:11px;font-weight:600;color:var(--ink-60);letter-spacing:.015px;margin-bottom:4px">Subtle</span>
-        <span style="font-size:10px;color:var(--ink-60);font-variant-numeric:tabular-nums;letter-spacing:.015px">soft border</span>
-      </div>
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-md);background:#fff;box-shadow:0 1px 3px rgba(31,31,31,.06),0 4px 12px rgba(31,31,31,.04)">
-        <span style="font-size:11px;font-weight:600;color:var(--ink-60);letter-spacing:.015px;margin-bottom:4px">Elevated</span>
-        <span style="font-size:10px;color:var(--ink-60);font-variant-numeric:tabular-nums;letter-spacing:.015px">cards, panels</span>
-      </div>
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-xl);background:var(--frosted-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 0 0 .5px #0000000f,0 2px 4px -2px #00000014,inset 0 1px #fff">
-        <span style="font-size:11px;font-weight:600;color:var(--ink-60);letter-spacing:.015px;margin-bottom:4px">Frosted</span>
-        <span style="font-size:10px;color:var(--ink-60);font-variant-numeric:tabular-nums;letter-spacing:.015px">navigation</span>
-      </div>
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-md);background:#4a4a49">
-        <span style="font-size:11px;font-weight:600;color:#fff;letter-spacing:.015px;margin-bottom:4px">Tooltip</span>
-        <span style="font-size:10px;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums;letter-spacing:.015px">dark overlay</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEPTH & SURFACES -->
-  <section class="section" id="depth">
-    <div class="section-header">
-      <div class="section-label">Elevation</div>
-      <h2 class="section-title">Depth & Surfaces</h2>
-      <p class="section-desc">Surface color differentiation over shadows. Warm off-white layers create depth through subtle tonal shifts. 4 distinct surface levels.</p>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:16px;letter-spacing:.01px">Depth Levels</h3>
-    <div style="margin-bottom:40px">
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:#f9f8f6;border:1px solid var(--soft-border)"></div>
-        <div class="depth-info"><div class="depth-name">Warm Linen</div><div class="depth-desc">Base page background with tile texture</div></div>
-        <div class="depth-value">Level 0</div>
-      </div>
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:#f6f5f1;border:1px solid var(--soft-border)"></div>
-        <div class="depth-info"><div class="depth-name">Ivory Tile</div><div class="depth-desc">Card backgrounds, secondary surfaces</div></div>
-        <div class="depth-value">Level 1</div>
-      </div>
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:#f1f0ed;border:1px solid var(--soft-border)"></div>
-        <div class="depth-info"><div class="depth-name">Parchment</div><div class="depth-desc">Tertiary surfaces, inactive states</div></div>
-        <div class="depth-value">Level 2</div>
-      </div>
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);border-radius:16px"></div>
-        <div class="depth-info"><div class="depth-name">Frosted Glass</div><div class="depth-desc">Navigation overlays, floating panels</div></div>
-        <div class="depth-value">Level 3</div>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:16px;letter-spacing:.01px">Surface System</h3>
-    <div class="surface-grid">
-      <div class="surface-item" style="background:#f9f8f6">
-        <span class="surface-name">Warm Linen</span>
-        <span class="surface-val">#f9f8f6</span>
-      </div>
-      <div class="surface-item" style="background:#f6f5f1">
-        <span class="surface-name">Ivory Tile</span>
-        <span class="surface-val">#f6f5f1</span>
-      </div>
-      <div class="surface-item" style="background:#f1f0ed">
-        <span class="surface-name">Parchment</span>
-        <span class="surface-val">#f1f0ed</span>
-      </div>
-      <div class="surface-item" style="background:rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
-        <span class="surface-name">Frosted</span>
-        <span class="surface-val">rgba(255,255,255,.6)</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPONENTS -->
-  <section class="section" id="components">
-    <div class="section-header">
-      <div class="section-label">Components</div>
-      <h2 class="section-title">Button Variants</h2>
-      <p class="section-desc">Bronze gradient primary, ghost secondary, and outlined variants for different interaction hierarchies.</p>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Primary CTA Button</div><div class="component-role">Main call to action — warmest visual weight</div></div>
-        <span class="component-class">.btn-primary</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-primary">Get Started Free</button>
-        <button class="btn btn-primary" style="opacity:.85">Hover state</button>
-      </div>
-      <div class="component-desc">Bronze-to-peach gradient (130deg) background, white text, 6px radius. Signals trust and warmth.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Ghost Button</div><div class="component-role">Secondary actions, navigation</div></div>
-        <span class="component-class">.btn-ghost</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-ghost">Watch Demo</button>
-        <button class="btn btn-ghost" style="background:var(--ink-12)">Hover state</button>
-      </div>
-      <div class="component-desc">Ink-8 background, Ink text, 6px radius. For secondary actions that need presence.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Secondary Button</div><div class="component-role">Tertiary actions, file downloads</div></div>
-        <span class="component-class">.btn-secondary</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-secondary">Download PDF</button>
-        <button class="btn btn-secondary" style="border-color:var(--ink-12);background:var(--ink-8)">Hover state</button>
-      </div>
-      <div class="component-desc">Ink-80 text, soft border outline. For less prominent actions.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Navigation Link</div><div class="component-role">Top navigation items</div></div>
-        <span class="component-class">.nav-link</span>
-      </div>
-      <div class="component-preview">
-        <a href="#" style="color:var(--ink-60);text-decoration:none;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px">About</a>
-        <a href="#" style="color:var(--tangerine);text-decoration:none;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px">Active</a>
-        <a href="#" style="color:var(--ink-60);text-decoration:none;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px">Pricing</a>
-      </div>
-      <div class="component-desc">Ink-60 text, uppercase 12px, 1px letter-spacing. Hover/active: Tangerine (#fb7232).</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Pill Tag</div><div class="component-role">Interest labels, categories</div></div>
-        <span class="component-class">.pill-tag</span>
-      </div>
-      <div class="component-preview">
-        <span style="color:var(--ink-80);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 8px;background:var(--ink-8);border-radius:4px">Technology</span>
-        <span style="color:var(--ink-80);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 8px;background:var(--ink-8);border-radius:4px">Design</span>
-        <span style="color:var(--ink-80);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 8px;background:var(--ink-12);border-radius:4px">Active</span>
-      </div>
-      <div class="component-desc">Ink-8 background, Ink-80 text, 4px radius, 10px uppercase. Hover: Ink-12 background.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Input Field</div><div class="component-role">User text input</div></div>
-        <span class="component-class">input</span>
-      </div>
-      <div class="component-preview">
-        <div style="display:flex;flex-direction:column;gap:12px;flex:1;max-width:360px">
-          <input type="text" placeholder="Search your network" style="background:#fff;border:1px solid var(--soft-border);border-radius:8px;padding:12px 16px;color:var(--ink);font-size:14px;font-family:inherit;outline:none">
-          <input type="text" value="Focused state" style="background:#fff;border:1px solid var(--amber-glow);border-radius:8px;padding:12px 16px;color:var(--ink);font-size:14px;font-family:inherit;outline:none">
+    <nav class="nav" aria-label="Design system navigation">
+      <div class="wrap nav-inner">
+        <a class="nav-left" href="#top"
+          ><img
+            src="https://a.favicon.im/clay.com"
+            alt="clay.com favicon"
+            loading="lazy"
+            class="logo-favicon"
+            style="width: 30px; height: 30px; object-fit: contain"
+          /><span class="wordmark">clay</span
+          ><span class="tag">Design System</span></a
+        >
+        <div class="nav-right">
+          <a class="nav-link" href="#colors">Colors</a
+          ><a class="nav-link" href="#type">Type</a
+          ><a class="nav-link" href="#spacing">Spacing</a
+          ><a class="nav-link" href="#components">Components</a
+          ><a
+            class="nav-link site-link"
+            href="https://www.clay.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Site ↗</a
+          >
         </div>
       </div>
-      <div class="component-desc">White background, Ink text, 8px radius. Focus state uses Amber Glow border.</div>
-    </div>
-  </section>
-
-  <!-- DO'S & DON'TS -->
-  <section class="section" id="guidelines">
-    <div class="section-header">
-      <div class="section-label">Guidelines</div>
-      <h2 class="section-title">Do's & Don'ts</h2>
-    </div>
-    <div class="guide-grid">
-      <div class="guide-card guide-card--do">
-        <div class="guide-label">Do — Embrace</div>
-        <ul class="guide-list">
-          <li>Warm Linen (#f9f8f6) as primary background</li>
-          <li>Bronze gradient for primary CTAs</li>
-          <li>Amber Glow (#f2b98b) for all links</li>
-          <li>Tangerine (#fb7232) for active states only</li>
-          <li>8px radius for cards, 16px for panels</li>
-          <li>Generous 80px section gaps</li>
-          <li>Serif (Chronicle) for editorial warmth</li>
-        </ul>
+    </nav>
+    <main id="top">
+      <header class="wrap hero">
+        <p class="hero-label">GTM systems, shaped with care</p>
+        <h1>Build systems to grow revenue</h1>
+        <p class="hero-copy">
+          A crisp white interface energized by sculptural color, friendly
+          geometry, and product controls that stay almost entirely neutral.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="DESIGN.md" download
+            >Start with the spec →</a
+          ><a class="btn" href="#components">Explore components</a>
+        </div>
+        <div class="color-ribbon" aria-label="Clay brand color ribbon">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </header>
+      <section class="section" id="colors">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">01 / Foundation</span>
+            <h2>Color as material</h2>
+            <p class="section-desc">
+              Neutrals carry the product UI. Saturated solids appear as isolated
+              announcement and testimonial surfaces.
+            </p>
+          </div>
+          <div class="color-grid">
+            <article class="swatch">
+              <div class="swatch-color" style="background: #000"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Black</div>
+                <code class="token">#000000 · primary text</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #55534e"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Stone Gray</div>
+                <code class="token">#55534e · body</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #9f9b93"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Tertiary</div>
+                <code class="token">#9f9b93 · muted</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #fff"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Paper White</div>
+                <code class="token">#ffffff · canvas</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #f9f8f6"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Cream</div>
+                <code class="token">#f9f8f6 · soft surface</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #dad4c8"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Sand</div>
+                <code class="token">#dad4c8 · warm border</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #e6e8ec"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Cool Mist</div>
+                <code class="token">#e6e8ec · cool border</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #3859f9"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Violet Pulse</div>
+                <code class="token">#3859f9 · links</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #cbd810"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Lime</div>
+                <code class="token">#cbd810 · color card</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #ff7614"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Ember Orange</div>
+                <code class="token">#ff7614 · color card</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #429dff"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Signal Blue</div>
+                <code class="token">#429dff · color card</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #b8a5e8"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Lavender</div>
+                <code class="token">#b8a5e8 · banner</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #f8b9e3"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Soft Pink</div>
+                <code class="token">#f8b9e3 · color card</code>
+              </div>
+            </article>
+            <article class="swatch">
+              <div class="swatch-color" style="background: #0667d9"></div>
+              <div class="swatch-meta">
+                <div class="swatch-name">Cobalt</div>
+                <code class="token">#0667d9 · deep accent</code>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="type">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">02 / Typography</span>
+            <h2>Friendly precision</h2>
+            <p class="section-desc">
+              Roobert is the source family across display and UI, with stylistic
+              alternates enabled. Inter is the open substitute used in this
+              preview.
+            </p>
+          </div>
+          <article class="font-card">
+            <span class="kicker">Roobert substitute</span>
+            <div class="glyph">Grow revenue.</div>
+            <p>Inter · source weights 400, 500, 600, and 700</p>
+          </article>
+          <div class="type-list">
+            <div class="type-row">
+              <code class="token">hero</code>
+              <div
+                class="sample"
+                style="
+                  font-size: clamp(48px, 7vw, 80px);
+                  font-weight: 700;
+                  letter-spacing: -3.2px;
+                  line-height: 1;
+                "
+              >
+                Build systems to grow
+              </div>
+              <code class="spec">80 / 1 / 700 / -3.2</code>
+            </div>
+            <div class="type-row">
+              <code class="token">display</code>
+              <div
+                class="sample"
+                style="
+                  font-size: 60px;
+                  font-weight: 700;
+                  letter-spacing: -1.8px;
+                  line-height: 1;
+                "
+              >
+                Turn ideas into action
+              </div>
+              <code class="spec">60 / 1 / 700 / -1.8</code>
+            </div>
+            <div class="type-row">
+              <code class="token">metric</code>
+              <div class="sample" style="font-size: 44px; font-weight: 700">
+                &gt;2x productivity
+              </div>
+              <code class="spec">44 / 1.1 / 700</code>
+            </div>
+            <div class="type-row">
+              <code class="token">body-lg</code>
+              <div class="sample" style="font-size: 20px; font-weight: 400">
+                Infrastructure for any go-to-market idea.
+              </div>
+              <code class="spec">20 / 1.5 / 400</code>
+            </div>
+            <div class="type-row">
+              <code class="token">body</code>
+              <div class="sample" style="font-size: 16px; font-weight: 400">
+                Run agentic workflows and launch GTM plays.
+              </div>
+              <code class="spec">16 / 1.5 / 400</code>
+            </div>
+            <div class="type-row">
+              <code class="token">button</code>
+              <div class="sample" style="font-size: 14px; font-weight: 500">
+                Start free trial →
+              </div>
+              <code class="spec">14 / 1.5 / 500</code>
+            </div>
+            <div class="type-row">
+              <code class="token">eyebrow</code>
+              <div
+                class="sample"
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  letter-spacing: 0.09em;
+                  text-transform: uppercase;
+                "
+              >
+                Trusted by leading teams
+              </div>
+              <code class="spec">12 / 1.2 / 600 / .09em</code>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="spacing">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">03 / Geometry</span>
+            <h2>Soft containers</h2>
+            <p class="section-desc">
+              Compact product controls use 8–12px corners; campaign and
+              testimonial cards expand to a generous 40px silhouette.
+            </p>
+          </div>
+          <div class="metrics">
+            <div>
+              <h3 class="metric-title">Core spacing rhythm</h3>
+              <div class="space-list">
+                <div class="space-row">
+                  <code>4</code>
+                  <div class="space-bar" style="width: 5%"></div>
+                  <code>4px</code>
+                </div>
+                <div class="space-row">
+                  <code>8</code>
+                  <div class="space-bar" style="width: 10%"></div>
+                  <code>8px</code>
+                </div>
+                <div class="space-row">
+                  <code>12</code>
+                  <div class="space-bar" style="width: 15%"></div>
+                  <code>12px</code>
+                </div>
+                <div class="space-row">
+                  <code>16</code>
+                  <div class="space-bar" style="width: 20%"></div>
+                  <code>16px</code>
+                </div>
+                <div class="space-row">
+                  <code>24</code>
+                  <div class="space-bar" style="width: 30%"></div>
+                  <code>24px</code>
+                </div>
+                <div class="space-row">
+                  <code>32</code>
+                  <div class="space-bar" style="width: 40%"></div>
+                  <code>32px</code>
+                </div>
+                <div class="space-row">
+                  <code>40</code>
+                  <div class="space-bar" style="width: 50%"></div>
+                  <code>40px</code>
+                </div>
+                <div class="space-row">
+                  <code>48</code>
+                  <div class="space-bar" style="width: 60%"></div>
+                  <code>48px</code>
+                </div>
+                <div class="space-row">
+                  <code>80</code>
+                  <div class="space-bar" style="width: 100%"></div>
+                  <code>80px</code>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="metric-title">Observed radii</h3>
+              <div class="radius-grid">
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 8px"></div>
+                  <code>8px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 12px"></div>
+                  <code>12px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 16px"></div>
+                  <code>16px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 24px"></div>
+                  <code>24px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 30px"></div>
+                  <code>30px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 40px"></div>
+                  <code>40px</code>
+                </div>
+                <div class="radius-item">
+                  <div class="radius-shape" style="border-radius: 1584px"></div>
+                  <code>1584px</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="surfaces">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">04 / Color surfaces</span>
+            <h2>One card, one color</h2>
+            <p class="section-desc">
+              Campaign color is delivered as a solid material. Each card owns
+              one hue and keeps its content black or white for clarity.
+            </p>
+          </div>
+          <div class="surface-strip">
+            <div class="surface">Lime</div>
+            <div class="surface">Orange</div>
+            <div class="surface">Signal blue</div>
+            <div class="surface">Soft pink</div>
+            <div class="surface">Lavender</div>
+            <div class="surface">Cobalt</div>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="components">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">05 / Components</span>
+            <h2>Neutral UI, vivid proof</h2>
+            <p class="section-desc">
+              Conversion controls stay black, white, and outlined; personality
+              enters through campaigns and customer stories.
+            </p>
+          </div>
+          <div class="components">
+            <article class="component">
+              <div class="component-head">
+                <h3>Primary and secondary actions</h3>
+                <code>1584px pill</code>
+              </div>
+              <div class="stage">
+                <button class="btn btn-primary" type="button">
+                  Start building for free →</button
+                ><button class="btn" type="button">Get a demo →</button>
+              </div>
+            </article>
+            <article class="component">
+              <div class="component-head">
+                <h3>Announcement banner</h3>
+                <code>lavender / 36px</code>
+              </div>
+              <div class="stage">
+                <div class="announcement">
+                  <span><strong>Sculpt</strong> · Ideas into GTM systems</span
+                  ><span>New York · June 18 →</span>
+                </div>
+              </div>
+            </article>
+            <article class="component">
+              <div class="component-head">
+                <h3>Testimonial color cards</h3>
+                <code>40px radius</code>
+              </div>
+              <div class="stage">
+                <div class="testimonials">
+                  <article class="quote">
+                    <span class="quote-brand">Vanta</span>
+                    <blockquote>
+                      “Clay changed how our team turns research into pipeline.”
+                    </blockquote>
+                    <span class="person">Maya · Growth</span>
+                  </article>
+                  <article class="quote">
+                    <span class="quote-brand">Canva</span>
+                    <blockquote>
+                      “A flexible system that makes ambitious workflows feel
+                      simple.”
+                    </blockquote>
+                    <span class="person">Jon · GTM</span>
+                  </article>
+                  <article class="quote">
+                    <span class="quote-brand">OpenAI</span>
+                    <blockquote>
+                      “Creative work and structured data finally share one
+                      surface.”
+                    </blockquote>
+                    <span class="person">Sam · Ops</span>
+                  </article>
+                </div>
+              </div>
+            </article>
+            <article class="component">
+              <div class="component-head">
+                <h3>Feature callout and input</h3>
+                <code>12px / warm line</code>
+              </div>
+              <div class="stage">
+                <article class="feature">
+                  <div class="metric">&gt;2x</div>
+                  <div>
+                    <h4>Faster enrichment</h4>
+                    <p>
+                      Compact information density inside a white, warm-bordered
+                      card.
+                    </p>
+                  </div>
+                </article>
+                <label class="field"
+                  ><input
+                    type="email"
+                    placeholder="Work email"
+                    aria-label="Work email"
+                  /><button class="btn btn-primary" type="button">
+                    Start
+                  </button></label
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="guidelines">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <span class="kicker">06 / Direction</span>
+            <h2>Usage rules</h2>
+            <p class="section-desc">
+              Color supports stories and proof; it does not replace the product
+              hierarchy.
+            </p>
+          </div>
+          <div class="guide-grid">
+            <article class="guide">
+              <h3>Preserve</h3>
+              <ul>
+                <li>Keep the large canvas white or soft cream.</li>
+                <li>Use black as the highest-priority action fill.</li>
+                <li>Give testimonial cards one solid color each.</li>
+                <li>Use 40px corners on large campaign cards.</li>
+              </ul>
+            </article>
+            <article class="guide avoid">
+              <h3>Avoid</h3>
+              <ul>
+                <li>Turning Violet Pulse into a universal CTA fill.</li>
+                <li>Mixing several bright colors inside one card.</li>
+                <li>Adding depth to flat testimonial surfaces.</li>
+                <li>
+                  Using heavy display tracking outside the documented range.
+                </li>
+              </ul>
+            </article>
+          </div>
+          <div class="downloads">
+            <a class="download" href="DESIGN.md" download>DESIGN.md ↓</a
+            ><a class="download" href="tokens.json" download>tokens.json ↓</a
+            ><a class="download" href="variables.css" download
+              >variables.css ↓</a
+            ><a class="download" href="theme.css" download>theme.css ↓</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>Clay light design reference</span
+        ><a
+          href="https://www.clay.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >clay.com ↗</a
+        >
       </div>
-      <div class="guide-card guide-card--dont">
-        <div class="guide-label">Don't — Avoid</div>
-        <ul class="guide-list">
-          <li>Pure white (#ffffff) backgrounds</li>
-          <li>Cool grays or blue-toned neutrals</li>
-          <li>Hard black (#000000) for text</li>
-          <li>Dense packing without breathing room</li>
-          <li>Monospace fonts for body content</li>
-          <li>Heavy drop shadows</li>
-          <li>Bright saturated colors outside bronze family</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-left">Clay (Mesh) Design System</div>
-    <div class="footer-right">
-      <a href="#colors" class="footer-link">Colors</a>
-      <a href="#typography" class="footer-link">Typography</a>
-      <a href="#spacing" class="footer-link">Spacing</a>
-      <a href="#components" class="footer-link">Components</a>
-      <a href="DESIGN.md" class="footer-link" download>Download Spec</a>
-    </div>
-  </footer>
-
-</div>
-
-<script>
-  const els = document.querySelectorAll('.section, .hero');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        entry.target.style.transitionDelay = `${i * 60}ms`;
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
+    </footer>
+    <script>
+      const items = document.querySelectorAll(".reveal")
+      if (
+        "IntersectionObserver" in window &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        const observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible")
+                observer.unobserve(entry.target)
+              }
+            }),
+          { threshold: 0.06 }
+        )
+        items.forEach((item) => observer.observe(item))
+      } else {
+        items.forEach((item) => item.classList.add("visible"))
       }
-    });
-  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
-  els.forEach(el => obs.observe(el));
-</script>
-
-</body>
+    </script>
+  </body>
 </html>

@@ -1,822 +1,613 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Runway — Design System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
-:root{
-  --void-black:#000000;
-  --carbon:#0a0a0a;
-  --obsidian:#111111;
-  --smoke:#1a1a1a;
-  --graphite:#2a2a2a;
-  --pure-white:#ffffff;
-  --silver-mist:#e0e0e0;
-  --ash:#888888;
-  --slate:#555555;
-  --magenta:#FF00FF;
-  --magenta-soft:#cc33cc;
-  --electric-violet:#9933ff;
-  --neon-cyan:#00ffcc;
-  --hot-pink:#ff3399;
-
-  --r-sm:4px;--r-md:6px;--r-lg:8px;--r-xl:12px;--r-2xl:16px;--r-full:9999px;
-}
-
-::selection{background:rgba(255,0,255,.3);color:var(--pure-white)}
-html{scroll-behavior:smooth}
-
-body{
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
-  background:var(--void-black);color:var(--pure-white);
-  font-size:16px;line-height:1.6;letter-spacing:0;
-  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-}
-
-.page{max-width:1200px;margin:0 auto;padding:0 32px 120px}
-
-/* ── NAV ── */
-.nav{
-  display:flex;justify-content:space-between;align-items:center;
-  height:64px;padding:0 16px;position:sticky;top:0;z-index:100;
-  background:rgba(0,0,0,.92);backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--smoke);
-  margin:0 -32px;
-}
-.nav-left{display:flex;align-items:center;gap:12px}
-.nav-wordmark{
-  font-size:18px;font-weight:700;letter-spacing:-.35px;
-  color:var(--pure-white);text-decoration:none;
-}
-.nav-wordmark span{color:var(--magenta)}
-.nav-tag{
-  font-size:11px;font-weight:500;color:var(--magenta);
-  background:rgba(255,0,255,.08);padding:3px 10px;border-radius:var(--r-full);
-  border:1px solid rgba(255,0,255,.2);letter-spacing:.02px;
-}
-.nav-right{display:flex;align-items:center;gap:8px}
-.nav-link{
-  font-size:13px;font-weight:500;color:var(--ash);text-decoration:none;
-  padding:6px 12px;border-radius:var(--r-md);transition:all .2s;letter-spacing:.015px;
-}
-.nav-link:hover{color:var(--pure-white);background:var(--smoke)}
-.nav-link--active{color:var(--pure-white)}
-.nav-url{font-size:12px;font-weight:500;color:var(--ash);text-decoration:none;padding:4px 8px;border-radius:var(--r-md);transition:all .2s;letter-spacing:.015px}
-.nav-url:hover{color:var(--pure-white);background:var(--smoke)}
-
-/* ── SECTIONS ── */
-.section{
-  padding:80px 0 0;
-  border-top:1px solid var(--smoke);
-  margin-top:64px;
-}
-.section:first-of-type{border-top:none;margin-top:48px}
-.section-header{margin-bottom:40px}
-.section-label{
-  font-size:11px;font-weight:600;letter-spacing:.08px;
-  text-transform:uppercase;color:var(--magenta);margin-bottom:8px;
-}
-.section-title{
-  font-size:32px;font-weight:700;letter-spacing:-.5px;line-height:1.15;
-  color:var(--pure-white);
-}
-.section-desc{
-  font-size:15px;line-height:1.6;color:var(--ash);
-  margin-top:12px;max-width:560px;
-}
-
-/* ── HERO ── */
-.hero{
-  padding:80px 0 48px;
-  border-bottom:1px solid var(--smoke);
-  margin:0 -32px;padding-left:32px;padding-right:32px;
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;
-  width:500px;height:500px;
-  background:radial-gradient(circle,rgba(255,0,255,.12),transparent 70%);
-  border-radius:50%;filter:blur(100px);
-  right:-100px;top:-150px;pointer-events:none;
-}
-.hero::after{
-  content:'';position:absolute;
-  width:350px;height:350px;
-  background:radial-gradient(circle,rgba(153,51,255,.08),transparent 70%);
-  border-radius:50%;filter:blur(80px);
-  left:20%;bottom:-100px;pointer-events:none;
-}
-.hero-label{
-  font-size:11px;font-weight:600;letter-spacing:.1px;
-  text-transform:uppercase;color:var(--magenta);margin-bottom:16px;
-}
-.hero-title{
-  font-size:clamp(40px,6vw,64px);font-weight:700;line-height:1;
-  letter-spacing:-.04em;color:var(--pure-white);
-}
-.hero-title em{
-  font-style:normal;
-  background:linear-gradient(135deg,var(--magenta),var(--electric-violet));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-subtitle{
-  font-size:17px;line-height:1.6;color:var(--ash);
-  margin-top:20px;max-width:480px;
-}
-.hero-tags{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}
-.hero-tag{
-  font-size:11px;font-weight:500;color:var(--ash);
-  background:var(--smoke);padding:5px 12px;border-radius:var(--r-full);
-  border:1px solid var(--graphite);letter-spacing:.015px;
-}
-.hero-actions{display:flex;gap:12px;margin-top:28px}
-
-/* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:inherit;font-size:13px;font-weight:600;line-height:1;
-  letter-spacing:0;padding:12px 32px;border-radius:var(--r-lg);
-  cursor:pointer;text-decoration:none;white-space:nowrap;
-  transition:opacity .15s,transform .15s,background .15s,border-color .15s,box-shadow .15s;
-}
-.btn:active{transform:scale(.97)}
-.btn-primary{
-  background:var(--magenta);color:var(--pure-white);border:1px solid transparent;
-  box-shadow:0 0 20px rgba(255,0,255,.2);
-}
-.btn-primary:hover{opacity:.85;box-shadow:0 0 30px rgba(255,0,255,.35)}
-.btn-secondary{background:transparent;color:var(--pure-white);border:1px solid var(--graphite)}
-.btn-secondary:hover{border-color:var(--ash);background:var(--smoke)}
-.btn-ghost{background:transparent;color:var(--magenta);border:1px solid var(--magenta)}
-.btn-ghost:hover{background:rgba(255,0,255,.08);border-color:var(--magenta)}
-.btn-gradient{
-  background:linear-gradient(135deg,var(--magenta),var(--electric-violet));
-  color:var(--pure-white);border:1px solid transparent;
-}
-.btn-gradient:hover{opacity:.9}
-
-/* ── COLOR TOKENS ── */
-.color-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;
-}
-.color-token{
-  background:var(--carbon);border:1px solid var(--smoke);
-  border-radius:var(--r-2xl);overflow:hidden;transition:border-color .2s;
-}
-.color-token:hover{border-color:var(--graphite)}
-.color-swatch{width:100%;height:80px}
-.color-info{padding:14px 16px}
-.color-name{font-size:13px;font-weight:600;letter-spacing:0;color:var(--pure-white)}
-.color-hex{
-  font-size:12px;font-weight:500;color:var(--ash);margin-top:2px;
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-.color-role{font-size:11px;color:var(--slate);margin-top:6px;line-height:1.4}
-
-/* ── GRADIENT TOKENS ── */
-.gradient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.gradient-token{
-  border-radius:var(--r-2xl);padding:24px;border:1px solid var(--smoke);
-  min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;
-}
-.gradient-name{font-size:12px;font-weight:500;color:var(--ash);letter-spacing:.015px;margin-bottom:4px}
-.gradient-desc{font-size:12px;color:var(--slate);line-height:1.4}
-
-/* ── TYPE SCALE ── */
-.type-table{
-  display:flex;flex-direction:column;border:1px solid var(--smoke);
-  border-radius:var(--r-2xl);overflow:hidden;
-}
-.type-row{
-  display:grid;grid-template-columns:100px 1fr 200px;align-items:baseline;
-  padding:16px 24px;border-bottom:1px solid var(--smoke);
-}
-.type-row:last-child{border-bottom:none}
-.type-row:hover{background:rgba(255,255,255,.02)}
-.type-meta{
-  font-size:10px;font-weight:600;color:var(--magenta);
-  letter-spacing:.06px;text-transform:uppercase;
-}
-.type-sample{color:var(--pure-white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.type-specs{
-  font-size:11px;color:var(--ash);text-align:right;
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-
-/* ── SPACING ── */
-.spacing-bars{display:flex;align-items:flex-end;gap:20px;height:120px}
-.spacing-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
-.spacing-bar{
-  width:100%;border-radius:var(--r-md);
-  background:linear-gradient(180deg,var(--magenta),var(--electric-violet));
-  opacity:.25;transition:opacity .3s;
-}
-.spacing-col:hover .spacing-bar{opacity:.6}
-.spacing-val{font-size:11px;font-weight:600;color:var(--pure-white);letter-spacing:.015px}
-.spacing-name{font-size:10px;font-weight:500;color:var(--ash);letter-spacing:.015px}
-
-/* ── SHAPES ── */
-.shapes-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end}
-.shape-item{display:flex;flex-direction:column;align-items:center;gap:8px}
-.shape-box{
-  width:72px;height:72px;background:var(--carbon);
-  border:1.5px solid var(--smoke);transition:all .3s cubic-bezier(.22,1,.36,1);
-}
-.shape-box:hover{border-color:var(--magenta);transform:scale(1.06)}
-.shape-label{font-size:11px;font-weight:500;color:var(--ash);letter-spacing:.015px;white-space:nowrap}
-.shape-value{
-  font-size:10px;font-weight:400;color:var(--slate);letter-spacing:.015px;
-  font-variant-numeric:tabular-nums;
-}
-
-/* ── DEPTH ── */
-.depth-row{
-  display:flex;align-items:center;gap:20px;padding:20px 0;
-  border-bottom:1px solid var(--smoke);
-}
-.depth-row:last-child{border-bottom:none}
-.depth-swatch{
-  width:56px;height:56px;border-radius:var(--r-lg);flex-shrink:0;
-}
-.depth-info{flex:1}
-.depth-name{font-size:14px;font-weight:600;letter-spacing:0;color:var(--pure-white)}
-.depth-desc{font-size:12px;color:var(--ash);margin-top:2px;letter-spacing:.015px}
-.depth-value{
-  font-size:12px;font-weight:500;color:var(--slate);
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-
-/* ── SURFACES ── */
-.surface-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
-.surface-item{
-  border-radius:var(--r-2xl);padding:28px 20px;
-  text-align:center;border:1px solid var(--smoke);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;min-height:110px;transition:transform .3s;
-}
-.surface-item:hover{transform:scale(1.02)}
-.surface-name{font-size:14px;font-weight:600;letter-spacing:0}
-.surface-val{
-  font-size:11px;font-weight:500;color:var(--ash);
-  font-variant-numeric:tabular-nums;letter-spacing:.015px;
-}
-
-/* ── COMPONENTS ── */
-.component-card{
-  background:var(--carbon);border:1px solid var(--smoke);
-  border-radius:var(--r-2xl);padding:32px;margin-bottom:20px;
-  transition:border-color .2s;
-}
-.component-card:hover{border-color:var(--graphite)}
-.component-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
-.component-name{font-size:15px;font-weight:600;letter-spacing:0;color:var(--pure-white)}
-.component-role{font-size:12px;color:var(--ash);margin-top:4px;letter-spacing:.015px}
-.component-class{
-  font-size:11px;font-weight:500;color:var(--magenta);
-  background:rgba(255,0,255,.08);padding:3px 10px;border-radius:var(--r-full);
-  border:1px solid rgba(255,0,255,.15);letter-spacing:.015px;
-  font-family:'JetBrains Mono',monospace;
-}
-.component-preview{
-  display:flex;gap:16px;align-items:center;flex-wrap:wrap;
-  padding:20px;background:var(--void-black);border-radius:var(--r-xl);
-  border:1px solid var(--smoke);
-}
-.component-desc{
-  font-size:12px;color:var(--slate);line-height:1.5;
-  margin-top:12px;max-width:480px;
-}
-
-/* ── DO/DON'T ── */
-.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.guide-card{
-  border-radius:var(--r-2xl);padding:28px;
-  border:1px solid var(--smoke);
-}
-.guide-card--do{background:rgba(0,255,204,.03);border-color:rgba(0,255,204,.12)}
-.guide-card--dont{background:rgba(255,51,153,.03);border-color:rgba(255,51,153,.12)}
-.guide-label{font-size:11px;font-weight:600;letter-spacing:.06px;text-transform:uppercase;margin-bottom:16px}
-.guide-card--do .guide-label{color:var(--neon-cyan)}
-.guide-card--dont .guide-label{color:var(--hot-pink)}
-.guide-list{
-  list-style:none;display:flex;flex-direction:column;gap:10px;
-}
-.guide-list li{
-  font-size:13px;line-height:1.5;padding-left:20px;position:relative;
-  color:var(--silver-mist);
-}
-.guide-card--do .guide-list li::before{
-  content:'✓';position:absolute;left:0;color:var(--neon-cyan);font-weight:700;font-size:12px;
-}
-.guide-card--dont .guide-list li::before{
-  content:'✕';position:absolute;left:0;color:var(--hot-pink);font-weight:700;font-size:12px;
-}
-
-/* ── FOOTER ── */
-.footer{
-  margin-top:96px;padding:32px 0;
-  border-top:1px solid var(--smoke);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.footer-left{font-size:14px;font-weight:500;color:var(--ash);opacity:.6}
-.footer-right{display:flex;gap:20px}
-.footer-link{
-  font-size:12px;font-weight:500;color:var(--ash);text-decoration:none;
-  transition:color .2s;letter-spacing:.015px;
-}
-.footer-link:hover{color:var(--magenta)}
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .page{padding:0 20px 80px}
-  .hero{margin:0 -20px;padding-left:20px;padding-right:20px;padding-top:56px}
-  .nav{margin:0 -20px}
-  .section-title{font-size:24px}
-  .type-row{grid-template-columns:70px 1fr;gap:8px}
-  .type-specs{display:none}
-  .guide-grid{grid-template-columns:1fr}
-  .color-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .hero-title{font-size:36px}
-}
-
-/* ── ENTRANCE ANIMATION ── */
-.section,.hero{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
-.section.visible,.hero.visible{opacity:1;transform:translateY(0)}
-</style>
-</head>
-<body>
-
-<div class="page">
-
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-left">
-      <a href="#" class="nav-wordmark">Run<span>way</span></a>
-      <span class="nav-tag">Design System</span>
-      <a href="https://runwayml.com" class="nav-url" target="_blank">runwayml.com</a>
-    </div>
-    <div class="nav-right">
-      <a href="#colors" class="nav-link nav-link--active">Colors</a>
-      <a href="#typography" class="nav-link">Type</a>
-      <a href="#spacing" class="nav-link">Spacing</a>
-      <a href="#components" class="nav-link">Components</a>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-label">Design System</div>
-    <h1 class="hero-title">Create with<br>AI, <em>without limits.</em></h1>
-    <p class="hero-subtitle">A cinematic dark canvas powered by magenta energy — where generative AI meets editorial aesthetics.</p>
-    <div class="hero-tags">
-      <span class="hero-tag">14 color tokens</span>
-      <span class="hero-tag">9 type steps</span>
-      <span class="hero-tag">4px grid</span>
-      <span class="hero-tag">4 surface levels</span>
-    </div>
-    <div class="hero-actions">
-      <a href="DESIGN.md" class="btn btn-primary" download>Download Spec</a>
-      <a href="theme.css" class="btn btn-secondary" download>theme.css</a>
-      <a href="tokens.json" class="btn btn-secondary" download>tokens.json</a>
-      <a href="variables.css" class="btn btn-secondary" download>variables.css</a>
-    </div>
-  </div>
-
-  <!-- COLORS -->
-  <section class="section" id="colors">
-    <div class="section-header">
-      <div class="section-label">Foundation</div>
-      <h2 class="section-title">Color Tokens</h2>
-      <p class="section-desc">Pure-black canvas with magenta and violet accents. 14 tokens across surfaces, text, interaction, and decorative gradients.</p>
-    </div>
-    <div class="color-grid">
-      <div class="color-token">
-        <div class="color-swatch" style="background:#000000"></div>
-        <div class="color-info"><div class="color-name">Void Black</div><div class="color-hex">#000000</div><div class="color-role">Primary page background</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#0a0a0a"></div>
-        <div class="color-info"><div class="color-name">Carbon</div><div class="color-hex">#0a0a0a</div><div class="color-role">Elevated surfaces, cards</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#111111"></div>
-        <div class="color-info"><div class="color-name">Obsidian</div><div class="color-hex">#111111</div><div class="color-role">Sections, code areas</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#1a1a1a"></div>
-        <div class="color-info"><div class="color-name">Smoke</div><div class="color-hex">#1a1a1a</div><div class="color-role">Borders, dividers</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#2a2a2a"></div>
-        <div class="color-info"><div class="color-name">Graphite</div><div class="color-hex">#2a2a2a</div><div class="color-role">Inactive states</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#ffffff"></div>
-        <div class="color-info"><div class="color-name">Pure White</div><div class="color-hex">#ffffff</div><div class="color-role">Primary text, icons</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#e0e0e0"></div>
-        <div class="color-info"><div class="color-name">Silver Mist</div><div class="color-hex">#e0e0e0</div><div class="color-role">Secondary text</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#888888"></div>
-        <div class="color-info"><div class="color-name">Ash</div><div class="color-hex">#888888</div><div class="color-role">Placeholders, labels</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#555555"></div>
-        <div class="color-info"><div class="color-name">Slate</div><div class="color-hex">#555555</div><div class="color-role">Helper text, captions</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#FF00FF"></div>
-        <div class="color-info"><div class="color-name">Magenta</div><div class="color-hex">#FF00FF</div><div class="color-role">Primary accent, CTAs</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#cc33cc"></div>
-        <div class="color-info"><div class="color-name">Magenta Soft</div><div class="color-hex">#cc33cc</div><div class="color-role">Hover states</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#9933ff"></div>
-        <div class="color-info"><div class="color-name">Electric Violet</div><div class="color-hex">#9933ff</div><div class="color-role">Decorative accents</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#00ffcc"></div>
-        <div class="color-info"><div class="color-name">Neon Cyan</div><div class="color-hex">#00ffcc</div><div class="color-role">Success, highlights</div></div>
-      </div>
-      <div class="color-token">
-        <div class="color-swatch" style="background:#ff3399"></div>
-        <div class="color-info"><div class="color-name">Hot Pink</div><div class="color-hex">#ff3399</div><div class="color-role">Warning accents</div></div>
-      </div>
-    </div>
-
-    <h3 style="font-size:16px;font-weight:600;color:var(--pure-white);margin:40px 0 20px;letter-spacing:-.2px">Gradients</h3>
-    <div class="gradient-grid">
-      <div class="gradient-token" style="background:radial-gradient(circle at 50% 50%,rgba(255,0,255,.12) 0%,transparent 70%),var(--carbon)">
-        <div class="gradient-name">magenta-glow</div>
-        <div class="gradient-desc">Background highlight for hero sections</div>
-      </div>
-      <div class="gradient-token" style="background:linear-gradient(135deg,rgba(153,51,255,.15) 0%,rgba(255,0,255,.08) 50%,transparent 100%),var(--carbon)">
-        <div class="gradient-name">violet-sweep</div>
-        <div class="gradient-desc">Diagonal gradient overlays</div>
-      </div>
-      <div class="gradient-token" style="background:radial-gradient(ellipse at 30% 70%,rgba(0,255,204,.06) 0%,transparent 60%),var(--carbon)">
-        <div class="gradient-name">neon-pulse</div>
-        <div class="gradient-desc">Subtle accent glow for depth</div>
-      </div>
-      <div class="gradient-token" style="background:linear-gradient(180deg,rgba(255,0,255,.04) 0%,transparent 100%),var(--carbon)">
-        <div class="gradient-name">gradient-horizon</div>
-        <div class="gradient-desc">Top-of-page atmospheric fade</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TYPOGRAPHY -->
-  <section class="section" id="typography">
-    <div class="section-header">
-      <div class="section-label">Typography</div>
-      <h2 class="section-title">Type Scale</h2>
-      <p class="section-desc">Inter as primary typeface with JetBrains Mono for code. Clean geometric forms with tight tracking for display sizes.</p>
-    </div>
-    <div class="type-table">
-      <div class="type-row">
-        <span class="type-meta">Display-xl</span>
-        <span class="type-sample" style="font-size:28px;font-weight:700;line-height:1;letter-spacing:-.04em">Create with AI</span>
-        <span class="type-specs">64px / 1.0 / −0.04em</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Display</span>
-        <span class="type-sample" style="font-size:24px;font-weight:700;line-height:1.1;letter-spacing:-.02em">Without limits</span>
-        <span class="type-specs">48px / 1.1 / −0.02em</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Heading-lg</span>
-        <span class="type-sample" style="font-size:20px;font-weight:700;line-height:1.2;letter-spacing:-.02em">Generate video</span>
-        <span class="type-specs">32px / 1.2 / −0.02em</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Heading</span>
-        <span class="type-sample" style="font-size:18px;font-weight:600;line-height:1.3;letter-spacing:-.01em">Section heading</span>
-        <span class="type-specs">24px / 1.3 / −0.01em</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Heading-sm</span>
-        <span class="type-sample" style="font-size:16px;font-weight:600;line-height:1.4;letter-spacing:-.01em">Subsection heading</span>
-        <span class="type-specs">20px / 1.4 / −0.01em</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Body</span>
-        <span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.6;letter-spacing:0">Default body text for readable content</span>
-        <span class="type-specs">16px / 1.6 / 0</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Body-sm</span>
-        <span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.6;letter-spacing:0">Dense data, comparison rows</span>
-        <span class="type-specs">14px / 1.6 / 0</span>
-      </div>
-      <div class="type-row">
-        <span class="type-meta">Caption</span>
-        <span class="type-sample" style="font-size:12px;font-weight:400;line-height:1.5;letter-spacing:.02px">Meta info · Footer · Labels</span>
-        <span class="type-specs">12px / 1.5 / 0.02px</span>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:600;color:var(--pure-white);margin:40px 0 20px;letter-spacing:0">Fonts</h3>
-    <div style="display:flex;flex-direction:column;border:1px solid var(--smoke);border-radius:var(--r-2xl);overflow:hidden">
-      <div style="padding:20px 24px;border-bottom:1px solid var(--smoke);display:flex;align-items:baseline;gap:16px">
-        <span style="font-size:10px;font-weight:600;color:var(--magenta);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">Primary</span>
-        <span style="font-size:16px;font-weight:600;color:var(--pure-white);letter-spacing:-.2px">Inter</span>
-        <span style="font-size:11px;color:var(--ash);letter-spacing:.015px">300–700 · 12–64px</span>
-      </div>
-      <div style="padding:20px 24px;border-bottom:1px solid var(--smoke);display:flex;align-items:baseline;gap:16px">
-        <span style="font-size:10px;font-weight:600;color:var(--magenta);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">Tight</span>
-        <span style="font-size:16px;font-weight:500;color:var(--pure-white);letter-spacing:-.2px">Inter Tight</span>
-        <span style="font-size:11px;color:var(--ash);letter-spacing:.015px">400–600 · Data labels</span>
-      </div>
-      <div style="padding:20px 24px;display:flex;align-items:baseline;gap:16px">
-        <span style="font-size:10px;font-weight:600;color:var(--magenta);letter-spacing:.06px;text-transform:uppercase;flex:0 0 60px">Mono</span>
-        <span style="font-size:16px;font-weight:500;color:var(--pure-white);letter-spacing:-.2px">JetBrains Mono</span>
-        <span style="font-size:11px;color:var(--ash);letter-spacing:.015px">400–500 · Code only</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- SPACING & SHAPES -->
-  <section class="section" id="spacing">
-    <div class="section-header">
-      <div class="section-label">Layout</div>
-      <h2 class="section-title">Spacing & Shapes</h2>
-      <p class="section-desc">Base unit 4px. Spacious density with generous breathing room. 13-step spacing scale, 6 border radius values.</p>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:600;color:var(--pure-white);margin-bottom:20px;letter-spacing:0">Spacing Scale (4px base)</h3>
-    <div class="spacing-bars">
-      <div class="spacing-col"><div class="spacing-bar" style="height:8px"></div><span class="spacing-val">4</span><span class="spacing-name">4px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:14px"></div><span class="spacing-val">8</span><span class="spacing-name">8px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:20px"></div><span class="spacing-val">12</span><span class="spacing-name">12px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:28px"></div><span class="spacing-val">16</span><span class="spacing-name">16px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:36px"></div><span class="spacing-val">24</span><span class="spacing-name">24px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:48px"></div><span class="spacing-val">32</span><span class="spacing-name">32px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:64px"></div><span class="spacing-val">48</span><span class="spacing-name">48px</span></div>
-      <div class="spacing-col"><div class="spacing-bar" style="height:90px"></div><span class="spacing-val">96</span><span class="spacing-name">96px</span></div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:600;color:var(--pure-white);margin:40px 0 20px;letter-spacing:0">Border Radius</h3>
-    <div class="shapes-row">
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:4px"></div>
-        <span class="shape-label">sm</span>
-        <span class="shape-value">4px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:6px"></div>
-        <span class="shape-label">md</span>
-        <span class="shape-value">6px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:8px"></div>
-        <span class="shape-label">buttons</span>
-        <span class="shape-value">8px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:12px"></div>
-        <span class="shape-label">xl</span>
-        <span class="shape-value">12px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:16px"></div>
-        <span class="shape-label">cards</span>
-        <span class="shape-value">16px</span>
-      </div>
-      <div class="shape-item">
-        <div class="shape-box" style="border-radius:9999px"></div>
-        <span class="shape-label">pill</span>
-        <span class="shape-value">9999px</span>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:600;color:var(--pure-white);margin:40px 0 20px;letter-spacing:0">Shadows</h3>
-    <div style="display:flex;flex-wrap:wrap;gap:16px">
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-xl);background:var(--carbon);border:1px solid var(--smoke)">
-        <span style="font-size:11px;font-weight:500;color:var(--ash);letter-spacing:.015px;margin-bottom:4px">Subtle</span>
-        <span style="font-size:10px;color:var(--slate);font-variant-numeric:tabular-nums;letter-spacing:.015px">inset border</span>
-      </div>
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-xl);background:var(--carbon);box-shadow:0 0 24px rgba(255,0,255,.1),0 10px 30px rgba(0,0,0,.5)">
-        <span style="font-size:11px;font-weight:500;color:var(--ash);letter-spacing:.015px;margin-bottom:4px">Magenta Glow</span>
-        <span style="font-size:10px;color:var(--slate);font-variant-numeric:tabular-nums;letter-spacing:.015px">CTAs, cards</span>
-      </div>
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-xl);background:var(--carbon);box-shadow:0 0 0 1px var(--magenta)">
-        <span style="font-size:11px;font-weight:500;color:var(--ash);letter-spacing:.015px;margin-bottom:4px">Focus Ring</span>
-        <span style="font-size:10px;color:var(--slate);font-variant-numeric:tabular-nums;letter-spacing:.015px">inputs</span>
-      </div>
-      <div style="width:140px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r-xl);background:var(--carbon);box-shadow:rgba(0,0,0,.3) 0 10px 20px,rgba(0,0,0,.4) 0 2px 4px">
-        <span style="font-size:11px;font-weight:500;color:var(--ash);letter-spacing:.015px;margin-bottom:4px">Elevated</span>
-        <span style="font-size:10px;color:var(--slate);font-variant-numeric:tabular-nums;letter-spacing:.015px">modals</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEPTH & SURFACES -->
-  <section class="section" id="depth">
-    <div class="section-header">
-      <div class="section-label">Elevation</div>
-      <h2 class="section-title">Depth & Surfaces</h2>
-      <p class="section-desc">Gradient overlays and subtle borders over heavy shadows. Magenta glow as the signature elevation treatment.</p>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:600;color:var(--pure-white);margin-bottom:16px;letter-spacing:0">Depth Levels</h3>
-    <div style="margin-bottom:40px">
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:#000000;border:1px solid var(--smoke)"></div>
-        <div class="depth-info"><div class="depth-name">Void Black</div><div class="depth-desc">Base page background — the canvas</div></div>
-        <div class="depth-value">Level 0</div>
-      </div>
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:#0a0a0a;border:1px solid var(--smoke)"></div>
-        <div class="depth-info"><div class="depth-name">Carbon</div><div class="depth-desc">Elevated panels, cards, content blocks</div></div>
-        <div class="depth-value">Level 1</div>
-      </div>
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:#111111;border:1px solid var(--smoke)"></div>
-        <div class="depth-info"><div class="depth-name">Obsidian</div><div class="depth-desc">Secondary sections, code areas</div></div>
-        <div class="depth-value">Level 2</div>
-      </div>
-      <div class="depth-row">
-        <div class="depth-swatch" style="background:rgba(255,0,255,.06);border:1px solid rgba(255,0,255,.15);border-radius:16px"></div>
-        <div class="depth-info"><div class="depth-name">Magenta Glow Overlay</div><div class="depth-desc">Hero sections, feature highlights with gradient</div></div>
-        <div class="depth-value">Level 3</div>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:600;color:var(--pure-white);margin-bottom:16px;letter-spacing:0">Surface System</h3>
-    <div class="surface-grid">
-      <div class="surface-item" style="background:#000000">
-        <span class="surface-name">Void Black</span>
-        <span class="surface-val">#000000</span>
-      </div>
-      <div class="surface-item" style="background:#0a0a0a">
-        <span class="surface-name">Carbon</span>
-        <span class="surface-val">#0a0a0a</span>
-      </div>
-      <div class="surface-item" style="background:#111111">
-        <span class="surface-name">Obsidian</span>
-        <span class="surface-val">#111111</span>
-      </div>
-      <div class="surface-item" style="background:rgba(255,0,255,.04);border-color:rgba(255,0,255,.12)">
-        <span class="surface-name">Glow Overlay</span>
-        <span class="surface-val">gradient</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPONENTS -->
-  <section class="section" id="components">
-    <div class="section-header">
-      <div class="section-label">Components</div>
-      <h2 class="section-title">Button Variants</h2>
-      <p class="section-desc">Magenta CTA, ghost outline, gradient pill, and secondary variants for different interaction hierarchies.</p>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Magenta CTA Button</div><div class="component-role">Main call to action — highest visual weight</div></div>
-        <span class="component-class">.btn-primary</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-primary">Generate</button>
-        <button class="btn btn-primary" style="opacity:.85">Hover state</button>
-      </div>
-      <div class="component-desc">Magenta (#FF00FF) background with glow shadow, Pure White text, 8px radius. Use for primary creative actions.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Ghost Outline Button</div><div class="component-role">Secondary interactive actions</div></div>
-        <span class="component-class">.btn-ghost</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-ghost">Watch demo</button>
-        <button class="btn btn-ghost" style="background:rgba(255,0,255,.08)">Hover state</button>
-      </div>
-      <div class="component-desc">Magenta text, Magenta border, 8px radius. For secondary actions that need clear visibility.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Gradient Pill Button</div><div class="component-role">Feature highlights, premium CTAs</div></div>
-        <span class="component-class">.btn-gradient</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-gradient">Try Gen-3 Alpha</button>
-      </div>
-      <div class="component-desc">Magenta-to-violet gradient background, Pure White text, pill radius. Use sparingly for premium features.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Secondary Button</div><div class="component-role">Tertiary actions, navigation</div></div>
-        <span class="component-class">.btn-secondary</span>
-      </div>
-      <div class="component-preview">
-        <button class="btn btn-secondary">Sign in</button>
-        <button class="btn btn-secondary" style="border-color:var(--ash);background:var(--smoke)">Hover state</button>
-      </div>
-      <div class="component-desc">Pure White text, Graphite border. For less prominent actions that still need visual presence.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Ghost Nav Link</div><div class="component-role">Navigation items</div></div>
-        <span class="component-class">.nav-link</span>
-      </div>
-      <div class="component-preview">
-        <a href="#" style="color:var(--pure-white);text-decoration:none;font-size:14px;font-weight:500;padding:8px">Features</a>
-        <a href="#" style="color:var(--pure-white);text-decoration:none;font-size:14px;font-weight:500;padding:8px">Pricing</a>
-        <a href="#" style="color:var(--pure-white);text-decoration:none;font-size:14px;font-weight:500;padding:8px">Enterprise</a>
-      </div>
-      <div class="component-desc">Pure White text, transparent background, 8px padding, no border. Hover adds subtle background.</div>
-    </div>
-
-    <div class="component-card">
-      <div class="component-header">
-        <div><div class="component-name">Input Field</div><div class="component-role">User text input</div></div>
-        <span class="component-class">input</span>
-      </div>
-      <div class="component-preview">
-        <div style="display:flex;flex-direction:column;gap:12px;flex:1;max-width:360px">
-          <input type="text" placeholder="Describe your scene..." style="background:transparent;border:1px solid var(--smoke);border-radius:8px;padding:14px 16px;color:var(--pure-white);font-size:14px;font-family:inherit;outline:none">
-          <input type="text" value="Focused state" style="background:transparent;border:1px solid var(--magenta);border-radius:8px;padding:14px 16px;color:var(--pure-white);font-size:14px;font-family:inherit;outline:none;box-shadow:0 0 12px rgba(255,0,255,.15)">
-        </div>
-      </div>
-      <div class="component-desc">Transparent background, Pure White text, 8px radius. Focus state uses Magenta border with glow.</div>
-    </div>
-  </section>
-
-  <!-- DO'S & DON'TS -->
-  <section class="section" id="guidelines">
-    <div class="section-header">
-      <div class="section-label">Guidelines</div>
-      <h2 class="section-title">Do's & Don'ts</h2>
-    </div>
-    <div class="guide-grid">
-      <div class="guide-card guide-card--do">
-        <div class="guide-label">Do — Embrace</div>
-        <ul class="guide-list">
-          <li>Void Black (#000000) as primary canvas — embrace the darkness</li>
-          <li>Magenta (#FF00FF) for primary interactive accents only</li>
-          <li>Pure White (#ffffff) for all primary text</li>
-          <li>Gradient overlays for cinematic depth and atmosphere</li>
-          <li>8px radius for buttons/inputs, 16px for cards</li>
-          <li>Generous spacing — 32px section gaps minimum</li>
-          <li>Magenta glow shadows for elevated interactive elements</li>
-        </ul>
-      </div>
-      <div class="guide-card guide-card--dont">
-        <div class="guide-label">Don't — Avoid</div>
-        <ul class="guide-list">
-          <li>Magenta for large background fills — accent only</li>
-          <li>White backgrounds or light themes — dark-only system</li>
-          <li>Competing bright accents alongside Magenta</li>
-          <li>Hard 0px border radius — always round corners</li>
-          <li>Heavy drop shadows — prefer glow and gradients</li>
-          <li>Cramped layouts — maintain generous whitespace</li>
-          <li>Monospace fonts for non-code content</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-left">Runway Design System</div>
-    <div class="footer-right">
-      <a href="#colors" class="footer-link">Colors</a>
-      <a href="#typography" class="footer-link">Typography</a>
-      <a href="#spacing" class="footer-link">Spacing</a>
-      <a href="#components" class="footer-link">Components</a>
-      <a href="DESIGN.md" class="footer-link" download>Download Spec</a>
-    </div>
-  </footer>
-
-</div>
-
-<script>
-  const els = document.querySelectorAll('.section, .hero');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        entry.target.style.transitionDelay = `${i * 60}ms`;
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Runway — Design System</title>
+    <style>
+      :root {
+        --ink: #0c0c0c;
+        --carbon: #1a1a1a;
+        --slate: #404040;
+        --steel: #6b7280;
+        --silver: #999;
+        --bone: #e5e7eb;
+        --cloud: #eef1f5;
+        --cobalt: #2b22fa;
       }
-    });
-  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
-  els.forEach(el => obs.observe(el));
-</script>
-
-</body>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: #fff;
+        color: var(--ink);
+        font:
+          16px/1.5 abcNormal,
+          Söhne,
+          system-ui,
+          sans-serif;
+        letter-spacing: -0.006em;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--cobalt);
+        outline-offset: 3px;
+      }
+      .wrap {
+        width: min(100% - 40px, 1120px);
+        margin: auto;
+      }
+      .promo {
+        padding: 10px 20px;
+        background: var(--cobalt);
+        color: #fff;
+        text-align: center;
+        font-size: 11px;
+        letter-spacing: 0.025em;
+      }
+      .promo a {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-bottom: 1px solid var(--bone);
+      }
+      .nav .wrap,
+      .left,
+      .links {
+        display: flex;
+        align-items: center;
+      }
+      .nav .wrap {
+        justify-content: space-between;
+      }
+      .left,
+      .links {
+        gap: 14px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .logo-favicon {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+      .links,
+      .url,
+      .tag {
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .links {
+        gap: 18px;
+      }
+      .links a:hover,
+      .url:hover {
+        text-decoration: underline;
+      }
+      .hero {
+        padding: 96px 0 80px;
+      }
+      .hero h1,
+      h2,
+      h3 {
+        font-weight: 450;
+        letter-spacing: -0.025em;
+      }
+      .hero h1 {
+        max-width: 900px;
+        font-size: clamp(40px, 6vw, 48px);
+        line-height: 1;
+        text-wrap: balance;
+      }
+      .hero p {
+        max-width: 600px;
+        margin-top: 24px;
+        color: var(--slate);
+      }
+      .ghost {
+        display: inline-flex;
+        margin-top: 28px;
+        padding: 8px 0;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .site {
+        padding-top: 0;
+      }
+      section {
+        padding: 80px 0;
+        border-top: 1px solid var(--bone);
+        scroll-margin-top: 64px;
+      }
+      .head {
+        max-width: 720px;
+        margin-bottom: 32px;
+      }
+      h2 {
+        font-size: 36px;
+        line-height: 1.1;
+      }
+      .head p {
+        margin-top: 12px;
+        color: var(--slate);
+      }
+      .logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px 40px;
+        color: var(--silver);
+        font-weight: 500;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+      }
+      .swatch {
+        min-height: 118px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: 12px;
+        border: 1px solid var(--bone);
+      }
+      .swatch code,
+      .spec {
+        margin-top: 4px;
+        font:
+          11px/1.4 ui-monospace,
+          monospace;
+        letter-spacing: 0;
+        opacity: 0.75;
+      }
+      .type {
+        border-top: 1px solid var(--bone);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 110px 1fr 150px;
+        gap: 16px;
+        align-items: baseline;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--bone);
+      }
+      .role,
+      .spec {
+        color: var(--steel);
+      }
+      .sample {
+        font-weight: 450;
+        line-height: 1.1;
+      }
+      .metrics {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 48px;
+        align-items: end;
+      }
+      .spacing {
+        height: 150px;
+        display: flex;
+        align-items: end;
+        gap: 8px;
+      }
+      .space {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: end;
+        gap: 6px;
+        text-align: center;
+        color: var(--steel);
+        font-size: 11px;
+      }
+      .bar {
+        width: 100%;
+        background: var(--ink);
+      }
+      .radii {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .radius {
+        min-height: 72px;
+        padding: 12px;
+        display: flex;
+        align-items: end;
+        background: #fff;
+        border: 1px solid var(--bone);
+        font-size: 13px;
+        color: var(--slate);
+      }
+      .research {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .still {
+        aspect-ratio: 16/10;
+        background: var(--cloud);
+      }
+      .still.dark {
+        background: var(--carbon);
+      }
+      .research h3 {
+        margin-top: 12px;
+        font-size: 20px;
+      }
+      .research p {
+        margin-top: 4px;
+        color: var(--slate);
+        font-size: 14px;
+      }
+      .components,
+      .guides {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      .button {
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .button:hover {
+        background: var(--carbon);
+      }
+      .button-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .card-note {
+        padding: 16px;
+        border-top: 1px solid var(--bone);
+        border-bottom: 1px solid var(--bone);
+        color: var(--slate);
+      }
+      .guides ul {
+        margin: 12px 0 0;
+        padding-left: 20px;
+        color: var(--slate);
+      }
+      .guides li + li {
+        margin-top: 8px;
+      }
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 32px 0 64px;
+        color: var(--steel);
+        font-size: 14px;
+      }
+      .downloads {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .downloads a:hover {
+        color: var(--cobalt);
+      }
+      @media (max-width: 760px) {
+        .wrap {
+          width: min(100% - 28px, 1120px);
+        }
+        .links,
+        .tag {
+          display: none;
+        }
+        .hero,
+        section {
+          padding: 56px 0;
+        }
+        .swatches {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .row {
+          grid-template-columns: 82px 1fr;
+        }
+        .row .spec {
+          grid-column: 2;
+          margin-top: -12px;
+        }
+        .metrics,
+        .research,
+        .components,
+        .guides {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        footer {
+          flex-direction: column;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="promo">
+      Runway research update is now available.
+      <a href="#research">Read the release</a>
+    </div>
+    <nav class="nav">
+      <div class="wrap">
+        <div class="left">
+          <a class="brand" href="#top"
+            ><img
+              src="https://a.favicon.im/runwayml.com"
+              alt="runwayml.com favicon"
+              loading="lazy"
+              class="logo-favicon"
+              style="width: 30px; height: 30px; object-fit: contain"
+            />Runway</a
+          ><span class="tag">Design system</span>
+        </div>
+        <div class="links">
+          <a href="#colors">Colors</a><a href="#type">Type</a
+          ><a href="#shape">Spacing</a><a href="#components">Components</a>
+        </div>
+        <a
+          class="url"
+          href="https://runwayml.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Site &nearr;</a
+        >
+      </div>
+    </nav>
+    <main id="top">
+      <header class="hero">
+        <div class="wrap">
+          <h1>Tools for human imagination.</h1>
+          <p>
+            Monochrome editorial infrastructure built to leave the visual
+            work—cinematic research stills—at the center.
+          </p>
+          <a class="ghost" href="#research">Get started &rarr;</a>
+        </div>
+      </header>
+      <div class="wrap site">
+        <section>
+          <div class="logos">
+            <span>Adobe</span><span>NVIDIA</span><span>CBS</span
+            ><span>Lionsgate</span><span>Allstate</span>
+          </div>
+        </section>
+        <section id="colors">
+          <div class="head">
+            <h2>Colors</h2>
+            <p>
+              White paper, black ink and one cobalt promotional signal. No
+              gradients and no decorative color.
+            </p>
+          </div>
+          <div class="swatches">
+            <div class="swatch" style="background: #0c0c0c; color: #fff">
+              <b>Ink Black</b><code>#0c0c0c</code>
+            </div>
+            <div class="swatch" style="background: #1a1a1a; color: #fff">
+              <b>Carbon</b><code>#1a1a1a</code>
+            </div>
+            <div class="swatch" style="background: #404040; color: #fff">
+              <b>Slate</b><code>#404040</code>
+            </div>
+            <div class="swatch" style="background: #e5e7eb">
+              <b>Bone</b><code>#e5e7eb</code>
+            </div>
+            <div class="swatch" style="background: #eef1f5">
+              <b>Cloud</b><code>#eef1f5</code>
+            </div>
+            <div class="swatch" style="background: #fff">
+              <b>Pure White</b><code>#ffffff</code>
+            </div>
+            <div class="swatch" style="background: #2b22fa; color: #fff">
+              <b>Cobalt Signal</b><code>#2b22fa</code>
+            </div>
+          </div>
+        </section>
+        <section id="type">
+          <div class="head">
+            <h2>Type is the hierarchy.</h2>
+            <p>
+              abcNormal remains the only voice, tightly set at display sizes and
+              open for long-form reading.
+            </p>
+          </div>
+          <div class="type">
+            <div class="row">
+              <span class="role">Display</span
+              ><span class="sample" style="font-size: 48px"
+                >Research as culture.</span
+              ><span class="spec">48 / 1 / 450</span>
+            </div>
+            <div class="row">
+              <span class="role">Heading</span
+              ><span class="sample" style="font-size: 36px"
+                >A precise statement.</span
+              ><span class="spec">36 / 1.1 / 450</span>
+            </div>
+            <div class="row">
+              <span class="role">Body</span
+              ><span
+                >Image-led stories remain comfortable to read at every
+                scale.</span
+              ><span class="spec">16 / 1.5 / 400</span>
+            </div>
+            <div class="row">
+              <span class="role">Caption</span
+              ><span style="font-size: 11px; letter-spacing: 0.28px"
+                >RESEARCH / RELEASE / 2026</span
+              ><span class="spec">11 / 1.43 / 500</span>
+            </div>
+          </div>
+        </section>
+        <section id="shape">
+          <div class="head">
+            <h2>Spacing &amp; shape</h2>
+            <p>
+              Four-pixel increments and almost square geometry keep the layout
+              print-like.
+            </p>
+          </div>
+          <div class="metrics">
+            <div class="spacing">
+              <div class="space">
+                <div class="bar" style="height: 4px"></div>
+                <span>4</span>
+              </div>
+              <div class="space">
+                <div class="bar" style="height: 12px"></div>
+                <span>12</span>
+              </div>
+              <div class="space">
+                <div class="bar" style="height: 24px"></div>
+                <span>24</span>
+              </div>
+              <div class="space">
+                <div class="bar" style="height: 40px"></div>
+                <span>40</span>
+              </div>
+              <div class="space">
+                <div class="bar" style="height: 64px"></div>
+                <span>64</span>
+              </div>
+              <div class="space">
+                <div class="bar" style="height: 96px"></div>
+                <span>96</span>
+              </div>
+            </div>
+            <div class="radii">
+              <div class="radius" style="border-radius: 0">Image<br />0px</div>
+              <div class="radius" style="border-radius: 4px">Tag<br />4px</div>
+              <div class="radius" style="border-radius: 8px">
+                Button<br />8px
+              </div>
+              <div class="radius" style="border-radius: 8px">
+                Input<br />8px
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="research">
+          <div class="head">
+            <h2>The work is the visual system.</h2>
+            <p>
+              Full-bleed, sharp-cornered research stills carry the visual
+              interest. There is no card chrome or elevation.
+            </p>
+          </div>
+          <div class="research">
+            <article>
+              <div class="still dark"></div>
+              <h3>Research still</h3>
+              <p>Dark frame · zero radius · no shadow.</p>
+            </article>
+            <article>
+              <div class="still"></div>
+              <h3>Generated image study</h3>
+              <p>Cloud wash stands in only for the image surface.</p>
+            </article>
+          </div>
+        </section>
+        <section id="components">
+          <div class="head">
+            <h2>Components</h2>
+            <p>
+              Ghost links, hairlines and a single filled dark action are enough.
+            </p>
+          </div>
+          <div class="components">
+            <div>
+              <h3>Primary action</h3>
+              <div class="button-row" style="margin-top: 16px">
+                <button class="button">Try Runway</button
+                ><a class="ghost" style="margin-top: 0" href="#research"
+                  >Learn more &rarr;</a
+                >
+              </div>
+              <p style="color: #404040; font-size: 14px">
+                Ink Black fill, white type, 8px radius. The alternate action
+                remains a text link.
+              </p>
+            </div>
+            <div class="card-note">
+              <h3>Hairline divider</h3>
+              <p>
+                Use a single 1px Bone rule or white space to separate
+                stories—never a shadow.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section id="guidelines">
+          <div class="head"><h2>Make the content speak.</h2></div>
+          <div class="guides">
+            <div>
+              <h3>Do</h3>
+              <ul>
+                <li>Use white canvas and Ink Black typography.</li>
+                <li>Reserve Cobalt Signal for promotional moments.</li>
+                <li>Keep display text left-aligned and tightly tracked.</li>
+                <li>Let research images remain full-bleed and sharp.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Avoid</h3>
+              <ul>
+                <li>Gradients, shadows and glow effects.</li>
+                <li>Secondary accent colors.</li>
+                <li>Centered long-form copy.</li>
+                <li>Rounded image cards or heavy controls.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <footer>
+          <span>Runway design system</span>
+          <div class="downloads">
+            <a href="DESIGN.md" download>DESIGN.md</a
+            ><a href="tokens.json" download>tokens.json</a
+            ><a href="variables.css" download>variables.css</a
+            ><a href="theme.css" download>theme.css</a>
+          </div>
+        </footer>
+      </div>
+    </main>
+  </body>
 </html>
