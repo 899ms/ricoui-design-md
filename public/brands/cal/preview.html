@@ -11,15 +11,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --ink: #101010;
+        --ink: #202020;
         --blue: #0099ff;
         --white: #fff;
-        --paper: #f4f4f4;
+        --paper: #f7f7f7;
         --graphite: #242424;
         --slate: #6b7280;
         --stone: #898989;
@@ -29,10 +29,10 @@
         --gy: #fbbc04;
         --gg: #34a853;
         --gr: #ea4335;
-        --display: "Cal Sans", Poppins, sans-serif;
-        --ui: "Cal Sans UI Variable Light", Inter, sans-serif;
-        --product: Inter, sans-serif;
-        --page: 1200px;
+        --display: "Cal Sans", "DM Sans", sans-serif;
+        --ui: "Cal Sans UI Variable Light", "DM Sans", sans-serif;
+        --product: "DM Sans", sans-serif;
+        --page: 1120px;
         --sm:
           rgba(36, 36, 36, 0.7) 0 1px 5px -4px, rgba(36, 36, 36, 0.05) 0 4px 8px;
         --subtle: rgba(255, 255, 255, 0.15) 0 2px 0 0 inset;
@@ -84,11 +84,12 @@
         position: sticky;
         top: 0;
         z-index: 10;
-        background: rgba(244, 244, 244, 0.96);
-        border-bottom: 1px solid var(--silver);
+        background: rgba(247, 247, 247, 0.94);
+        border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+        backdrop-filter: blur(12px);
       }
       .nav {
-        min-height: 70px;
+        min-height: 68px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -97,32 +98,28 @@
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        font: 600 18px/1 var(--display);
-        letter-spacing: 0.18px;
-      }
-      .logo-favicon {
-        width: 30px;
-        height: 30px;
-        object-fit: contain;
-        border-radius: 8px;
+        gap: 0;
+        font: 700 20px/1 var(--display);
+        letter-spacing: -1.1px;
       }
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 18px;
         color: var(--graphite);
-        font: 300 14px/1.2 var(--ui);
-        letter-spacing: -0.2px;
+        font: 500 12px/1.2 var(--ui);
+        letter-spacing: -0.15px;
       }
       .nav-links a:hover {
         color: var(--ink);
       }
       .site-link {
-        border: 1px solid var(--silver);
-        border-radius: 9999px;
-        padding: 7px 12px;
-        background: var(--white);
+        border: 1px solid var(--ink);
+        border-radius: 8px;
+        padding: 9px 13px;
+        background: var(--ink);
+        color: var(--white);
+        font-weight: 600;
       }
       .menu {
         display: none;
@@ -141,40 +138,48 @@
       }
       .hero {
         display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(310px, 0.9fr);
+        grid-template-columns: minmax(0, 1.03fr) minmax(375px, 0.97fr);
         align-items: center;
-        gap: clamp(40px, 8vw, 112px);
-        padding: clamp(72px, 11vw, 144px) 0 96px;
+        gap: clamp(32px, 5vw, 68px);
+        margin-top: 2px;
+        padding: clamp(60px, 8vw, 88px) clamp(24px, 4.2vw, 48px);
+        border: 1px solid var(--silver);
+        border-radius: 10px;
+        background: var(--white);
+        box-shadow: var(--sm4);
       }
       .hero h1 {
-        max-width: 720px;
-        margin: 0;
-        font: 600 clamp(48px, 7vw, 64px)/1.1 var(--display);
-        letter-spacing: 0.64px;
+        max-width: 540px;
+        margin: 14px 0 0;
+        font: 700 clamp(44px, 5.2vw, 58px)/1.03 var(--display);
+        letter-spacing: -2.6px;
       }
       .hero p {
         max-width: 540px;
-        margin: 24px 0 32px;
-        color: var(--graphite);
-        font: 300 18px/1.4 var(--ui);
-        letter-spacing: -0.2px;
+        margin: 18px 0 22px;
+        color: var(--slate);
+        font: 400 14px/1.45 var(--ui);
+        letter-spacing: -0.35px;
       }
       .actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        max-width: 320px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 7px;
       }
       .button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 44px;
-        padding: 12px 24px;
-        border-radius: 9999px;
+        min-height: 32px;
+        padding: 9px 14px;
+        border-radius: 7px;
         border: 1px solid transparent;
-        font: 400 14px/1 var(--product);
+        font: 500 11px/1 var(--product);
         letter-spacing: -0.1px;
-        transition: background-color 160ms ease;
+        transition: background-color 160ms ease, transform 160ms ease;
       }
       .button.primary {
         background: var(--ink);
@@ -182,62 +187,64 @@
       }
       .button.primary:hover {
         background: var(--graphite);
+        transform: translateY(-1px);
       }
       .button.ghost {
         border-color: var(--silver);
-        background: transparent;
+        background: #f3f3f3;
         color: var(--graphite);
       }
       .button.ghost:hover {
         background: var(--white);
       }
       .widget {
-        width: min(100%, 378px);
+        width: min(100%, 430px);
         justify-self: end;
         background: var(--white);
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: var(--sm-3);
+        border: 1px solid var(--silver);
+        border-radius: 8px;
+        padding: 18px;
+        box-shadow: var(--sm4);
         font-family: var(--product);
         animation: widget-enter 650ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
       }
       .widget-top {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding-bottom: 16px;
+        gap: 8px;
+        padding-bottom: 13px;
         border-bottom: 1px solid var(--silver);
       }
       .avatar {
-        width: 34px;
-        height: 34px;
+        width: 25px;
+        height: 25px;
         border-radius: 50%;
         background: var(--ink);
         color: var(--white);
         display: grid;
         place-items: center;
-        font-size: 12px;
+        font-size: 9px;
         font-weight: 600;
       }
       .widget h2 {
         margin: 0;
-        font: 600 14px/1.2 var(--product);
+        font: 600 12px/1.2 var(--product);
         letter-spacing: -0.1px;
       }
       .widget small {
         display: block;
         margin-top: 3px;
         color: var(--slate);
-        font-size: 12px;
+        font-size: 10px;
       }
       .widget-title {
-        margin: 18px 0 4px;
-        font-size: 16px;
+        margin: 15px 0 5px;
+        font-size: 17px;
         font-weight: 600;
         letter-spacing: -0.2px;
       }
       .widget-description {
-        margin: 0 0 16px;
+        margin: 0 0 14px;
         color: var(--slate);
         font-size: 12px;
         line-height: 1.45;
@@ -246,7 +253,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 10px 0;
+        margin: 12px 0 8px;
         font-size: 12px;
         font-weight: 600;
       }
@@ -265,15 +272,15 @@
       .dates {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 3px;
+        gap: 4px;
         text-align: center;
       }
       .dates span {
         display: grid;
         place-items: center;
-        min-height: 28px;
-        border-radius: 50%;
-        font-size: 11px;
+        min-height: 29px;
+        border-radius: 4px;
+        font-size: 10px;
       }
       .dates .muted {
         color: var(--stone);
@@ -283,11 +290,19 @@
         color: var(--white);
         font-weight: 600;
       }
+      .date-week {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        margin-bottom: 5px;
+        color: var(--stone);
+        font: 600 8px/1 var(--product);
+        text-align: center;
+      }
       .times {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
-        margin-top: 16px;
+        margin-top: 14px;
       }
       .time {
         min-height: 32px;
@@ -301,6 +316,45 @@
         background: var(--ink);
         color: var(--white);
         border-color: var(--ink);
+      }
+      .release {
+        display: inline-flex;
+        align-items: center;
+        min-height: 24px;
+        padding: 4px 9px;
+        border-radius: 9999px;
+        background: #f4f4f4;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        color: #5a5a5a;
+        font: 500 10px/1 var(--product);
+      }
+      .no-card {
+        margin: 1px 0 0;
+        color: var(--stone);
+        font: 400 10px/1.3 var(--product);
+      }
+      .widget-meta {
+        display: flex;
+        gap: 14px;
+        margin-top: 11px;
+        color: var(--graphite);
+        font: 400 10px/1.2 var(--product);
+      }
+      .widget-meta span::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-right: 5px;
+        border: 1px solid currentColor;
+        border-radius: 2px;
+        vertical-align: -1px;
+      }
+      .widget-meta span:last-child::before { border-radius: 50%; }
+      .hero-caption {
+        margin-top: 12px;
+        color: var(--stone);
+        font: 400 10px/1.35 var(--product);
       }
       main {
         padding-bottom: 96px;
@@ -839,15 +893,7 @@
   <body>
     <header class="site-header" id="top">
       <nav class="shell nav" aria-label="Main navigation">
-        <a class="brand" href="#top"
-          ><img
-            src="https://a.favicon.im/cal.com"
-            alt="cal.com favicon"
-            loading="lazy"
-            class="logo-favicon"
-            style="width: 30px; height: 30px; object-fit: contain"
-          />Cal.com</a
-        >
+        <a class="brand" href="#top">Cal.com</a>
         <div class="nav-links" id="nav-links">
           <a href="#colors">Colors</a><a href="#type">Type</a
           ><a href="#spacing">Spacing</a><a href="#shadows">Shadows</a
@@ -874,10 +920,11 @@
     <main>
       <section class="shell hero">
         <div>
-          <h1>The better way to schedule.</h1>
+          <span class="release">Cal.com launches v6.7&nbsp; ›</span>
+          <h1>The better way to schedule your meetings.</h1>
           <p>
-            A light, monochrome system for organising time with calm utility.
-            Structure comes from type, spacing and quiet product surfaces.
+            A fully customizable scheduling system for individuals, businesses
+            taking calls, and developers building scheduling platforms.
           </p>
           <div class="actions">
             <a class="button primary" href="#components">Explore components</a
@@ -888,36 +935,44 @@
               rel="noopener noreferrer"
               >Visit Cal.com</a
             >
+            <span class="no-card">No credit card required</span>
           </div>
         </div>
         <article class="widget" aria-label="Scheduling widget example">
           <div class="widget-top">
-            <span class="avatar" aria-hidden="true">AC</span>
+            <span class="avatar" aria-hidden="true">CR</span>
             <div>
-              <h2>Alex Chen</h2>
-              <small>30 min meeting</small>
+              <h2>Cédric van Ravesteijn</h2>
+              <small>Partnerships Meeting</small>
             </div>
           </div>
-          <p class="widget-title">Select a date &amp; time</p>
+          <p class="widget-title">Pick a time</p>
           <p class="widget-description">
-            A compact product surface with a clear next action.
+            Are you an agency, influencer, SaaS founder, or business looking
+            to collaborate with Cal.com? Let's chat!
           </p>
           <div class="calendar-head">
-            <span>August 2026</span
+            <span>May 2025</span
             ><span class="cal-arrows"
               ><button type="button" aria-label="Previous month">‹</button
               ><button type="button" aria-label="Next month">›</button></span
             >
           </div>
-          <div class="dates" aria-label="August 2026 calendar">
-            <span class="muted">26</span><span class="muted">27</span
-            ><span class="muted">28</span><span class="muted">29</span
-            ><span class="muted">30</span><span class="muted">31</span
+          <div class="date-week" aria-hidden="true">
+            <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span
+            ><span>THU</span><span>FRI</span><span>SAT</span>
+          </div>
+          <div class="dates" aria-label="May 2025 calendar">
+            <span class="muted">27</span><span class="muted">28</span
+            ><span class="muted">29</span><span class="muted">30</span
             ><span>1</span><span>2</span><span>3</span><span>4</span
             ><span>5</span><span>6</span><span>7</span><span>8</span
-            ><span>9</span><span>10</span><span>11</span
-            ><span class="active">12</span><span>13</span><span>14</span
-            ><span>15</span>
+            ><span>9</span><span>10</span><span>11</span><span>12</span
+            ><span>13</span><span>14</span><span class="active">15</span
+            ><span>16</span><span>17</span><span>18</span><span>19</span
+            ><span>20</span><span>21</span><span>22</span><span>23</span
+            ><span>24</span><span>25</span><span>26</span><span>27</span
+            ><span>28</span><span>29</span><span>30</span><span>31</span>
           </div>
           <div class="times">
             <button class="time" type="button" aria-pressed="false">
@@ -928,8 +983,10 @@
               15:00
             </button>
           </div>
+          <div class="widget-meta"><span>Cal Video</span><span>Europe/Amsterdam</span></div>
         </article>
       </section>
+      <p class="shell hero-caption">Marketing-page rhythm applied to the design token reference: off-white canvas, white product surface, near-black actions and compact utility type.</p>
       <div class="shell">
         <section class="section reveal" id="colors">
           <div class="section-head">

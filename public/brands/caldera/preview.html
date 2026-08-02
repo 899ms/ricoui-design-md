@@ -19,6 +19,7 @@
         --ink: #070607;
         --white: #fff;
         --orange: #fc5000;
+        --orange-deep: #eb4a00;
         --violet: #524ae9;
         --sulfur: #f5f28e;
         --line: #c9c9c4;
@@ -124,8 +125,12 @@
       .site-link {
         margin-left: 5px;
         background: var(--orange);
-        color: var(--ink);
-        font-weight: 700;
+        color: var(--white);
+        font-weight: 500;
+      }
+      .site-link:hover{
+        background:  var(--orange-deep);
+                color: var(--white);
       }
       .hero {
         min-height: calc(100vh - 68px);
@@ -185,23 +190,33 @@
         align-items: center;
         justify-content: center;
         padding: 12px 24px;
-        border: 1px solid var(--ink);
+        border-bottom-width: 1.5px;
+        border-color: var(--ink, rgb(7, 6, 7));
+        border-left-width: 1.5px;
+        border-right-width: 1.5px;
+        border-style: dotted;
+        border-top-width: 1.5px;
         border-radius: 800px;
         background: transparent;
         color: var(--ink);
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 500;
         text-decoration: none;
         transition:
           transform 0.16s ease,
           background 0.16s ease;
       }
       .btn:hover {
-        transform: translateY(-2px);
+       background-color: var(--ink);
+       color: var(--white);
       }
       .btn-primary {
         border-color: var(--orange);
         background: var(--orange);
+        color: var(--white);
+      }
+      .btn-primary:hover{
+        background: var(--orange-deep);
       }
       .section {
         padding-block: clamp(78px, 10vw, 128px);
@@ -383,7 +398,7 @@
         width: 50px;
         height: 50px;
         background: var(--sulfur);
-        border: 1px solid var(--ink);
+    
       }
       .radius-item code {
         font-size: 9px;
